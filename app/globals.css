@@ -28,6 +28,10 @@
     @apply text-body leading-body font-normal;
   }
 
+  .caption {
+    @apply text-caption leading-caption font-normal;
+  }
+
   .button--primary {
     @apply text-primary1 bg-primary40;
   }

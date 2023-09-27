@@ -2,7 +2,7 @@ interface PProps {
   children: string | JSX.Element;
   textColor?: string;
   bgColor?: string;
-  type?: "body" | "heading" | "sub-heading";
+  type?: "body" | "heading" | "sub-heading" | "caption";
 }
 
 export default function P({

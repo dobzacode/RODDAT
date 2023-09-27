@@ -4,6 +4,7 @@ const HEADING_SUBLARGE_SIZE = "4.8rem";
 const HEADING_SIZE = "3.2rem";
 const SUBHEADING_SIZE = "2.4rem";
 const BODY_SIZE = "1.8rem";
+const CAPTION_SIZE = "1.2rem";
 
 const LIGHTNESS_FACTOR = "40%";
 const SATURATION_FACTOR = 30;
@@ -217,6 +218,7 @@ module.exports = {
         heading: HEADING_SIZE,
         "sub-heading": SUBHEADING_SIZE,
         body: BODY_SIZE,
+        caption: CAPTION_SIZE,
       },
       lineHeight: {
         "heading-extra-large": HEADING_EXTRA_LARGE_SIZE,
@@ -225,6 +227,7 @@ module.exports = {
         heading: HEADING_SIZE,
         "sub-heading": SUBHEADING_SIZE,
         body: BODY_SIZE,
+        caption: CAPTION_SIZE,
       },
       spacing: {
         "extra-large": HEADING_EXTRA_LARGE_SIZE,
