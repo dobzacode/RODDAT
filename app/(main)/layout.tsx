@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SearchBar from "@/components/form/SearchBar";
 import UserSnippet from "@/components/user/UserSnippet";
+import NavLink from "@/components/header/NavLink";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +33,13 @@ export default function RootLayout({
         bgColor="bg-primary10 border-b-4 border-neutral80"
       >
         <SearchBar></SearchBar>
-        <UserSnippet></UserSnippet>
+        {/* <UserSnippet></UserSnippet> */}
+        <Link
+          href="/login"
+          className="bg-white gap-extra-small sub-heading font-medium rounded-full flex justify-center items-center  brutalism-border px-sub-medium py-small border-primary80"
+        >
+          Login
+        </Link>
       </Header>
       {children}
       {/* <Footer
