@@ -113,3 +113,7 @@ input[type="radio"]:checked::before {
   transform: scale(1);
   background-color: CanvasText;
 }
+
+.cl-card {
+  font-size: %;
+}

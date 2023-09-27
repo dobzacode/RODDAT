@@ -19,10 +19,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </ClerkProvider>
+    <>
+      <Header
+        height="h-[150px]"
+        //top-[150px]
+        textColor="text-neutral80"
+        textType="sub-heading"
+        logoColor="text-neutral80"
+        logoType="heading font-bold tracking-widest"
+        mobileTextType="sub-heading"
+      ></Header>
+      {children}
+      <Footer
+        height="h-[100px]"
+        bgColor="bg-black"
+        flex="flex items-center justify-center"
+      ></Footer>
+    </>
   );
 }
