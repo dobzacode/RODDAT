@@ -15,7 +15,7 @@ export default function SearchBar() {
   const handleSearch = () => {};
 
   return (
-    <div className="heading flex gap-extra-small bg-neutral1 rounded-large h-1/2 p-extra-small brutalism-border border-primary80 ">
+    <div className="heading flex gap-extra-small bg-neutral1 rounded-large  p-extra-small brutalism-border border-primary80 absolute h-fit m-auto left-0 right-0 w-fit">
       <button onClick={handleSearch}>
         <Icon path={mdiMagnify} size={2}></Icon>
       </button>

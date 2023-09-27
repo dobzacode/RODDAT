@@ -2,7 +2,7 @@ import Header from "@/components/header/Header";
 import "@/app/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import SearchBar from "@/components/form/SearchBar";
+import SearchBar from "@/components/header/SearchBar";
 import UserSnippet from "@/components/user/UserSnippet";
 import NavLink from "@/components/header/NavLink";
 import Link from "next/link";

@@ -52,7 +52,7 @@ export default function Header({
 
   return (
     <header
-      className={`${height} ${bgColor} flex items-center justify-between px-4 px-large `}
+      className={`${height} ${bgColor} flex items-center justify-between px-large `}
     >
       <Nav
         navStyle="tablet:flex hidden gap-large items-center justify-between"
