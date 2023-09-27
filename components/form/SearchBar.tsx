@@ -8,7 +8,7 @@ import { useState } from "react";
 export default function SearchBar() {
   const [query, setQuery] = useState("");
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 

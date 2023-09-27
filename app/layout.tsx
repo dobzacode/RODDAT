@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="flex flex-col justify-between  gap-sub-medium relative min-h-screen">
+      <body className="flex flex-col gap-sub-medium relative min-h-screen">
         {children}
       </body>
     </html>
