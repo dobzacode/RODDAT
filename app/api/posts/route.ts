@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    console.log(prisma);
-
+    const posts = await prisma.post.findMany();
     const message = "All the publications are returned";
     return NextResponse.json({
       message,
-      // posts: posts,
+      posts: posts,
     });
   } catch (e) {
     const message = "Can't return all the publcations";

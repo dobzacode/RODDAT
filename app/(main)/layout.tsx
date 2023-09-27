@@ -2,8 +2,6 @@ import Header from "@/components/header/Header";
 import "@/app/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Footer from "@/components/footer/Footer";
-import Input from "@/components/form/Input";
 import SearchBar from "@/components/form/SearchBar";
 import UserSnippet from "@/components/user/UserSnippet";
 

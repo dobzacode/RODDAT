@@ -1,11 +1,15 @@
 import PostBar from "./PostBar";
+import prisma from "@/prisma/client";
+import { v4 as uuidv4 } from "uuid";
 
 export default async function HomePosts({}) {
+  const data = await prisma.post.findMany();
+
   return (
     <div className="flex flex-col justify-center items-center gap-sub-large">
-      <PostBar></PostBar>
-      <PostBar></PostBar>
-      <PostBar></PostBar>
+      {data.map((post) => {
+        return <PostBar post={post} key={uuidv4()}></PostBar>;
+      })}
     </div>
   );
 }

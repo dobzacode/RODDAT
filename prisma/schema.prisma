@@ -83,11 +83,14 @@ model Comment {
   child_comments  Comment[]    @relation("ReponseA")
 }
 
-
+enum VoteType {
+  UPVOTE
+  DOWNVOTE
+}
 // Modèle pour les votes
 model Vote {
   vote_id         String       @id @default(uuid())
-  type            String
+  type            VoteType
   date_de_creation DateTime  @default(now())
   auteur          User      @relation(fields: [author_id], references: [user_id])
   author_id String
