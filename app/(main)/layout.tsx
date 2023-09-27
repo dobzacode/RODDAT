@@ -3,7 +3,6 @@ import "@/app/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "@/components/footer/Footer";
-import { ClerkProvider } from "@clerk/nextjs";
 import Input from "@/components/form/Input";
 import SearchBar from "@/components/form/SearchBar";
 import UserSnippet from "@/components/user/UserSnippet";
