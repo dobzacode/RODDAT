@@ -5,9 +5,9 @@ import {
   mdiShareOutline,
 } from "@mdi/js";
 import Icon from "@mdi/react";
-import Avatar from "./Avatar";
-import H2 from "./text/H2";
-import P from "./text/P";
+import Avatar from "../Avatar";
+import H2 from "../text/H2";
+import P from "../text/P";
 
 export default function PublicationBar({}) {
   return (
