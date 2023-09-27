@@ -26,7 +26,7 @@ export default function RootLayout({
           textColor="text-neutral80"
           textType="sub-heading"
           logoColor="text-neutral80"
-          logoType="heading--sub-large font-bold tracking-widest"
+          logoType="heading font-bold tracking-widest"
           mobileTextType="sub-heading"
         ></Header>
         {children}
