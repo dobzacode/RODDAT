@@ -4,6 +4,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "@/components/footer/Footer";
 import { ClerkProvider } from "@clerk/nextjs";
+import Input from "@/components/form/Input";
+import SearchBar from "@/components/form/SearchBar";
+import UserSnippet from "@/components/user/UserSnippet";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,20 +24,24 @@ export default function RootLayout({
   return (
     <>
       <Header
-        height="h-[150px]"
-        //top-[150px]
+        height="h-[100px]"
+        //top-[100px]
         textColor="text-neutral80"
         textType="sub-heading"
         logoColor="text-neutral80"
         logoType="heading font-bold tracking-widest"
         mobileTextType="sub-heading"
-      ></Header>
+        bgColor="bg-primary10 border-b-4 border-neutral80"
+      >
+        <SearchBar></SearchBar>
+        <UserSnippet></UserSnippet>
+      </Header>
       {children}
-      <Footer
+      {/* <Footer
         height="h-[100px]"
         bgColor="bg-black"
         flex="flex items-center justify-center"
-      ></Footer>
+      ></Footer> */}
     </>
   );
 }

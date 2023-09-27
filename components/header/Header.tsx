@@ -43,39 +43,25 @@ export default function Header({
 
     return (
       <>
-        <NavLink hover={hover} currentNavStyle={currentNavStyle} href="/color">
+        {/* <NavLink hover={hover} currentNavStyle={currentNavStyle} href="/color">
           Color
-        </NavLink>
-        <NavLink
-          hover={hover}
-          currentNavStyle={currentNavStyle}
-          href="/typography"
-        >
-          Typography
-        </NavLink>
-        <NavLink
-          hover={hover}
-          currentNavStyle={currentNavStyle}
-          href="/component"
-        >
-          Component
-        </NavLink>
+        </NavLink> */}
       </>
     );
   };
 
   return (
     <header
-      className={`${height} ${bgColor} flex items-center justify-center px-4  `}
+      className={`${height} ${bgColor} flex items-center justify-between px-4 px-large `}
     >
-      {children}
       <Nav
-        navStyle="tablet:flex hidden gap-large items-center justify-between w-full mx-large "
+        navStyle="tablet:flex hidden gap-large items-center justify-between"
         navLinkStyle={`flex laptopL:gap-large laptop:gap-sub-large tablet:gap-small justify-center ${textType} ${textColor}`}
         logo={logo()}
       >
         {navlink()}
       </Nav>
+      {children}
       <MobileNav
         navStyle="flex tablet:hidden gap-large items-center justify-between w-full mobile-large:mx-sub-large mx-small"
         navLinkStyle={`flex flex-col gap-large justify-center ${mobileTextType} mt-sub-large pl-8 ${textColor}`}

@@ -47,6 +47,10 @@
   .button--clay {
     @apply py-sub-medium px-[4.8rem] heading font-semibold;
   }
+
+  .brutalism-border {
+    @apply border-b-4 border-r-4 border-t border-l;
+  }
 }
 
 @tailwind utilities;
@@ -114,6 +118,7 @@ input[type="radio"]:checked::before {
   background-color: CanvasText;
 }
 
-.cl-card {
-  font-size: %;
+input[type="text"] {
+  background-color: transparent;
+  border: none;
 }

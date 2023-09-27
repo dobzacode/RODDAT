@@ -3,9 +3,6 @@ import "@/app/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "@/components/footer/Footer";
-import { ClerkProvider } from "@clerk/nextjs";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,10 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className="flex flex-col justify-between  gap-sub-medium relative min-h-screen">
+        {children}
+      </body>
+    </html>
   );
 }
