@@ -9,7 +9,7 @@ import Avatar from "../Avatar";
 import H2 from "../text/H2";
 import P from "../text/P";
 
-export default function PublicationBar({}) {
+export default function PostBar({}) {
   return (
     <section className="flex brutalism-border border-primary80 rounded-small w-1/3">
       <div className="flex gap-extra-small flex-col  bg-primary10 rounded-l-small p-small">

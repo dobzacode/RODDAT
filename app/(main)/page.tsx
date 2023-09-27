@@ -6,14 +6,14 @@ import H2 from "@/components/text/H2";
 import H3 from "@/components/text/H3";
 import P from "@/components/text/P";
 import NewPostBar from "@/components/home/NewPostBar";
-import PublicationBar from "@/components/home/PublicationBar";
-import HomePublications from "@/components/home/HomePublications";
+
+import HomePosts from "@/components/home/HomePosts";
 
 export default function Home() {
   return (
     <main className="flex justify-between flex-col items-center flex-wrap gap-large mx-auto">
       <NewPostBar></NewPostBar>
-      <HomePublications></HomePublications>
+      <HomePosts></HomePosts>
     </main>
   );
 }
