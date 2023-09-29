@@ -38,7 +38,9 @@ export default function Button({
 }: ButtonProps) {
   console.log(onClick);
   const finalcolor = () => {
-    if (transparent) {
+    if (!color) {
+      return "";
+    } else if (transparent) {
       return color
         ? `border-2 border-${color}40 text-${color}40 `
         : "border border-black text-black";
@@ -98,7 +100,8 @@ export default function Button({
     // shadow-neutral-medium
     // shadow-neutral-low
     // shadow-neutral-clay
-    return `shadow-${color}-${shadow}`;
+    if (shadow) return `shadow-${color}-${shadow}`;
+    return "";
   };
 
   //button--clay
@@ -110,9 +113,9 @@ export default function Button({
     <button
       onClick={onClick}
       type={type ? type : "button"}
-      className={`${rounded} ${finalcolor()} button--${
+      className={`${rounded ? rounded : ""} ${finalcolor()} button--${
         shadow === "clay" ? "clay" : size
-      } ${margin} ${finalShadow()} ${customCSS}`}
+      } ${margin ? margin : ""} ${finalShadow()} ${customCSS ? customCSS : ""}`}
     >
       {children}
     </button>
