@@ -3,10 +3,10 @@ import "@/app/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SearchBar from "@/components/header/SearchBar";
-import UserSnippet from "@/components/user/UserSnippet";
-import NavLink from "@/components/header/NavLink";
-import Link from "next/link";
 import Button from "@/components/button/Button";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import UserSnippet from "@/components/user/UserSnippet";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,11 +16,12 @@ export const metadata: Metadata = {
   viewport: "width=device-width,initial-scale=1",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
   return (
     <>
       <Header
@@ -34,10 +35,13 @@ export default function RootLayout({
         bgColor="bg-primary10 border-b-4 border-neutral80"
       >
         <SearchBar></SearchBar>
-        {/* <UserSnippet></UserSnippet> */}
-        <Button customCSS="bg-white gap-extra-small sub-heading font-medium rounded-full flex justify-center items-center  brutalism-border px-sub-medium py-small border-primary80">
-          Login
-        </Button>
+        {session ? (
+          <UserSnippet session={session}></UserSnippet>
+        ) : (
+          <Button customCSS="bg-white gap-extra-small sub-heading font-medium rounded-full flex justify-center items-center  brutalism-border px-sub-medium py-small border-primary80">
+            Login
+          </Button>
+        )}
       </Header>
       {children}
       {/* <Footer
