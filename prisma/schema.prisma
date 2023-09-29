@@ -52,8 +52,9 @@ model User {
 
 model Community {
   community_id   String       @id @default(uuid())
-  name            String
-  description    String
+  name            String @unique
+  description    String? 
+  isNsfw Boolean @default(true)
   createdAt DateTime  @default(now())
   admin    CommunityUser[]
   posts          Post[]

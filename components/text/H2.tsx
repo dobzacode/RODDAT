@@ -1,5 +1,5 @@
 interface H2Props {
-  children: string | JSX.Element;
+  children: any;
   type: string;
   textColor?: string;
   bgColor?: string;

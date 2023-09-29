@@ -189,3 +189,52 @@ select {
 
   transition: opacity 600ms;
 }
+
+/* CSS pour la classe "popup-enter" lorsque le popup apparaît */
+.popup-enter {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+/* CSS pour la classe "popup-enter-active" pendant l'animation d'apparition */
+.popup-enter-active {
+  opacity: 1;
+  transform: translateY(0%);
+  transition: opacity 1500ms, transform 1500ms;
+}
+
+/* CSS pour la classe "popup-exit" lorsque le popup disparaît */
+.popup-exit {
+  opacity: 1;
+  transform: translateY(0%);
+}
+
+/* CSS pour la classe "popup-exit-active" pendant l'animation de disparition */
+.popup-exit-active {
+  opacity: 0;
+  transform: translateY(-500%);
+  transition: opacity 7000ms, transform 10000ms;
+}
+
+
+.text--opacity-enter {
+  opacity: 0;
+}
+
+.text--opacity-active {
+  opacity: 1;
+
+  transition: opacity 600ms;
+}
+
+.text--opacity-exit {
+  opacity: 1;
+}
+
+.text--opacity-exit-active {
+  opacity: 0;
+
+  transition: opacity 600ms;
+}
+
+

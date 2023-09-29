@@ -7,7 +7,7 @@ import Button from "@/components/button/Button";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import UserSnippet from "@/components/user/UserSnippet";
-import LoginButton from "@/components/button/LoginButton";
+
 import LoginModal from "@/components/user/LogInModal";
 
 const inter = Inter({ subsets: ["latin"] });

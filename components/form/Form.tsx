@@ -11,6 +11,9 @@ import H2 from "../text/H2";
 import H3 from "../text/H3";
 import ColorDiv from "../div/colorDiv";
 import P from "../text/P";
+import { getSession } from "next-auth/react";
+import { ClipLoader } from "react-spinners";
+import { CSSTransition } from "react-transition-group";
 
 interface FormData {
   name: string;
@@ -21,9 +24,13 @@ interface FormData {
 export default function Form({
   title,
   theme,
+  setIsOpen,
+  setIsSuccess,
 }: {
   title?: string;
   theme: "primary" | "secondary" | "tertiary" | "neutral";
+  setIsOpen: Function;
+  setIsSuccess: Function;
 }) {
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -31,10 +38,17 @@ export default function Form({
     isNsfw: false,
   });
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const [isAlreadyTaken, setIsAlreadyTaken] = useState<string | null>(null);
+
+  const [isError, setIsError] = useState<boolean>(false);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     e.stopPropagation;
+
     const { name, value, type } = e.target;
 
     if (type === "checkbox") {
@@ -45,8 +59,38 @@ export default function Form({
     }
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    setIsSubmitting(true);
+    setIsError(false);
+
     e.preventDefault();
+    try {
+      const session = await getSession();
+      console.log(session);
+      const res = await fetch(`/api/community?email=${session?.user?.email}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+
+      if (data.status === 400) {
+        setIsSubmitting(false);
+        return setIsAlreadyTaken(data.communityName);
+      }
+      setIsAlreadyTaken(null);
+      setIsSubmitting(false);
+      setIsSuccess();
+
+      setIsOpen();
+
+      console.log(data);
+    } catch (e) {
+      setIsError(true);
+      setIsSubmitting(false);
+    }
   };
 
   //bg-primary5
@@ -64,18 +108,8 @@ export default function Form({
 
   return (
     <div
-      className={`flex flex-col gap-medium items-center bg-${theme}1 rounded-extra-small `}
+      className={`flex flex-col gap-medium items-center bg-${theme}1 rounded-extra-small h-[465px]`}
     >
-      {title && (
-        <H1
-          type="heading"
-          textColor={`text-${theme}`}
-          padding="py-small px-sub-large"
-          rounded="rounded-t-extra-small"
-        >
-          {title}
-        </H1>
-      )}
       <form
         className={`body flex flex-col gap-sub-large `}
         onSubmit={handleSubmit}
@@ -83,6 +117,7 @@ export default function Form({
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Name</H3>
           <Input
+            required
             hiddenLabel={true}
             placeholder="r/"
             color={theme}
@@ -92,11 +127,14 @@ export default function Form({
             value={formData.name}
             onChange={handleChange}
           ></Input>
+          {isAlreadyTaken && (
+            <p className="text-error40">{`r/${isAlreadyTaken} is already taken`}</p>
+          )}
         </div>
-
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Community type</H3>
           <Input
+            required
             type="radio"
             hiddenLabel={false}
             color={theme}
@@ -111,7 +149,6 @@ export default function Form({
             onChange={handleChange}
           ></Input>
         </div>
-
         <div className="switch flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Adult content</H3>
           <label className="flex items-center gap-extra-small">
@@ -135,13 +172,16 @@ export default function Form({
             <span className="toggle-label">18+ Years old community</span>
           </label>
         </div>
-
-        <div className="flex gap-small mt-small">
+        {isError && (
+          <p className="text-error40">{`Something went wrong, try again`}</p>
+        )}
+        <div className="flex gap-small mt-small items-center">
           <Button
             type="submit"
             size="small"
             margin=""
             customCSS="brutalism-border border-secondary80"
+            onClick={() => setIsOpen()}
           >
             Cancel
           </Button>
@@ -154,6 +194,10 @@ export default function Form({
           >
             Create community
           </Button>
+          <ClipLoader
+            loading={isSubmitting}
+            className="text-secondary80 ml-small"
+          ></ClipLoader>
         </div>
       </form>
     </div>
