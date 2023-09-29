@@ -7,6 +7,7 @@ import Button from "@/components/button/Button";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import UserSnippet from "@/components/user/UserSnippet";
+import LoginButton from "@/components/button/LoginButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,9 +39,7 @@ export default async function RootLayout({
         {session ? (
           <UserSnippet session={session}></UserSnippet>
         ) : (
-          <Button customCSS="bg-white gap-extra-small sub-heading font-medium rounded-full flex justify-center items-center  brutalism-border px-sub-medium py-small border-primary80">
-            Login
-          </Button>
+          <LoginButton></LoginButton>
         )}
       </Header>
       {children}

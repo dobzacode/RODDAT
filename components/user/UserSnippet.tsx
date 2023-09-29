@@ -6,6 +6,7 @@ import Icon from "@mdi/react";
 import { mdiArrowDown } from "@mdi/js";
 import { useState } from "react";
 import { CSSTransition } from "react-transition-group";
+import { signOut } from "next-auth/react";
 
 export default function UserSnippet({ session }: { session: Session }) {
   const [isShown, setIsShown] = useState<Boolean>(false);
@@ -32,7 +33,9 @@ export default function UserSnippet({ session }: { session: Session }) {
         unmountOnExit
       >
         <ul className="fade-enter-done absolute top-12 bg-white gap-small text-body font-medium rounded-b-sub-large flex flex-col items-center px-sub-medium brutalism-border  border-primary80 w-full z-10 pb-small pt-sub-large ">
-          <li>Sign-out</li>
+          <li>
+            <button onClick={() => signOut()}>Sign-out</button>
+          </li>
         </ul>
       </CSSTransition>
     </div>
