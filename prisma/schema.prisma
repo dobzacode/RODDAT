@@ -8,12 +8,42 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") 
 }
 
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model User {
-  user_id      String       @id @default(uuid())
-  username     String    @unique
-  email        String    @unique
-  password String
+ id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
   createdAt DateTime @default(now())
+  accounts      Account[]
+  sessions      Session[]
   communities  CommunityUser[]
   posts        Post[]
   comments     Comment[]
@@ -38,7 +68,7 @@ model CommunityUser {
   community_user_id String       @id @default(uuid())
   role Role @default(GUEST)
 
-  user       User      @relation(fields: [user_id], references: [user_id])
+  user       User      @relation(fields: [user_id], references: [id])
   user_id String 
 
   community        Community @relation(fields: [community_id], references: [community_id])
@@ -53,7 +83,7 @@ model Post {
   content         String
   createdAt DateTime  @default(now())
 
-  author          User      @relation(fields: [author_id], references: [user_id])
+  author          User      @relation(fields: [author_id], references: [id])
   author_id String
 
   community    Community @relation(fields: [community_id], references: [community_id])
@@ -69,7 +99,7 @@ model Comment {
   contenu         String
   createdAt       DateTime     @default(now())
 
-  auteur          User         @relation(fields: [author_id], references: [user_id])
+  auteur          User         @relation(fields: [author_id], references: [id])
   author_id       String
 
   post            Post         @relation(fields: [post_id], references: [post_id])
@@ -92,7 +122,7 @@ model Vote {
   vote_id         String       @id @default(uuid())
   type            VoteType
   date_de_creation DateTime  @default(now())
-  auteur          User      @relation(fields: [author_id], references: [user_id])
+  auteur          User      @relation(fields: [author_id], references: [id])
   author_id String
 
   post            Post      @relation(fields: [post_id], references: [post_id])

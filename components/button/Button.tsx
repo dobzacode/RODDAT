@@ -17,10 +17,11 @@ interface ButtonProps {
     | "info"
     | "neutral";
   transparent?: boolean;
-  size: "small" | "medium" | "large";
+  size?: "small" | "medium" | "large";
   margin?: string;
   shadow?: "small" | "medium" | "high" | "clay" | "";
   rounded?: string;
+  customCSS?: string;
 }
 
 export default function Button({
@@ -33,6 +34,7 @@ export default function Button({
   size,
   transparent,
   rounded = "rounded-extra-small",
+  customCSS = "",
 }: ButtonProps) {
   const finalcolor = () => {
     if (transparent) {
@@ -109,7 +111,7 @@ export default function Button({
       type={type ? type : "button"}
       className={`${rounded} ${finalcolor()} button--${
         shadow === "clay" ? "clay" : size
-      } ${margin} ${finalShadow()} `}
+      } ${margin} ${finalShadow()} ${customCSS}`}
     >
       {children}
     </button>

@@ -6,6 +6,7 @@ import SearchBar from "@/components/header/SearchBar";
 import UserSnippet from "@/components/user/UserSnippet";
 import NavLink from "@/components/header/NavLink";
 import Link from "next/link";
+import Button from "@/components/button/Button";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,12 +35,9 @@ export default function RootLayout({
       >
         <SearchBar></SearchBar>
         {/* <UserSnippet></UserSnippet> */}
-        <Link
-          href="/login"
-          className="bg-white gap-extra-small sub-heading font-medium rounded-full flex justify-center items-center  brutalism-border px-sub-medium py-small border-primary80"
-        >
+        <Button customCSS="bg-white gap-extra-small sub-heading font-medium rounded-full flex justify-center items-center  brutalism-border px-sub-medium py-small border-primary80">
           Login
-        </Link>
+        </Button>
       </Header>
       {children}
       {/* <Footer
