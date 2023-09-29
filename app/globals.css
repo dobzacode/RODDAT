@@ -61,6 +61,7 @@
 
 :root {
   --primary-color: theme("colors.primary40");
+  --secondary-color: theme("colors.secondary40")
   color: theme("colors.neutral80");
 }
 
@@ -94,36 +95,57 @@ select {
   background-size: 0.65rem auto;
 }
 
-input[type="radio"] {
-  appearance: none;
-  background-color: #fff;
-  color: currentColor;
-  width: 1.55rem;
-  height: 1.55rem;
-  border: 0.12rem solid currentColor;
-  border-radius: 50%;
-  transform: translateY(-0.025rem);
-  display: grid;
-  transform: scale(1);
-  place-content: center;
+
+.toggle-switch {
+  display: inline-block;
+  background: #ccc;
+  border-radius: 16px;
+  width: 58px;
+  height: 32px;
+  position: relative;
+  vertical-align: middle;
+  transition: background 0.25s;
 }
 
-input[type="radio"]::before {
+.toggle-switch:before, .toggle-switch:after {
   content: "";
-  width: 0.85rem;
-  height: 0.85rem;
+}
+
+.toggle-switch:before {
+  display: block;
+  background: linear-gradient(to bottom, #fff 0%, #eee 100%);
   border-radius: 50%;
-  transform: scale(0);
-  box-shadow: inset 1em 1em var(--primary-color);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  transition: left 0.25s;
 }
 
-input[type="radio"]:checked::before {
-  transform: scale(1);
-  background-color: CanvasText;
+.toggle:hover .toggle-switch:before {
+  background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
 
-input[type="text"] {
-  border: none;
+.toggle-checkbox:checked + .toggle-switch {
+  background: rgb(121, 186, 219);
+}
+
+.toggle-checkbox:checked + .toggle-switch:before {
+  left: 30px;
+}
+
+.toggle-checkbox {
+  position: absolute;
+  visibility: hidden;
+}
+
+.toggle-label {
+  margin-left: 5px;
+  position: relative;
+  top: 2px;
 }
 
 .fade-enter {

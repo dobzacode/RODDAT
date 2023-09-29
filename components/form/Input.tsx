@@ -3,9 +3,17 @@
 import { EventHandler } from "react";
 import Label from "./Label";
 import { v4 as uuidv4 } from "uuid";
+import P from "../text/P";
 interface InputProps {
   required?: boolean;
-  type: "text" | "email" | "password" | "select" | "radio" | "textarea";
+  type:
+    | "text"
+    | "email"
+    | "password"
+    | "select"
+    | "radio"
+    | "textarea"
+    | "checkbox";
   color?:
     | "primary"
     | "secondary"
@@ -22,6 +30,7 @@ interface InputProps {
   placeholder?: string;
   hiddenLabel?: boolean;
   choices?: string[];
+  customText?: string[];
 }
 
 interface SelectProps {
@@ -92,7 +101,7 @@ function InputRadio({
   return (
     <div className="flex gap-extra-small items-center">
       <input
-        className={`cursor-pointer`}
+        className={`cursor-pointer `}
         required={required}
         type="radio"
         id={choice}
@@ -101,7 +110,11 @@ function InputRadio({
         checked={value === choice}
         onChange={onChange}
       ></input>
-      <Label style={`text-${color}90 body`} hidden={false} htmlFor={choice}>
+      <Label
+        style={`text-${color}90 body font-medium`}
+        hidden={false}
+        htmlFor={choice}
+      >
         {choice}
       </Label>
     </div>
@@ -118,6 +131,7 @@ export default function Input({
   placeholder,
   hiddenLabel = false,
   choices = [""],
+  customText = [""],
 }: InputProps) {
   const determineColor = (color: string) => {
     //bg-primary5 placeholder:text-primary90/[.4] text-primary90 border-primary90/[.2] outline-primary90/[.2]
@@ -166,19 +180,25 @@ export default function Input({
         ""
       )}
       {type === "radio" && (
-        <fieldset className="flex gap-small">
-          {choices.map((choice) => {
+        <fieldset className="flex gap-small flex-col">
+          {choices.map((choice, index) => {
             return (
-              <InputRadio
-                key={uuidv4()}
-                determineColor={() => determineColor(color)}
-                required={required}
-                choice={choice}
-                id={id}
-                value={value}
-                onChange={onChange}
-                color={color}
-              />
+              <div key={uuidv4()} className="flex gap-extra-small items-end">
+                <InputRadio
+                  determineColor={() => determineColor(color)}
+                  required={required}
+                  choice={choice}
+                  id={id}
+                  value={value}
+                  onChange={onChange}
+                  color={color}
+                />
+                {customText[index] && (
+                  <P textColor="text-secondary30 caption">
+                    {customText[index]}
+                  </P>
+                )}
+              </div>
             );
           })}
         </fieldset>
@@ -193,6 +213,16 @@ export default function Input({
         >
           {placeholder}
         </textarea>
+      )}
+      {type === "checkbox" && (
+        <input
+          type={type}
+          required={required}
+          id={id}
+          name={id}
+          value={value}
+          onChange={onChange}
+        ></input>
       )}
     </>
   );

@@ -7,13 +7,15 @@ import Label from "./Label";
 import H1 from "../text/H1";
 
 import Button from "../button/Button";
+import H2 from "../text/H2";
+import H3 from "../text/H3";
+import ColorDiv from "../div/colorDiv";
+import P from "../text/P";
 
 interface FormData {
   name: string;
-  password: string;
-  email: string;
-  selectValue: string;
-  radioValue: string;
+  communityType: string;
+  isNsfw: boolean;
 }
 
 export default function Form({
@@ -25,18 +27,22 @@ export default function Form({
 }) {
   const [formData, setFormData] = useState<FormData>({
     name: "",
-    password: "",
-    email: "",
-    selectValue: "",
-    radioValue: "",
+    communityType: "",
+    isNsfw: false,
   });
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target;
-    console.log(formData);
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    e.stopPropagation;
+    const { name, value, type } = e.target;
+
+    if (type === "checkbox") {
+      const newValue = (e.target as HTMLInputElement).checked;
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: newValue }));
+    } else {
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -58,7 +64,7 @@ export default function Form({
 
   return (
     <div
-      className={`flex flex-col gap-medium items-center bg-${theme}1 rounded-extra-small shadow-${theme}-high border border-${theme}10 p-sub-large`}
+      className={`flex flex-col gap-medium items-center bg-${theme}1 rounded-extra-small `}
     >
       {title && (
         <H1
@@ -71,69 +77,84 @@ export default function Form({
         </H1>
       )}
       <form
-        className={`body flex flex-col gap-sub-medium `}
+        className={`body flex flex-col gap-sub-large `}
         onSubmit={handleSubmit}
       >
-        <Input
-          hiddenLabel={true}
-          placeholder="Nom"
-          color={theme}
-          type="text"
-          flex="flex flex-col gap-small"
-          id="name"
-          value={formData.name}
-          onChange={handleChange}
-        ></Input>
+        <div className="flex flex-col gap-sub-medium">
+          <H3 type="sub-heading">Name</H3>
+          <Input
+            hiddenLabel={true}
+            placeholder="r/"
+            color={theme}
+            type="text"
+            flex="flex flex-col gap-small"
+            id="name"
+            value={formData.name}
+            onChange={handleChange}
+          ></Input>
+        </div>
 
-        <Input
-          hiddenLabel={true}
-          placeholder="Email"
-          color={theme}
-          type="email"
-          flex="flex flex-col gap-small"
-          id="email"
-          value={formData.email}
-          onChange={handleChange}
-        ></Input>
-        <Input
-          hiddenLabel={true}
-          placeholder="Password"
-          color={theme}
-          type="password"
-          flex="flex flex-col gap-small"
-          id="password"
-          value={formData.password}
-          onChange={handleChange}
-        ></Input>
-        <Input
-          type="select"
-          hiddenLabel={true}
-          placeholder="Your choice"
-          color={theme}
-          id="selectValue"
-          choices={["First choice", "Second choice", "Third choice"]}
-          value={formData.selectValue}
-          onChange={handleChange}
-        ></Input>
+        <div className="flex flex-col gap-sub-medium">
+          <H3 type="sub-heading">Community type</H3>
+          <Input
+            type="radio"
+            hiddenLabel={false}
+            color={theme}
+            id="communityType"
+            choices={["Public", "Restricted", "Private"]}
+            customText={[
+              "Anyone can view, post, and comment to this community",
+              "Anyone can view this community, but only approved users can post",
+              "Only approved users can view and submit to this community",
+            ]}
+            value={formData.communityType}
+            onChange={handleChange}
+          ></Input>
+        </div>
 
-        <Input
-          type="radio"
-          hiddenLabel={true}
-          color={theme}
-          id="radioValue"
-          choices={["First choice", "Second choice"]}
-          value={formData.radioValue}
-          onChange={handleChange}
-        ></Input>
+        <div className="switch flex flex-col gap-sub-medium">
+          <H3 type="sub-heading">Adult content</H3>
+          <label className="flex items-center gap-extra-small">
+            <input
+              className="toggle-checkbox"
+              type="checkbox"
+              id="isNsfw"
+              name="isNsfw"
+              checked={formData.isNsfw}
+              onChange={handleChange}
+            />
+            <div className="toggle-switch"></div>
+            <ColorDiv
+              flex="flex justify-center"
+              color="bg-error40"
+              padding="p-extra-small"
+              rounded="rounded-extra-small"
+            >
+              <P textColor="text-error1">NSFW</P>
+            </ColorDiv>
+            <span className="toggle-label">18+ Years old community</span>
+          </label>
+        </div>
 
-        <Button
-          type="submit"
-          size="small"
-          color={theme}
-          margin="mx-large mt-small"
-        >
-          ENVOYER
-        </Button>
+        <div className="flex gap-small mt-small">
+          <Button
+            type="submit"
+            size="small"
+            margin=""
+            customCSS="brutalism-border border-secondary80"
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            size="small"
+            color={theme}
+            customCSS="brutalism-border border-secondary80"
+            margin=""
+          >
+            Create community
+          </Button>
+        </div>
       </form>
     </div>
   );
