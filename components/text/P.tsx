@@ -3,6 +3,7 @@ interface PProps {
   textColor?: string;
   bgColor?: string;
   type?: "body" | "heading" | "sub-heading" | "caption";
+  customCSS?: string;
 }
 
 export default function P({
@@ -10,6 +11,9 @@ export default function P({
   type = "body",
   textColor = "",
   bgColor = "",
+  customCSS = "",
 }: PProps) {
-  return <p className={`${type} ${textColor} ${bgColor}`}>{children}</p>;
+  return (
+    <p className={`${type} ${textColor} ${bgColor} ${customCSS}`}>{children}</p>
+  );
 }

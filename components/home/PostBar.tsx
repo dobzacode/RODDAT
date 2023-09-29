@@ -15,7 +15,7 @@ import { getDateDifference } from "@/functions/getDateDifference";
 export default async function PostBar({ post }: { post: Post }) {
   const author = await prisma.user.findUnique({
     where: {
-      user_id: post.author_id,
+      id: post.author_id,
     },
   });
 
@@ -45,7 +45,7 @@ export default async function PostBar({ post }: { post: Post }) {
           <Avatar size={1}></Avatar>
           <P type="caption">r/nextjs</P>
           <P type="caption">{`Posted by u/${
-            author?.username ? author?.username : "deleted"
+            author?.name ? author?.name : "deleted"
           }`}</P>
           <P type="caption">{getDateDifference(post.createdAt)}</P>
         </div>

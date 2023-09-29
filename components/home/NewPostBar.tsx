@@ -2,7 +2,7 @@ import Avatar from "../Avatar";
 
 export default function NewPostBar({}) {
   return (
-    <section className="flex gap-extra-small bg-primary10 p-extra-small brutalism-border border-primary80 rounded-small cursor-pointer">
+    <div className="flex gap-extra-small bg-primary10 p-extra-small brutalism-border border-primary80 rounded-small cursor-pointer">
       <div className="bg-white rounded-small p-extra-small">
         <Avatar></Avatar>
       </div>
@@ -11,6 +11,6 @@ export default function NewPostBar({}) {
         type="text"
         placeholder="New publication"
       />
-    </section>
+    </div>
   );
 }

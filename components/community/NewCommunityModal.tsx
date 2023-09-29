@@ -25,11 +25,15 @@ export default function NewCommunityModal({}) {
   return (
     <>
       <Button
+        size="small"
+        customCSS="brutalism-border border-primary80"
+        margin=""
+        rounded="rounded-small"
         onClick={() => openModal()}
-        customCSS="bg-white gap-extra-small sub-heading font-medium rounded-full flex justify-center items-center  brutalism-border px-sub-medium py-small border-primary80"
       >
         Create a community
       </Button>
+
       <Modal
         title="New community"
         isOpen={isOpen}

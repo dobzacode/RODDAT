@@ -115,7 +115,9 @@ export default function Button({
       type={type ? type : "button"}
       className={`${rounded ? rounded : ""} ${finalcolor()} button--${
         shadow === "clay" ? "clay" : size
-      } ${margin ? margin : ""} ${finalShadow()} ${customCSS ? customCSS : ""}`}
+      } ${margin ? margin : ""} ${finalShadow()} ${
+        customCSS ? customCSS : ""
+      } whitespace-nowrap`}
     >
       {children}
     </button>
