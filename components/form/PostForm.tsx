@@ -15,6 +15,7 @@ import { getSession } from "next-auth/react";
 import { ClipLoader } from "react-spinners";
 import { CSSTransition } from "react-transition-group";
 import GenericForm from "./GenericForm";
+import { handleInputChange } from "@/utils/formUtils/handleInputChange";
 
 interface PostFormData {
   title: string;
@@ -44,11 +45,7 @@ export default function PostForm({
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    e.stopPropagation;
-
-    const { name, value } = e.target;
-
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    handleInputChange(e, formData, setFormData);
   };
 
   const handleSubmit = async () => {

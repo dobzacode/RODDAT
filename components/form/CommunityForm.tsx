@@ -15,8 +15,9 @@ import { getSession } from "next-auth/react";
 import { ClipLoader } from "react-spinners";
 import { CSSTransition } from "react-transition-group";
 import GenericForm from "./GenericForm";
+import { handleInputChange } from "@/utils/formUtils/handleInputChange";
 
-interface FormData {
+interface CommunityFormData {
   name: string;
   communityType: string;
   isNsfw: boolean;
@@ -33,7 +34,7 @@ export default function CommunityForm({
   setIsOpen: Function;
   setIsSuccess: Function;
 }) {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<CommunityFormData>({
     name: "",
     communityType: "",
     isNsfw: false,
@@ -44,16 +45,7 @@ export default function CommunityForm({
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    e.stopPropagation;
-
-    const { name, value, type } = e.target;
-
-    if (type === "checkbox") {
-      const newValue = (e.target as HTMLInputElement).checked;
-      setFormData((prevFormData) => ({ ...prevFormData, [name]: newValue }));
-    } else {
-      setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-    }
+    handleInputChange(e, formData, setFormData);
   };
 
   const handleSubmit = async () => {
