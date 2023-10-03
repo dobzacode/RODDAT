@@ -14,8 +14,9 @@ import P from "../text/P";
 import { getSession } from "next-auth/react";
 import { ClipLoader } from "react-spinners";
 import { CSSTransition } from "react-transition-group";
+import GenericForm from "./GenericForm";
 
-interface FormData {
+interface PostFormData {
   title: string;
   content: string;
   community: string;
@@ -27,22 +28,18 @@ export default function PostForm({
   setIsSuccess,
   title,
 }: {
-  title?: string;
+  title: string;
   theme: "primary" | "secondary" | "tertiary" | "neutral";
   setIsOpen: Function;
   setIsSuccess: Function;
 }) {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<PostFormData>({
     title: "",
     content: "",
     community: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
   const [isNotFound, setIsNotFound] = useState<string | null>(null);
-
-  const [isError, setIsError] = useState<boolean>(false);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -54,71 +51,35 @@ export default function PostForm({
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    setIsSubmitting(true);
-    setIsError(false);
-    console.log(formData);
-    e.preventDefault();
-    try {
-      const session = await getSession();
-      console.log(session);
-      const res = await fetch(`/api/posts?email=${session?.user?.email}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      console.log(data);
+  const handleSubmit = async () => {
+    const session = await getSession();
+    const res = await fetch(`/api/posts?email=${session?.user?.email}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await res.json();
 
-      if (data.status === 404) {
-        setIsSubmitting(false);
-        console.log(isNotFound);
-        return setIsNotFound(data.community);
-      }
-      setIsNotFound(null);
-
-      if (data.status === 500) {
-        setIsSubmitting(false);
-        return setIsError(true);
-      }
-
-      setIsSubmitting(false);
-      setIsSuccess();
-
-      setIsOpen();
-
-      console.log(data);
-    } catch (e) {
-      setIsError(true);
-      setIsSubmitting(false);
+    if (data.status === 404) {
+      setIsNotFound(data.community);
+      throw new Error("404");
     }
+    setIsNotFound(null);
   };
 
-  //bg-primary5
-  //bg-secondary5
-  //bg-tertiary5
-  //bg-neutral5
-  //text-primary1
-  //text-secondary1
-  //text-tertiary1
-  //text-neutral1
-  //border-primary10
-  //border-secondary10
-  //border-tertiary10
-  //border-neutral10
-
-  console.log(isNotFound);
-
   return (
-    <div
-      className={`flex flex-col gap-medium items-center text-${theme}80 bg-${theme}1 rounded-extra-small h-auto `}
-    >
-      <form
-        className={`body flex flex-col gap-sub-large`}
+    <div>
+      <GenericForm
+        theme={theme}
+        setIsOpen={setIsOpen}
+        setIsSuccess={setIsSuccess}
+        title={title}
+        formData={formData}
         onSubmit={handleSubmit}
       >
+        {/* Incluez les champs spécifiques à CommunityForm ici */}
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Community</H3>
           <Input
@@ -160,35 +121,7 @@ export default function PostForm({
             onChange={handleChange}
           ></Input>
         </div>
-
-        {isError && (
-          <p className="text-error40">{`Something went wrong, try again`}</p>
-        )}
-        <div className="flex gap-small mt-small items-center">
-          <Button
-            type="submit"
-            size="small"
-            margin=""
-            customCSS="brutalism-border border-secondary80"
-            onClick={() => setIsOpen()}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            size="small"
-            color={theme}
-            customCSS="brutalism-border border-secondary80"
-            margin=""
-          >
-            Create post
-          </Button>
-          <ClipLoader
-            loading={isSubmitting}
-            className="text-secondary80 ml-small"
-          ></ClipLoader>
-        </div>
-      </form>
+      </GenericForm>
     </div>
   );
 }

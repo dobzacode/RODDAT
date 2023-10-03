@@ -34,7 +34,7 @@ export default async function PostBar({ post }: { post: Post }) {
   const downvotes = votes.filter((vote) => vote.type === "DOWNVOTE");
 
   return (
-    <section className="flex brutalism-border border-primary80 rounded-small w-1/3">
+    <section className="flex brutalism-border border-primary80 rounded-small w-auto">
       <div className="flex gap-extra-small flex-col items-center  bg-primary10 rounded-l-small p-small">
         <Icon path={mdiArrowUp} size={1}></Icon>
         <P>{votes ? upvotes.length - downvotes.length : 0}</P>

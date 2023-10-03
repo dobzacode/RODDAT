@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     }
 
     const post = await req.json();
-    console.log(post);
+
     const data: {
       title: string;
       content: string;
@@ -86,7 +86,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: message, status: 500 });
     }
   } catch (e) {
-    console.log(e);
     const message = "The post can't be added";
     return NextResponse.json({ message: message, status: 500 });
   }

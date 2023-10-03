@@ -36,7 +36,6 @@ export default function Button({
   rounded = "rounded-extra-small",
   customCSS = "",
 }: ButtonProps) {
-  console.log(onClick);
   const finalcolor = () => {
     if (!color) {
       return "";

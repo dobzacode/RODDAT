@@ -12,10 +12,6 @@ export default function NewPostModal({}) {
 
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
   useEffect(() => {
     setTimeout(() => {
       setIsSuccess(false);
@@ -44,6 +40,7 @@ export default function NewPostModal({}) {
           setIsSuccess={() => setIsSuccess(true)}
           setIsOpen={() => setIsOpen(false)}
           theme="secondary"
+          title="Create Post"
         ></PostForm>
       </Modal>
       <PopUp isSuccess={isSuccess}>

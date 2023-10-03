@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
     }
 
     const community = await req.json();
-    console.log("test");
 
     try {
       const newCommunity = await prisma.community.create({
@@ -55,7 +54,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: message, status: 500 });
     }
   } catch (e) {
-    console.log(e);
     const message = "The community can't be added";
     return NextResponse.json({ message: message, status: 500 });
   }

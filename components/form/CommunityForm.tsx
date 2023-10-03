@@ -66,7 +66,6 @@ export default function CommunityForm({
     e.preventDefault();
     try {
       const session = await getSession();
-      console.log(session);
       const res = await fetch(`/api/community?email=${session?.user?.email}`, {
         method: "POST",
         headers: {
@@ -89,8 +88,6 @@ export default function CommunityForm({
       setIsSuccess();
 
       setIsOpen();
-
-      console.log(data);
     } catch (e) {
       setIsError(true);
       setIsSubmitting(false);
