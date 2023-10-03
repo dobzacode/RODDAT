@@ -35,6 +35,7 @@ export default function Button({
   transparent,
   rounded = "rounded-extra-small",
   customCSS = "",
+  hover = "",
 }: ButtonProps) {
   const finalcolor = () => {
     if (!color) {
@@ -116,7 +117,7 @@ export default function Button({
         shadow === "clay" ? "clay" : size
       } ${margin ? margin : ""} ${finalShadow()} ${
         customCSS ? customCSS : ""
-      } whitespace-nowrap`}
+      } whitespace-nowrap  ${hover}`}
     >
       {children}
     </button>

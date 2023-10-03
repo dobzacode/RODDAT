@@ -26,6 +26,7 @@ export default function NewCommunityModal({}) {
         customCSS="brutalism-border border-primary80"
         margin=""
         rounded="rounded-small"
+        hover="primary-transparent-hover"
         onClick={() => setIsOpen(true)}
       >
         Create a community

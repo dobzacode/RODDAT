@@ -6,7 +6,7 @@ const SUBHEADING_SIZE = "2.4rem";
 const BODY_SIZE = "1.8rem";
 const CAPTION_SIZE = "1.2rem";
 
-const LIGHTNESS_FACTOR = "40%";
+const LIGHTNESS_FACTOR = "20%";
 const SATURATION_FACTOR = 30;
 
 const PRIMARY_COLOR_HSL = "38, 55%";
@@ -92,6 +92,7 @@ function clayShadow(color) {
 module.exports = {
   mode: "jit",
   darkMode: "class",
+
   content: [
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",

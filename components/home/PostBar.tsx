@@ -30,6 +30,7 @@ export default async function PostBar({ post }: { post: Post }) {
       post_id: post.post_id,
     },
   });
+
   const upvotes = votes.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes.filter((vote) => vote.type === "DOWNVOTE");
 

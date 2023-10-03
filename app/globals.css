@@ -55,6 +55,22 @@
   .brutalism-border {
     @apply border-b-4 border-r-4 border-t border-l;
   }
+
+  .cancel-hover {
+    @apply  hover:border-transparent hover:bg-error40 hover:text-error1 hover:shadow-inner duration-medium
+  }
+
+  .validate-hover {
+    @apply  hover:border-transparent hover:bg-success40 hover:text-success1 hover:shadow-inner duration-medium
+  }
+
+  .primary-transparent-hover {
+    @apply hover:scale-[102%] duration-medium hover:shadow-primary-medium
+  }
+
+  .primary-hover {
+    @apply hover:scale-[102%] duration-medium hover:shadow-primary-medium
+  }
 }
 
 @tailwind utilities;

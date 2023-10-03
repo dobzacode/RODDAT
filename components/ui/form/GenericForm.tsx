@@ -104,6 +104,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
               margin=""
               customCSS="brutalism-border border-secondary80"
               onClick={() => setIsOpen()}
+              hover="cancel-hover"
             >
               Cancel
             </Button>
@@ -114,6 +115,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
             color={theme}
             customCSS={`brutalism-border border-${theme}80`}
             margin=""
+            hover="validate-hover"
           >
             {title}
           </Button>
