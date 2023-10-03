@@ -65,6 +65,7 @@ export default function CommunityForm({
     }
 
     setIsAlreadyTaken(null);
+    return data;
   };
 
   //bg-primary5

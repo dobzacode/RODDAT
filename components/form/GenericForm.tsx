@@ -5,6 +5,7 @@ import H3 from "../text/H3";
 import Button from "../button/Button";
 import { getSession } from "next-auth/react";
 import { ClipLoader } from "react-spinners";
+import { redirect, useRouter } from "next/navigation";
 
 interface FormData {
   name?: string;
@@ -37,16 +38,24 @@ const GenericForm: React.FC<GenericFormProps> = ({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
+  const router = useRouter();
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setIsError(false);
 
     try {
-      await onSubmit(formData);
+      const data: any = await onSubmit(formData);
       setIsOpen ? setIsOpen() : "";
-      setIsSuccess();
+      if (data.post) {
+        router.push("/");
+        return setIsSuccess();
+      } else {
+        setIsSuccess();
+      }
     } catch (error: any) {
+      console.log(error);
       switch (error.message) {
         case "404":
           break;

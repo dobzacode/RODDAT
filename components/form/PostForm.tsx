@@ -63,6 +63,7 @@ export default function PostForm({
       throw new Error("404");
     }
     setIsNotFound(null);
+    return data;
   };
 
   return (
