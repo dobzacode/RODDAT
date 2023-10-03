@@ -25,13 +25,12 @@ interface PostFormData {
 
 export default function PostForm({
   theme,
-  setIsOpen,
   setIsSuccess,
   title,
 }: {
   title: string;
   theme: "primary" | "secondary" | "tertiary" | "neutral";
-  setIsOpen: Function;
+
   setIsSuccess: Function;
 }) {
   const [formData, setFormData] = useState<PostFormData>({
@@ -67,14 +66,13 @@ export default function PostForm({
   };
 
   return (
-    <div>
+    <div className=" p-sub-large rounded-sub-large">
       <GenericForm
         theme={theme}
-        setIsOpen={setIsOpen}
-        setIsSuccess={setIsSuccess}
         title={title}
         formData={formData}
         onSubmit={handleSubmit}
+        setIsSuccess={setIsSuccess}
       >
         {/* Incluez les champs spécifiques à CommunityForm ici */}
         <div className="flex flex-col gap-sub-medium">

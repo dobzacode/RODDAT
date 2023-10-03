@@ -17,7 +17,7 @@ interface FormData {
 
 interface GenericFormProps {
   theme: "primary" | "secondary" | "tertiary" | "neutral";
-  setIsOpen: Function;
+  setIsOpen?: Function;
   setIsSuccess: Function;
   title: string;
   formData: FormData;
@@ -44,7 +44,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
 
     try {
       await onSubmit(formData);
-      setIsOpen();
+      setIsOpen ? setIsOpen() : "";
       setIsSuccess();
     } catch (error: any) {
       switch (error.message) {
@@ -88,20 +88,22 @@ const GenericForm: React.FC<GenericFormProps> = ({
           <p className="text-error40">Something went wrong, try again</p>
         )}
         <div className="flex gap-small mt-small items-center">
-          <Button
-            type="button"
-            size="small"
-            margin=""
-            customCSS="brutalism-border border-secondary80"
-            onClick={() => setIsOpen()}
-          >
-            Cancel
-          </Button>
+          {setIsOpen && (
+            <Button
+              type="button"
+              size="small"
+              margin=""
+              customCSS="brutalism-border border-secondary80"
+              onClick={() => setIsOpen()}
+            >
+              Cancel
+            </Button>
+          )}
           <Button
             type="submit"
             size="small"
             color={theme}
-            customCSS="brutalism-border border-secondary80"
+            customCSS={`brutalism-border border-${theme}80`}
             margin=""
           >
             {title}

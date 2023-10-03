@@ -1,7 +1,8 @@
 import NewCommunityModal from "@/components/community/NewCommunityModal";
 import P from "../text/P";
 import H2 from "../text/H1";
-import NewPostModal from "../post/NewPostModal";
+
+import Link from "next/link";
 
 export default function UserInfo({}) {
   return (
@@ -12,7 +13,12 @@ export default function UserInfo({}) {
         communities.
       </P>
       <hr className=" border-primary80 border opacity-20"></hr>
-      <NewPostModal></NewPostModal>
+      <Link
+        href="/post/create"
+        className="brutalism-border border-primary80 rounded-small button--small text-center bg-primary10 text-primary80"
+      >
+        Create a post
+      </Link>
       <NewCommunityModal></NewCommunityModal>
     </>
   );

@@ -10,7 +10,7 @@ import H2 from "../text/H2";
 import P from "../text/P";
 import prisma from "@/prisma/client";
 import { Post } from "@prisma/client";
-import { getDateDifference } from "@/functions/getDateDifference";
+import { getDateDifference } from "@/utils/getDateDifference";
 
 export default async function PostBar({ post }: { post: Post }) {
   const author = await prisma.user.findUnique({
