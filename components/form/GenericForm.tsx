@@ -47,7 +47,14 @@ const GenericForm: React.FC<GenericFormProps> = ({
       setIsOpen();
       setIsSuccess();
     } catch (error: any) {
-      error.message === "404" ? "" : setIsError(true);
+      switch (error.message) {
+        case "404":
+          break;
+        case "400":
+          break;
+        default:
+          setIsError(true);
+      }
     } finally {
       setIsSubmitting(false);
     }

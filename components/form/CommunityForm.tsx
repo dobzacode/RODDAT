@@ -14,6 +14,7 @@ import P from "../text/P";
 import { getSession } from "next-auth/react";
 import { ClipLoader } from "react-spinners";
 import { CSSTransition } from "react-transition-group";
+import GenericForm from "./GenericForm";
 
 interface FormData {
   name: string;
@@ -27,7 +28,7 @@ export default function CommunityForm({
   setIsOpen,
   setIsSuccess,
 }: {
-  title?: string;
+  title: string;
   theme: "primary" | "secondary" | "tertiary" | "neutral";
   setIsOpen: Function;
   setIsSuccess: Function;
@@ -38,11 +39,7 @@ export default function CommunityForm({
     isNsfw: false,
   });
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
   const [isAlreadyTaken, setIsAlreadyTaken] = useState<string | null>(null);
-
-  const [isError, setIsError] = useState<boolean>(false);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -59,39 +56,23 @@ export default function CommunityForm({
     }
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    setIsSubmitting(true);
-    setIsError(false);
+  const handleSubmit = async () => {
+    const session = await getSession();
+    const res = await fetch(`/api/community?email=${session?.user?.email}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await res.json();
 
-    e.preventDefault();
-    try {
-      const session = await getSession();
-      const res = await fetch(`/api/community?email=${session?.user?.email}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-
-      if (data.status === 400) {
-        setIsSubmitting(false);
-        return setIsAlreadyTaken(data.communityName);
-      }
-      if (data.status === 500) {
-        setIsSubmitting(false);
-        return setIsError(true);
-      }
-      setIsAlreadyTaken(null);
-      setIsSubmitting(false);
-      setIsSuccess();
-
-      setIsOpen();
-    } catch (e) {
-      setIsError(true);
-      setIsSubmitting(false);
+    if (data.status === 400) {
+      setIsAlreadyTaken(data.communityName);
+      throw new Error("400");
     }
+
+    setIsAlreadyTaken(null);
   };
 
   //bg-primary5
@@ -109,10 +90,14 @@ export default function CommunityForm({
 
   return (
     <div
-      className={`flex flex-col text-${theme}80 gap-medium items-center bg-${theme}1 rounded-extra-small h-[465px]`}
+      className={`flex flex-col text-${theme}80 gap-medium items-center bg-${theme}1 rounded-extra-small h-auto`}
     >
-      <form
-        className={`body flex flex-col gap-sub-large `}
+      <GenericForm
+        theme={theme}
+        setIsOpen={setIsOpen}
+        setIsSuccess={setIsSuccess}
+        title={title}
+        formData={formData}
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col gap-sub-medium">
@@ -173,36 +158,7 @@ export default function CommunityForm({
             <span className="toggle-label">18+ Years old community</span>
           </label>
         </div>
-        {isError && (
-          <p className="text-error40">{`Something went wrong, try again`}</p>
-        )}
-        <div className="flex gap-small mt-small items-center">
-          <Button
-            type="submit"
-            size="small"
-            margin=""
-            customCSS="brutalism-border border-secondary80"
-            onClick={() => {
-              setIsOpen();
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            size="small"
-            color={theme}
-            customCSS="brutalism-border border-secondary80"
-            margin=""
-          >
-            Create community
-          </Button>
-          <ClipLoader
-            loading={isSubmitting}
-            className="text-secondary80 ml-small"
-          ></ClipLoader>
-        </div>
-      </form>
+      </GenericForm>
     </div>
   );
 }

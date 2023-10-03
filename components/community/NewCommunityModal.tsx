@@ -14,10 +14,6 @@ export default function NewCommunityModal({}) {
 
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
   useEffect(() => {
     setTimeout(() => {
       setIsSuccess(false);
@@ -30,7 +26,7 @@ export default function NewCommunityModal({}) {
         customCSS="brutalism-border border-primary80"
         margin=""
         rounded="rounded-small"
-        onClick={() => openModal()}
+        onClick={() => setIsOpen(true)}
       >
         Create a community
       </Button>
@@ -45,6 +41,7 @@ export default function NewCommunityModal({}) {
           setIsSuccess={() => setIsSuccess(true)}
           setIsOpen={() => setIsOpen(false)}
           theme="secondary"
+          title="Create Community"
         ></CommunityForm>
       </Modal>
       <PopUp isSuccess={isSuccess}>
