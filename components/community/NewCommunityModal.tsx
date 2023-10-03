@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Button from "../button/Button";
+import Button from "../ui/button/Button";
 import { signIn } from "next-auth/react";
-import Modal from "../div/Modal";
-import H2 from "../text/H2";
+import Modal from "../ui/div/Modal";
+import H2 from "../ui/text/H2";
 
-import PopUp from "../div/PopUp";
-import CommunityForm from "../form/CommunityForm";
+import PopUp from "../ui/div/PopUp";
+import CommunityForm from "./CommunityForm";
 
 export default function NewCommunityModal({}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);

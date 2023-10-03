@@ -1,20 +1,20 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import Input from "./Input";
-import Label from "./Label";
+import Input from "../ui/form/Input";
+import Label from "../ui/form/Label";
 
-import H1 from "../text/H1";
+import H1 from "../ui/text/H1";
 
-import Button from "../button/Button";
-import H2 from "../text/H2";
-import H3 from "../text/H3";
-import ColorDiv from "../div/colorDiv";
-import P from "../text/P";
+import Button from "../ui/button/Button";
+import H2 from "../ui/text/H2";
+import H3 from "../ui/text/H3";
+import ColorDiv from "../ui/div/colorDiv";
+import P from "../ui/text/P";
 import { getSession } from "next-auth/react";
 import { ClipLoader } from "react-spinners";
 import { CSSTransition } from "react-transition-group";
-import GenericForm from "./GenericForm";
+import GenericForm from "../ui/form/GenericForm";
 import { handleInputChange } from "@/utils/formUtils/handleInputChange";
 
 interface PostFormData {

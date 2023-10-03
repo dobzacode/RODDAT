@@ -1,7 +1,7 @@
 "use client";
 
 import { Session } from "next-auth";
-import Avatar from "../Avatar";
+import Avatar from "../ui/Avatar";
 import Icon from "@mdi/react";
 import { mdiArrowDown } from "@mdi/js";
 import { useState } from "react";

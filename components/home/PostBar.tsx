@@ -5,9 +5,9 @@ import {
   mdiShareOutline,
 } from "@mdi/js";
 import Icon from "@mdi/react";
-import Avatar from "../Avatar";
-import H2 from "../text/H2";
-import P from "../text/P";
+import Avatar from "../ui/Avatar";
+import H2 from "../ui/text/H2";
+import P from "../ui/text/P";
 import prisma from "@/prisma/client";
 import { Post } from "@prisma/client";
 import { getDateDifference } from "@/utils/getDateDifference";

@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Button from "../button/Button";
+import Button from "../ui/button/Button";
 import { signIn } from "next-auth/react";
-import Modal from "../div/Modal";
+import Modal from "../ui/div/Modal";
 
 export default function LoginModal({}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Avatar from "../Avatar";
+import Avatar from "../ui/Avatar";
 
 export default function NewPostBar({}) {
   return (

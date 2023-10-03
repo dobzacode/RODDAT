@@ -1,8 +1,8 @@
 "use client";
 
-import PopUp from "@/components/div/PopUp";
-import PostForm from "@/components/form/PostForm";
-import H2 from "@/components/text/H2";
+import PopUp from "@/components/ui/div/PopUp";
+import PostForm from "@/components/post/PostForm";
+import H2 from "@/components/ui/text/H2";
 import { useEffect, useState } from "react";
 
 export default function CreatePost({}) {
