@@ -5,8 +5,9 @@ import Button from "../button/Button";
 import { signIn } from "next-auth/react";
 import Modal from "../div/Modal";
 import H2 from "../text/H2";
-import Form from "../form/Form";
+
 import PopUp from "../div/PopUp";
+import CommunityForm from "../form/CommunityForm";
 
 export default function NewCommunityModal({}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -36,14 +37,15 @@ export default function NewCommunityModal({}) {
 
       <Modal
         title="New community"
+        titleCSS="text-secondary80"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       >
-        <Form
+        <CommunityForm
           setIsSuccess={() => setIsSuccess(true)}
           setIsOpen={() => setIsOpen(false)}
           theme="secondary"
-        ></Form>
+        ></CommunityForm>
       </Modal>
       <PopUp isSuccess={isSuccess}>
         <H2 type="sub-heading" textColor="text-success90">

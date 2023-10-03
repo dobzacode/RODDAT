@@ -11,11 +11,12 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
       // Gérer le cas où l'utilisateur n'a pas été trouvé
-      const message = "Utilisateur non trouvé";
+      const message = "User not found";
       return NextResponse.json({ message: message, status: 404 });
     }
 
     const community = await req.json();
+    console.log("test");
 
     try {
       const newCommunity = await prisma.community.create({

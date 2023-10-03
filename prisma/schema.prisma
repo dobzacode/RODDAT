@@ -82,14 +82,14 @@ model Post {
   post_id         String       @id @default(uuid())
   title           String
   content         String
-  createdAt DateTime  @default(now())
+  createdAt       DateTime  @default(now())
 
   author          User      @relation(fields: [author_id], references: [id])
-  author_id String
+  author_id       String
 
-  community    Community @relation(fields: [community_id], references: [community_id])
-  community_id String
-
+  community       Community? @relation(fields: [community_id], references: [community_id])
+  community_id    String?
+  
   comments        Comment[]
   votes           Vote[]
 }

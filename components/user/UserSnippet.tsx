@@ -32,10 +32,11 @@ export default function UserSnippet({ session }: { session: Session }) {
         classNames="fade"
         unmountOnExit
       >
-        <ul className="fade-enter-done absolute top-12 bg-white gap-small text-body font-medium rounded-b-sub-large flex flex-col items-center px-sub-medium brutalism-border  border-primary80 w-full z-10 pb-small pt-sub-large ">
-          <li>
-            <button onClick={() => signOut()}>Sign-out</button>
-          </li>
+        <ul
+          onClick={() => signOut()}
+          className="fade-enter-done absolute top-12 bg-white gap-small text-body font-medium rounded-b-sub-large flex flex-col items-center px-sub-medium brutalism-border  border-primary80 w-full z-10 pb-small pt-sub-large "
+        >
+          <li>Sign-out</li>
         </ul>
       </CSSTransition>
     </div>

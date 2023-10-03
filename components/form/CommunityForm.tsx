@@ -21,7 +21,7 @@ interface FormData {
   isNsfw: boolean;
 }
 
-export default function Form({
+export default function CommunityForm({
   title,
   theme,
   setIsOpen,
@@ -80,6 +80,10 @@ export default function Form({
         setIsSubmitting(false);
         return setIsAlreadyTaken(data.communityName);
       }
+      if (data.status === 500) {
+        setIsSubmitting(false);
+        return setIsError(true);
+      }
       setIsAlreadyTaken(null);
       setIsSubmitting(false);
       setIsSuccess();
@@ -108,7 +112,7 @@ export default function Form({
 
   return (
     <div
-      className={`flex flex-col gap-medium items-center bg-${theme}1 rounded-extra-small h-[465px]`}
+      className={`flex flex-col text-${theme}80 gap-medium items-center bg-${theme}1 rounded-extra-small h-[465px]`}
     >
       <form
         className={`body flex flex-col gap-sub-large `}
@@ -181,7 +185,9 @@ export default function Form({
             size="small"
             margin=""
             customCSS="brutalism-border border-secondary80"
-            onClick={() => setIsOpen()}
+            onClick={() => {
+              setIsOpen();
+            }}
           >
             Cancel
           </Button>

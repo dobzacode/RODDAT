@@ -11,6 +11,7 @@ export default function UserInfo({}) {
         Your personal Roddat frontpage. Come here to check in with your favorite
         communities.
       </P>
+      <hr className=" border-primary80 border opacity-20"></hr>
       <NewPostModal></NewPostModal>
       <NewCommunityModal></NewCommunityModal>
     </>

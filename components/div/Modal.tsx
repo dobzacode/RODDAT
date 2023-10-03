@@ -11,6 +11,7 @@ interface ModalProps {
   onClose: () => void;
   children: React.ReactNode;
   title: string;
+  titleCSS?: string;
 }
 
 export default function Modal({
@@ -18,6 +19,7 @@ export default function Modal({
   onClose,
   children,
   title,
+  titleCSS,
 }: ModalProps) {
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -47,12 +49,12 @@ export default function Modal({
       classNames="modal"
       unmountOnExit // Retirer le composant de l'arbre DOM lorsque `in` est à `false`
     >
-      <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="fixed inset-0 flex items-center justify-center z-50 ">
         <div className=" absolute inset-0 bg-black opacity-50 modal-container"></div>
         <div className=" bg-secondary1 max-w-1/5 mx-auto shadow-lg z-50 overflow-y-auto brutalism-border border-secondary80 rounded-sub-large p-medium relative">
           <div className="py-4 text-left px-6 flex flex-col gap-sub-large">
             <div className="pb-3">
-              <h2 className="heading">{title}</h2>
+              <h2 className={`heading ${titleCSS}`}>{title}</h2>
               <Button
                 customCSS="absolute top-2 right-4 p-3 m-3"
                 onClick={onClose}

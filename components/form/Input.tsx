@@ -26,7 +26,9 @@ interface InputProps {
   id: string;
   value?: string;
   flex?: string;
-  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
+  onChange?: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+  >;
   placeholder?: string;
   hiddenLabel?: boolean;
   choices?: string[];
@@ -207,9 +209,13 @@ export default function Input({
         <textarea
           className={`${determineColor(
             color
-          )} body placeholder:body p-extra-small  rounded-lg box-border border shadow-inner w-full leading-9`}
+          )} body placeholder:body p-extra-small  rounded-lg box-border border shadow-inner w-full leading-9 h-auto`}
           id={id}
           name={id}
+          rows={3}
+          cols={50}
+          value={value}
+          onChange={onChange}
         >
           {placeholder}
         </textarea>
