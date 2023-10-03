@@ -2,6 +2,8 @@ import NewPostBar from "@/components/home/NewPostBar";
 import HomePosts from "@/components/home/HomePosts";
 
 import UserInfo from "@/components/user/UserInfo";
+import prisma from "@/prisma/client";
+import { Post } from "@prisma/client";
 
 export default async function Home() {
   return (
