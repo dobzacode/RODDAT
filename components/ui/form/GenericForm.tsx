@@ -6,6 +6,7 @@ import Button from "../button/Button";
 import { getSession } from "next-auth/react";
 import { ClipLoader } from "react-spinners";
 import { redirect, useRouter } from "next/navigation";
+import NewCommunityModal from "@/components/community/NewCommunityModal";
 
 interface FormData {
   name?: string;
@@ -104,7 +105,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
               margin=""
               customCSS="brutalism-border border-secondary80"
               onClick={() => setIsOpen()}
-              hover="cancel-hover"
+              hover={`${theme}-hover`}
             >
               Cancel
             </Button>
@@ -115,10 +116,11 @@ const GenericForm: React.FC<GenericFormProps> = ({
             color={theme}
             customCSS={`brutalism-border border-${theme}80`}
             margin=""
-            hover="validate-hover"
+            hover={`${theme}-hover`}
           >
             {title}
           </Button>
+
           <ClipLoader
             loading={isSubmitting}
             className="text-secondary80 ml-small"

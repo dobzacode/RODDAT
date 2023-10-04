@@ -19,7 +19,7 @@ import { handleInputChange } from "@/utils/formUtils/handleInputChange";
 
 interface CommunityFormData {
   name: string;
-  communityType: string;
+  visibility: "Public" | "Restricted" | "Private";
   isNsfw: boolean;
 }
 
@@ -36,7 +36,7 @@ export default function CommunityForm({
 }) {
   const [formData, setFormData] = useState<CommunityFormData>({
     name: "",
-    communityType: "",
+    visibility: "Public",
     isNsfw: false,
   });
 
@@ -50,7 +50,7 @@ export default function CommunityForm({
 
   const handleSubmit = async () => {
     const session = await getSession();
-    const res = await fetch(`/api/community?email=${session?.user?.email}`, {
+    const res = await fetch(`/api/communities?email=${session?.user?.email}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -117,14 +117,14 @@ export default function CommunityForm({
             type="radio"
             hiddenLabel={false}
             color={theme}
-            id="communityType"
+            id="visibility"
             choices={["Public", "Restricted", "Private"]}
             customText={[
               "Anyone can view, post, and comment to this community",
               "Anyone can view this community, but only approved users can post",
               "Only approved users can view and submit to this community",
             ]}
-            value={formData.communityType}
+            value={formData.visibility}
             onChange={handleChange}
           ></Input>
         </div>

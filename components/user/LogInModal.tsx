@@ -22,6 +22,7 @@ export default function LoginModal({}) {
       <Modal title="Login" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <Button
           onClick={() => signIn("google")}
+          hover="secondary-hover"
           customCSS="bg-secondary20 text-secondary80 gap-extra-small sub-heading font-medium rounded-small flex justify-center items-center  brutalism-border px-sub-medium py-small border-secondary80"
         >
           Sign in with Google

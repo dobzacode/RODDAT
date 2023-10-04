@@ -4,6 +4,7 @@ import PopUp from "@/components/ui/div/PopUp";
 import PostForm from "@/components/post/PostForm";
 import H2 from "@/components/ui/text/H2";
 import { useEffect, useState } from "react";
+import NewCommunityModal from "@/components/community/NewCommunityModal";
 
 export default function CreatePost({}) {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);

@@ -25,7 +25,7 @@ export default function NewCommunityModal({}) {
         size="small"
         customCSS="brutalism-border border-primary80"
         margin=""
-        rounded="rounded-small"
+        rounded="rounded-extra-small"
         hover="primary-transparent-hover"
         onClick={() => setIsOpen(true)}
       >

@@ -50,11 +50,18 @@ model User {
   votes        Vote[]
 }
 
+enum Visiblity {
+  PUBLIC
+  RESTRICTED
+  PRIVATE
+}
+
 model Community {
   community_id   String       @id @default(uuid())
   name            String @unique
   description    String? 
   isNsfw Boolean @default(true)
+  visibility Visiblity @default(PUBLIC)
   createdAt DateTime  @default(now())
   admin    CommunityUser[]
   posts          Post[]

@@ -71,6 +71,10 @@
   .primary-hover {
     @apply hover:scale-[102%] duration-medium hover:shadow-primary-medium
   }
+
+  .secondary-hover {
+    @apply hover:scale-[102%] duration-medium hover:shadow-secondary-medium
+  }
 }
 
 @tailwind utilities;

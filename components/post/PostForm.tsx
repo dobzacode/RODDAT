@@ -21,6 +21,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Session } from "next-auth";
 import { cp } from "fs";
+import NewCommunityModal from "../community/NewCommunityModal";
 
 interface PostFormData {
   title: string;
@@ -85,7 +86,19 @@ export default function PostForm({
     }
 
     try {
-      const searchResult = await fetch(`/api/communities?name=${searchValue}`);
+      const session: Session | null = await getSession();
+      const email = session?.user?.email;
+
+      const queryParams = new URLSearchParams();
+      queryParams.append("name", searchValue);
+
+      if (email) {
+        queryParams.append("email", email);
+      }
+
+      const searchResult = await fetch(
+        `/api/communities?${queryParams.toString()}`
+      );
 
       const communities: { communities: Community[]; status: number } =
         await searchResult.json();
@@ -98,11 +111,30 @@ export default function PostForm({
         return setCommunities([`No community is matching`]);
       }
 
-      console.log(communities);
+      // Filtrer les communautés privées non accessibles
+      const filteredCommunities = communities.communities.filter(
+        (community) => {
+          if (community.visibility === "PRIVATE") {
+            // Vérifie si l'utilisateur fait partie de la communauté
+            return userCommunities?.some(
+              (userCommunity) => userCommunity === community.name
+            );
+          }
+          return true; // Si ce n'est pas une communauté privée, l'ajouter
+        }
+      );
 
-      const communityNames: string[] = communities.communities.map(
+      const communityNames: string[] = filteredCommunities.map(
         (community) => community.name
       );
+
+      if (communityNames.length === 0) {
+        setFormData((prevData) => ({
+          ...prevData,
+          community: "",
+        }));
+        return setCommunities([`No community is matching`]);
+      }
 
       setCommunities(communityNames);
 
@@ -110,8 +142,6 @@ export default function PostForm({
         ...prevData,
         community: communityNames[0],
       }));
-
-      console.log(communities);
     } catch (error) {
       console.error(error);
     }
@@ -134,7 +164,10 @@ export default function PostForm({
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     handleInputChange(e, formData, setFormData);
-    console.log(formData);
+    if (e.target.type === "select-one") {
+      setShowCommunity(false);
+      setSearchValue(e.target.value);
+    }
     if (formData.community !== "" && noCommunity) {
       setNoCommunity(false);
     }
@@ -174,7 +207,7 @@ export default function PostForm({
         {/* Incluez les champs spécifiques à CommunityForm ici */}
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Community</H3>
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between ">
             <span onClick={() => setShowCommunity(true)}>
               <Input
                 hiddenLabel={true}
@@ -190,7 +223,7 @@ export default function PostForm({
             )}
             <CSSTransition
               in={showCommunity}
-              timeout={300} // Durée de l'animation en millisecondes
+              timeout={500} // Durée de l'animation en millisecondes
               classNames="fade"
               unmountOnExit
             >

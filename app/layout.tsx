@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="flex flex-col gap-large relative min-h-screen">
+      <body className="flex flex-col gap-sub-large relative min-h-screen">
         {children}
       </body>
     </html>

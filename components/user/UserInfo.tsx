@@ -15,7 +15,7 @@ export default function UserInfo({}) {
       <hr className=" border-primary80 border opacity-20"></hr>
       <Link
         href="/post/create"
-        className="brutalism-border border-primary80 rounded-small button--small text-center bg-primary10 text-primary80 primary-hover"
+        className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"
       >
         Create a post
       </Link>
