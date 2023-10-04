@@ -8,7 +8,7 @@ import { Post } from "@prisma/client";
 export default async function Home() {
   return (
     <main className="flex justify-center flex-wrap gap-medium mx-auto ">
-      <section className="flex flex-col w-fit gap-sub-large">
+      <section className="flex flex-col w-fit gap-sub-large ">
         <NewPostBar></NewPostBar>
 
         <HomePosts></HomePosts>

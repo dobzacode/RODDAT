@@ -13,14 +13,14 @@ import { Post } from "@prisma/client";
 import { getDateDifference } from "@/utils/getDateDifference";
 import getPostInformation from "@/utils/postUtils/getPostInformation";
 
-export default async function PostBar({ post }: { post: Post }) {
+export default async function Post({ post }: { post: Post }) {
   const { votes, author, commentCount } = await getPostInformation(post);
 
   const upvotes = votes.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes.filter((vote) => vote.type === "DOWNVOTE");
 
   return (
-    <section className="flex brutalism-border border-primary80 rounded-small w-auto">
+    <section className="flex brutalism-border border-primary80 rounded-small w-full">
       <div className="flex gap-extra-small flex-col items-center  bg-primary10 rounded-l-small p-small">
         <Icon path={mdiArrowUp} size={1}></Icon>
         <P>{votes ? upvotes.length - downvotes.length : 0}</P>

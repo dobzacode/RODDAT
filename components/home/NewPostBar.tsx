@@ -5,13 +5,13 @@ export default function NewPostBar({}) {
   return (
     <Link
       href="/post/create"
-      className="flex gap-extra-small bg-primary10 p-extra-small brutalism-border border-primary80 rounded-small cursor-pointer w-fit"
+      className="flex gap-extra-small bg-primary10 p-extra-small brutalism-border border-primary80 rounded-small cursor-pointer w-full"
     >
       <div className="bg-white rounded-small p-extra-small">
         <Avatar></Avatar>
       </div>
       <input
-        className="body focus:outline-none bg-white rounded-small px-small placeholder:text-neutral80 cursor-pointer"
+        className="body focus:outline-none bg-white rounded-small px-small placeholder:text-neutral80 cursor-pointer w-full"
         type="text"
         placeholder="New publication"
       />
