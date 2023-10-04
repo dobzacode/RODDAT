@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import { Prisma } from "@prisma/client";
+import { Community, Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -55,6 +55,51 @@ export async function POST(req: NextRequest) {
     }
   } catch (e) {
     const message = "The community can't be added";
+    return NextResponse.json({ message: message, status: 500 });
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    const email = req.nextUrl.searchParams.get("email");
+    const user = email
+      ? await prisma.user.findUnique({ where: { email: email } })
+      : "";
+
+    if (!user) {
+      const message = "User not found";
+      return NextResponse.json({ message: message, status: 404 });
+    }
+
+    try {
+      const communities = await prisma.communityUser.findMany({
+        where: {
+          user_id: user.id,
+          OR: [{ role: "ADMIN" }, { role: "GUEST" }],
+        },
+        include: {
+          community: true,
+        },
+      });
+
+      const userCommunities: Community[] = communities.map(
+        (cu) => cu.community
+      );
+
+      const message = "The user communities has been found";
+      return NextResponse.json({
+        message: message,
+        status: 200,
+        communities: userCommunities,
+      });
+    } catch (error) {
+      // Gérer d'autres erreurs Prisma
+      console.error(error);
+      const message = "An error occured during the user's communities research";
+      return NextResponse.json({ message: message, status: 500 });
+    }
+  } catch (e) {
+    const message = "An error occured during the research";
     return NextResponse.json({ message: message, status: 500 });
   }
 }

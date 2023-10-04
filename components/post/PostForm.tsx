@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Input from "../ui/form/Input";
 import Label from "../ui/form/Label";
 
@@ -16,6 +16,9 @@ import { ClipLoader } from "react-spinners";
 import { CSSTransition } from "react-transition-group";
 import GenericForm from "../ui/form/GenericForm";
 import { handleInputChange } from "@/utils/formUtils/handleInputChange";
+import { Community } from "@prisma/client";
+
+import { Session } from "next-auth";
 
 interface PostFormData {
   title: string;
@@ -33,6 +36,10 @@ export default function PostForm({
 
   setIsSuccess: Function;
 }) {
+  const [communities, setCommunities] = useState<String | String[] | null>(
+    null
+  );
+
   const [formData, setFormData] = useState<PostFormData>({
     title: "",
     content: "",
@@ -41,6 +48,24 @@ export default function PostForm({
 
   const [isNotFound, setIsNotFound] = useState<string | null>(null);
 
+  useEffect(() => {
+    const getUserCommunities = async () => {
+      const session: Session | null = await getSession();
+      const data = await fetch(
+        `/api/communities?email=${session?.user?.email}`
+      );
+      const userCommunities: { communities: Community[] } = await data.json();
+
+      const communityNames: string[] = userCommunities.communities.map(
+        (community) => community.name
+      );
+
+      setCommunities(communityNames);
+      console.log(communityNames);
+    };
+    getUserCommunities();
+  }, []);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -48,7 +73,7 @@ export default function PostForm({
   };
 
   const handleSubmit = async () => {
-    const session = await getSession();
+    const session: Session | null = await getSession();
     const res = await fetch(`/api/posts?email=${session?.user?.email}`, {
       method: "POST",
       headers: {
@@ -56,7 +81,7 @@ export default function PostForm({
       },
       body: JSON.stringify(formData),
     });
-    const data = await res.json();
+    const { data } = await res.json();
 
     if (data.status === 404) {
       setIsNotFound(data.community);
