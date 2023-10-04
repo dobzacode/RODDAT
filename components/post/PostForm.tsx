@@ -17,6 +17,7 @@ import { CSSTransition } from "react-transition-group";
 import GenericForm from "../ui/form/GenericForm";
 import { handleInputChange } from "@/utils/formUtils/handleInputChange";
 import { Community } from "@prisma/client";
+import { v4 as uuidv4 } from "uuid";
 
 import { Session } from "next-auth";
 
@@ -36,7 +37,13 @@ export default function PostForm({
 
   setIsSuccess: Function;
 }) {
-  const [communities, setCommunities] = useState<String | String[] | null>(
+  const [communities, setCommunities] = useState<string[] | null>(null);
+
+  const [searchResults, setSearchResults] = useState<
+    Community[] | Community | null
+  >(null);
+
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
     null
   );
 
@@ -61,15 +68,44 @@ export default function PostForm({
       );
 
       setCommunities(communityNames);
-      console.log(communityNames);
     };
     getUserCommunities();
   }, []);
+
+  const handleSearch = async (searchValue: string) => {
+    if (searchValue.trim() === "") {
+      return;
+    }
+
+    try {
+      const searchResult = await fetch(`/api/communities?name=${searchValue}`);
+      const communities = await searchResult.json();
+      console.log(communities);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleCommunityInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const searchValue = e.target.value;
+    setFormData({ ...formData, community: searchValue });
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+    setSearchTimeout(
+      setTimeout(() => {
+        handleSearch(searchValue);
+      }, 500)
+    );
+  };
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     handleInputChange(e, formData, setFormData);
+    console.log(formData);
   };
 
   const handleSubmit = async () => {
@@ -103,19 +139,32 @@ export default function PostForm({
         {/* Incluez les champs spécifiques à CommunityForm ici */}
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Community</H3>
-          <Input
-            required
-            hiddenLabel={true}
-            color={theme}
-            type="text"
-            flex="flex flex-col gap-small"
-            id="community"
-            value={formData.community}
-            onChange={handleChange}
-          ></Input>
-          {isNotFound && (
-            <p className="text-error40">{`r/${isNotFound} is not found`}</p>
-          )}
+          <div className="flex flex-col gap-extra-small justify-between">
+            <Input
+              required
+              hiddenLabel={true}
+              color={theme}
+              type="text"
+              id="community"
+              value={formData.community}
+              onChange={handleCommunityInputChange} // Utilisez le gestionnaire d'événements spécifique
+            ></Input>
+            {isNotFound && (
+              <p className="text-error40">{`r/${isNotFound} is not found`}</p>
+            )}
+            {communities && (
+              <Input
+                required
+                hiddenLabel={true}
+                color={theme}
+                type="select"
+                id="community"
+                value={formData.community}
+                onChange={handleChange}
+                choices={communities}
+              ></Input>
+            )}
+          </div>
         </div>
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Title</H3>

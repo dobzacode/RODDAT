@@ -10,7 +10,6 @@ export async function POST(req: NextRequest) {
       : "";
 
     if (!user) {
-      // Gérer le cas où l'utilisateur n'a pas été trouvé
       const message = "User not found";
       return NextResponse.json({ message: message, status: 404 });
     }
@@ -24,7 +23,7 @@ export async function POST(req: NextRequest) {
           admin: {
             create: {
               role: "ADMIN",
-              user_id: user.id, // Utilisez l'ID de l'utilisateur trouvé
+              user_id: user.id,
             },
           },
         },
@@ -40,7 +39,6 @@ export async function POST(req: NextRequest) {
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === "P2002"
       ) {
-        // Gérer le cas où le nom de la communauté est en double (violant la contrainte d'unicité)
         const message = "Community name is already taken";
         return NextResponse.json({
           message: message,
@@ -48,7 +46,6 @@ export async function POST(req: NextRequest) {
           status: 400,
         });
       }
-      // Gérer d'autres erreurs Prisma
       console.error(error);
       const message = "An error occured during the creation";
       return NextResponse.json({ message: message, status: 500 });
@@ -62,17 +59,45 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const email = req.nextUrl.searchParams.get("email");
-    const user = email
-      ? await prisma.user.findUnique({ where: { email: email } })
-      : "";
+    const nameParam = req.nextUrl.searchParams.get("name");
 
-    if (!user) {
-      const message = "User not found";
-      return NextResponse.json({ message: message, status: 404 });
+    let communities;
+
+    if (nameParam) {
+      communities = await prisma.community.findMany({
+        where: {
+          name: {
+            startsWith: nameParam,
+          },
+        },
+      });
+
+      if (communities.length === 0) {
+        const message = `No communities matching with ${nameParam} has been found`;
+        return NextResponse.json({
+          message: message,
+          status: 404,
+        });
+      }
+
+      const message = `The communities matching with ${nameParam} has been found`;
+
+      return NextResponse.json({
+        message: message,
+        status: 200,
+        communities: communities,
+      });
     }
 
-    try {
-      const communities = await prisma.communityUser.findMany({
+    if (email) {
+      const user = await prisma.user.findUnique({ where: { email: email } });
+
+      if (!user) {
+        const message = "User not found";
+        return NextResponse.json({ message: message, status: 404 });
+      }
+
+      communities = await prisma.communityUser.findMany({
         where: {
           user_id: user.id,
           OR: [{ role: "ADMIN" }, { role: "GUEST" }],
@@ -87,19 +112,18 @@ export async function GET(req: NextRequest) {
       );
 
       const message = "The user communities has been found";
+
       return NextResponse.json({
         message: message,
         status: 200,
         communities: userCommunities,
       });
-    } catch (error) {
-      // Gérer d'autres erreurs Prisma
-      console.error(error);
-      const message = "An error occured during the user's communities research";
-      return NextResponse.json({ message: message, status: 500 });
+    } else {
+      const message = "Both email and name parameters are missing";
+      return NextResponse.json({ message: message, status: 400 });
     }
   } catch (e) {
-    const message = "An error occured during the research";
+    const message = "An error occurred during the research";
     return NextResponse.json({ message: message, status: 500 });
   }
 }
