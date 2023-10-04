@@ -4,6 +4,8 @@ import { EventHandler } from "react";
 import Label from "./Label";
 import { v4 as uuidv4 } from "uuid";
 import P from "../text/P";
+import Icon from "@mdi/react";
+import { mdiMagnify } from "@mdi/js";
 interface InputProps {
   required?: boolean;
   type:
@@ -13,7 +15,8 @@ interface InputProps {
     | "select"
     | "radio"
     | "textarea"
-    | "checkbox";
+    | "checkbox"
+    | "search";
   color?:
     | "primary"
     | "secondary"
@@ -30,9 +33,12 @@ interface InputProps {
     HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
   >;
   placeholder?: string;
+
   hiddenLabel?: boolean;
   choices?: string[];
   customText?: string[];
+  children?: JSX.Element[] | JSX.Element;
+  loader?: JSX.Element;
 }
 
 interface SelectProps {
@@ -43,6 +49,7 @@ interface SelectProps {
   value?: string;
   placeholder?: string;
   choices: string[];
+  loader?: JSX.Element;
 }
 
 function InputSelect({
@@ -53,31 +60,68 @@ function InputSelect({
   value,
   placeholder,
   choices,
+  loader,
 }: SelectProps) {
   return (
-    <select
-      className={`${determineColor()} body placeholder:body px-extra-small py-[1.1rem] rounded-lg box-border border shadow-inner minimal cursor-pointer`}
-      onChange={onChange}
-      required={required}
-      id={id}
-      name={id}
-      value={value}
-      placeholder={placeholder ? placeholder : ""}
-      aria-label={id}
-    >
-      {placeholder && (
-        <option value="" className="" disabled hidden>
-          {placeholder}
-        </option>
+    <>
+      {!loader ? (
+        <select
+          className={`${determineColor()} body placeholder:body px-extra-small py-[1.1rem] rounded-lg box-border border shadow-inner minimal cursor-pointer`}
+          onChange={onChange}
+          required={required}
+          id={id}
+          name={id}
+          value={value}
+          placeholder={placeholder ? placeholder : ""}
+          aria-label={id}
+        >
+          {placeholder && (
+            <option value="" className="" disabled hidden>
+              {placeholder}
+            </option>
+          )}
+          {choices.map((choice) => {
+            return (
+              <option key={uuidv4()} value={choice}>
+                {choice}
+              </option>
+            );
+          })}
+        </select>
+      ) : (
+        <span
+          className={`${determineColor()}   rounded-lg box-border border shadow-inner flex items-center justify-center relative`}
+        >
+          {loader}
+          <select
+            className={`${determineColor()} body placeholder:body p-extra-small w-full`}
+            onChange={onChange}
+            required={required}
+            id={id}
+            name={id}
+            value={value}
+            placeholder={placeholder ? placeholder : ""}
+            aria-label={id}
+            disabled={
+              choices[0] === "" || choices[0] === "No community is matching"
+            }
+          >
+            {placeholder && (
+              <option value="" className="" disabled hidden>
+                {placeholder}
+              </option>
+            )}
+            {choices.map((choice) => {
+              return (
+                <option key={uuidv4()} value={choice}>
+                  {choice}
+                </option>
+              );
+            })}
+          </select>
+        </span>
       )}
-      {choices.map((choice) => {
-        return (
-          <option key={uuidv4()} value={choice}>
-            {choice}
-          </option>
-        );
-      })}
-    </select>
+    </>
   );
 }
 
@@ -134,6 +178,8 @@ export default function Input({
   hiddenLabel = false,
   choices = [""],
   customText = [""],
+
+  loader,
 }: InputProps) {
   const determineColor = (color: string) => {
     //bg-primary5 placeholder:text-primary90/[.4] text-primary90 border-primary90/[.2] outline-primary90/[.2]
@@ -149,13 +195,9 @@ export default function Input({
 
   return (
     <>
-      {type !== "radio" && (
-        <Label style={`text-${color}90 body`} hidden={hiddenLabel} htmlFor={id}>
-          {id}
-        </Label>
-      )}
       {type === "select" && (
         <InputSelect
+          loader={loader}
           determineColor={() => determineColor(color)}
           onChange={onChange}
           required={required}
@@ -230,6 +272,32 @@ export default function Input({
           onChange={onChange}
         ></input>
       )}
+      {type === "search" && (
+        <div
+          className={`${determineColor(
+            color
+          )}   rounded-lg box-border border shadow-inner flex items-center px-extra-small`}
+        >
+          <Icon path={mdiMagnify} size={2}></Icon>
+          <input
+            className={`${determineColor(
+              color
+            )} body placeholder:body p-extra-small w-full`}
+            required={required}
+            type={type}
+            id={id}
+            name={id}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder ? placeholder : ""}
+          ></input>
+        </div>
+      )}
+      {type !== "radio" ? (
+        <Label style={`text-${color}90 body`} hidden={hiddenLabel} htmlFor={id}>
+          {id}
+        </Label>
+      ) : null}{" "}
     </>
   );
 }
