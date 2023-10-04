@@ -1,4 +1,4 @@
-import PostBar from "./PostBar";
+import PostBar from "../post/PostBar";
 import prisma from "@/prisma/client";
 import { Post } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";

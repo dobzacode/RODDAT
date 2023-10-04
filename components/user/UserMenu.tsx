@@ -10,7 +10,7 @@ import { signOut } from "next-auth/react";
 import NavLink from "../ui/header/NavLink";
 import Link from "next/link";
 
-export default function UserSnippet({ session }: { session: Session }) {
+export default function UserMenu({ session }: { session: Session }) {
   const [isShown, setIsShown] = useState<Boolean>(false);
 
   return (
@@ -34,19 +34,23 @@ export default function UserSnippet({ session }: { session: Session }) {
         classNames="fade"
         unmountOnExit
       >
-        <ul className="text-primary90 fade-enter-done absolute top-12 bg-white gap-small text-body font-medium rounded-b-sub-large flex flex-col items-center px-sub-medium brutalism-border  border-primary80 w-full z-10 pb-small pt-sub-large cursor-pointer">
-          <Link
-            href="/profile"
-            className="opacity-90 hover:scale-[103%] hover:opacity-100"
-          >
-            Profile
-          </Link>
+        <ul
+          onClick={() => setIsShown(false)}
+          className="text-primary90 fade-enter-done absolute top-12 bg-white gap-small text-body font-medium rounded-b-sub-large flex flex-col items-center brutalism-border  border-primary80 w-full z-10 pb-small pt-sub-large cursor-pointer"
+        >
+          <li className="group w-full ">
+            <Link
+              href="/profile"
+              className=" opacity-90 group-hover:scale-[103%] group-hover:opacity-100 mt-extra-small block text-center"
+            >
+              Profile
+            </Link>
+          </li>
           <hr className="border-primary80 border opacity-20 w-full"></hr>
-          <li
-            className="opacity-90 hover:scale-[103%] hover:opacity-100"
-            onClick={() => signOut()}
-          >
-            Sign-out
+          <li onClick={() => signOut()} className="group w-full text-center">
+            <button className="opacity-90 group-hover:scale-[103%] group-hover:opacity-100 w-full">
+              Sign-out
+            </button>
           </li>
         </ul>
       </CSSTransition>

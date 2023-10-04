@@ -11,25 +11,10 @@ import P from "../ui/text/P";
 import prisma from "@/prisma/client";
 import { Post } from "@prisma/client";
 import { getDateDifference } from "@/utils/getDateDifference";
+import getPostInformation from "@/utils/postUtils/getPostInformation";
 
 export default async function PostBar({ post }: { post: Post }) {
-  const author = await prisma.user.findUnique({
-    where: {
-      id: post.author_id,
-    },
-  });
-
-  const commentCount = await prisma.comment.count({
-    where: {
-      post_id: post.post_id,
-    },
-  });
-
-  const votes = await prisma.vote.findMany({
-    where: {
-      post_id: post.post_id,
-    },
-  });
+  const { votes, author, commentCount } = await getPostInformation(post);
 
   const upvotes = votes.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes.filter((vote) => vote.type === "DOWNVOTE");
