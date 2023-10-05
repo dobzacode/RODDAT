@@ -1,5 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import PostBar from "@/components/post/Post";
+import PostBar from "@/components/post/PostBar";
 import getUserPosts from "@/utils/postUtils/getUserPosts";
 
 import { getServerSession } from "next-auth";

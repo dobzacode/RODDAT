@@ -5,7 +5,7 @@ export default function NewPostBar({}) {
   return (
     <Link
       href="/post/create"
-      className="flex gap-extra-small bg-primary10 p-extra-small brutalism-border border-primary80 rounded-small cursor-pointer w-full"
+      className="flex gap-extra-small bg-primary10 p-extra-small brutalism-border border-primary80 rounded-small cursor-pointer w-full primary-hover"
     >
       <div className="bg-white rounded-small p-extra-small">
         <Avatar></Avatar>

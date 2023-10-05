@@ -230,6 +230,7 @@ export default function PostForm({
                 value={searchValue}
                 onChange={handleSearchCommunityChange}
                 ref={communityResearchInputRef}
+                placeholder="Search a community"
               ></Input>
             </span>
             {isNotFound && (
