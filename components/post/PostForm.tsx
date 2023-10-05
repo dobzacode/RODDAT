@@ -2,26 +2,15 @@
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Input from "../ui/form/Input";
-import Label from "../ui/form/Label";
-
-import H1 from "../ui/text/H1";
-
-import Button from "../ui/button/Button";
-import H2 from "../ui/text/H2";
 import H3 from "../ui/text/H3";
-import ColorDiv from "../ui/div/colorDiv";
-import P from "../ui/text/P";
 import { getSession } from "next-auth/react";
-import { BarLoader, ClipLoader, PropagateLoader } from "react-spinners";
+import { BarLoader } from "react-spinners";
 import { CSSTransition } from "react-transition-group";
 import GenericForm from "../ui/form/GenericForm";
 import { handleInputChange } from "@/utils/formUtils/handleInputChange";
 import { Community } from "@prisma/client";
-import { v4 as uuidv4 } from "uuid";
-
 import { Session } from "next-auth";
-import { cp } from "fs";
-import NewCommunityModal from "../community/NewCommunityModal";
+import getUserCommunities from "@/utils/communityUtils/getUserCommunities";
 
 interface PostFormData {
   title: string;
@@ -60,22 +49,17 @@ export default function PostForm({
   const [isNotFound, setIsNotFound] = useState<string | null>(null);
 
   useEffect(() => {
-    const getUserCommunities = async () => {
-      const session: Session | null = await getSession();
-      const data = await fetch(
-        `/api/communities?email=${session?.user?.email}`
-      );
-      const userCommunities: { communities: Community[] } = await data.json();
-
-      const communityNames: string[] = userCommunities.communities.map(
-        (community) => community.name
-      );
-
-      setCommunities(communityNames);
-      setUserCommunities(communityNames);
+    const fetchUserCommunities = async () => {
+      try {
+        setUserCommunities(await getUserCommunities());
+      } catch (e) {
+        console.log(e);
+      }
     };
-    getUserCommunities();
+    fetchUserCommunities();
   }, []);
+
+  console.log(userCommunities);
 
   const handleSearch = async () => {
     if (searchValue.trim() === "") {
@@ -111,16 +95,14 @@ export default function PostForm({
         return setCommunities([`No community is matching`]);
       }
 
-      // Filtrer les communautés privées non accessibles
       const filteredCommunities = communities.communities.filter(
         (community) => {
           if (community.visibility === "PRIVATE") {
-            // Vérifie si l'utilisateur fait partie de la communauté
             return userCommunities?.some(
               (userCommunity) => userCommunity === community.name
             );
           }
-          return true; // Si ce n'est pas une communauté privée, l'ajouter
+          return true;
         }
       );
 
@@ -204,7 +186,6 @@ export default function PostForm({
         onSubmit={handleSubmit}
         setIsSuccess={setIsSuccess}
       >
-        {/* Incluez les champs spécifiques à CommunityForm ici */}
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Community</H3>
           <div className="flex flex-col justify-between ">
