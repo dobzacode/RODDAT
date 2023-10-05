@@ -17,7 +17,7 @@ export default function Avatar({
         alt="profile-picture"
         width={30}
         height={30}
-        className="rounded-full mr-4 ml-3 my-extra-small"
+        className="rounded-full mr-4 my-extra-small"
       ></Image>
     );
   }
