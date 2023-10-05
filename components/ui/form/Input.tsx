@@ -1,6 +1,6 @@
 "use client";
 
-import { EventHandler } from "react";
+import { EventHandler, LegacyRef, Ref, forwardRef } from "react";
 import Label from "./Label";
 import { v4 as uuidv4 } from "uuid";
 import P from "../text/P";
@@ -47,20 +47,23 @@ interface InputProps {
   loader?: JSX.Element;
 }
 
-export default function Input({
-  required,
-  type,
-  id,
-  value,
-  color = "neutral",
-  onChange = () => console.log("empty"),
-  placeholder,
-  hiddenLabel = false,
-  choices = [""],
-  customText = [""],
+const Input = forwardRef(function Input(
+  {
+    required,
+    type,
+    id,
+    value,
+    color = "neutral",
+    onChange = () => console.log("empty"),
+    placeholder,
+    hiddenLabel = false,
+    choices = [""],
+    customText = [""],
 
-  loader,
-}: InputProps) {
+    loader,
+  }: InputProps,
+  ref: Ref<HTMLInputElement>
+) {
   const determineColor = (color: string) => {
     //bg-primary5 placeholder:text-primary90/[.4] text-primary90 border-primary90/[.2] outline-primary90/[.2]
     //bg-secondary5 placeholder:text-secondary90/[.4] text-secondary90 border-secondary90/[.2] outline-secondary90/[.2]
@@ -151,6 +154,7 @@ export default function Input({
           id={id}
           value={value}
           placeholder={placeholder}
+          ref={ref}
         ></InputSearch>
       )}
       {type !== "radio" ? (
@@ -160,4 +164,6 @@ export default function Input({
       ) : null}{" "}
     </>
   );
-}
+});
+
+export default Input;

@@ -1,5 +1,6 @@
 import { mdiMagnify } from "@mdi/js";
 import Icon from "@mdi/react";
+import { LegacyRef, Ref, forwardRef } from "react";
 
 interface SearchProps {
   determineColor: Function;
@@ -10,14 +11,17 @@ interface SearchProps {
   placeholder?: string;
 }
 
-export default function InputSearch({
-  determineColor = () => {},
-  onChange,
-  required,
-  id,
-  value,
-  placeholder,
-}: SearchProps) {
+const InputSearch = forwardRef(function InputSearch(
+  {
+    determineColor = () => {},
+    onChange,
+    required,
+    id,
+    value,
+    placeholder,
+  }: SearchProps,
+  ref: LegacyRef<HTMLInputElement>
+) {
   return (
     <div
       className={`${determineColor()}   rounded-lg box-border border shadow-inner flex items-center px-extra-small`}
@@ -32,7 +36,10 @@ export default function InputSearch({
         value={value}
         onChange={onChange}
         placeholder={placeholder ? placeholder : ""}
+        ref={ref}
       ></input>
     </div>
   );
-}
+});
+
+export default InputSearch;

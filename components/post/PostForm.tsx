@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import Input from "../ui/form/Input";
 import H3 from "../ui/text/H3";
 import { getSession } from "next-auth/react";
@@ -48,13 +48,22 @@ export default function PostForm({
 
   const [isNotFound, setIsNotFound] = useState<string | null>(null);
 
+  const communityResearchInputRef = useRef(null);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        showCommunity &&
-        !document.getElementById("community")?.contains(event.target as Node)
-      ) {
-        setShowCommunity(false);
+      if (showCommunity) {
+        const communityInput = document.getElementById("community");
+
+        console.log(event.target);
+        // Vérifiez si l'élément cliqué n'est pas l'input de recherche
+        if (
+          communityInput &&
+          !communityInput.contains(event.target as Node) &&
+          event.target !== communityResearchInputRef.current
+        ) {
+          setShowCommunity(false);
+        }
       }
     };
 
@@ -147,6 +156,11 @@ export default function PostForm({
   const handleSearchCommunityChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue);
+    setCommunities([""]);
+    setFormData((prevData) => ({
+      ...prevData,
+      community: "",
+    }));
     if (searchTimeout) {
       clearTimeout(searchTimeout);
     }
@@ -215,6 +229,7 @@ export default function PostForm({
                 id="communityResearch"
                 value={searchValue}
                 onChange={handleSearchCommunityChange}
+                ref={communityResearchInputRef}
               ></Input>
             </span>
             {isNotFound && (
