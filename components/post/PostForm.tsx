@@ -59,8 +59,6 @@ export default function PostForm({
     fetchUserCommunities();
   }, []);
 
-  console.log(userCommunities);
-
   const handleSearch = async () => {
     if (searchValue.trim() === "") {
       if (userCommunities !== null) {
@@ -159,6 +157,7 @@ export default function PostForm({
     if (formData.community === "") {
       return setNoCommunity(true);
     }
+    console.log(formData);
     const session: Session | null = await getSession();
     const res = await fetch(`/api/posts?email=${session?.user?.email}`, {
       method: "POST",
@@ -167,7 +166,9 @@ export default function PostForm({
       },
       body: JSON.stringify(formData),
     });
-    const { data } = await res.json();
+    const data = await res.json();
+
+    console.log(data);
 
     if (data.status === 404) {
       setIsNotFound(data.community);
