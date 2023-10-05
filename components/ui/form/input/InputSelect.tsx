@@ -50,11 +50,11 @@ export default function InputSelect({
         </select>
       ) : (
         <span
-          className={`${determineColor()}   rounded-lg box-border border shadow-inner flex items-center justify-center relative`}
+          className={`${determineColor()}   rounded-lg box-border border shadow-inner flex items-center justify-center absolute top-16 w-full h-full`}
         >
           {loader}
           <select
-            className={`${determineColor()} body placeholder:body p-extra-small w-full`}
+            className={`${determineColor()} body placeholder:body p-extra-small w-full `}
             onChange={onChange}
             required={required}
             id={id}

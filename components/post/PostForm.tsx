@@ -49,6 +49,23 @@ export default function PostForm({
   const [isNotFound, setIsNotFound] = useState<string | null>(null);
 
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        showCommunity &&
+        !document.getElementById("community")?.contains(event.target as Node)
+      ) {
+        setShowCommunity(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showCommunity]);
+
+  useEffect(() => {
     const fetchUserCommunities = async () => {
       try {
         setUserCommunities(await getUserCommunities());
@@ -189,7 +206,7 @@ export default function PostForm({
       >
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Community</H3>
-          <div className="flex flex-col justify-between ">
+          <div className="flex flex-col justify-between relative">
             <span onClick={() => setShowCommunity(true)}>
               <Input
                 hiddenLabel={true}
