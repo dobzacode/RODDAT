@@ -15,7 +15,10 @@ import getPostInformation from "@/utils/postUtils/getPostInformation";
 import React from "react";
 
 export default async function PostBar({ post }: { post: Post }) {
-  const { votes, author, commentCount } = await getPostInformation(post);
+  const { votes, author, commentCount } =
+    process.env.NODE_ENV === "production"
+      ? await getPostInformation(post)
+      : { votes: [], author: null, commentCount: 0 };
 
   const upvotes = votes.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes.filter((vote) => vote.type === "DOWNVOTE");
