@@ -23,7 +23,7 @@ export default function UserMenu({ session }: { session: Session }) {
         className="bg-white gap-small text-body font-medium rounded-full flex justify-center items-center px-sub-medium brutalism-border py-1 border-primary80 relative z-20"
       >
         <div className="flex items-center">
-          <Avatar></Avatar>
+          <Avatar src={session?.user?.image}></Avatar>
           <p>{session?.user?.name}</p>
         </div>
         <Icon path={mdiArrowDown} size={1.5}></Icon>

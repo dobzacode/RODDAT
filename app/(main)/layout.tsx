@@ -6,7 +6,7 @@ import SearchBar from "@/components/ui/header/SearchBar";
 import Button from "@/components/ui/button/Button";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import UserSnippet from "@/components/user/UserMenu";
+import UserMenu from "@/components/user/UserMenu";
 
 import LoginModal from "@/components/user/LogInModal";
 
@@ -38,7 +38,7 @@ export default async function RootLayout({
       >
         <SearchBar></SearchBar>
         {session ? (
-          <UserSnippet session={session}></UserSnippet>
+          <UserMenu session={session}></UserMenu>
         ) : (
           <LoginModal></LoginModal>
         )}

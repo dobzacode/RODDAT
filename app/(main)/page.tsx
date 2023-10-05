@@ -1,7 +1,7 @@
 import NewPostBar from "@/components/home/NewPostBar";
 import HomePosts from "@/components/home/HomePosts";
 
-import UserInfo from "@/components/user/UserInfo";
+import UserInfo from "@/components/home/UserInfoHome";
 import prisma from "@/prisma/client";
 import { Post } from "@prisma/client";
 
