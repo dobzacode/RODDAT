@@ -7,7 +7,7 @@ export default async function HomePosts({}) {
   const data: Post[] = await prisma.post.findMany();
 
   return (
-    <div className="flex flex-col justify-center items-center gap-sub-large">
+    <div className="flex flex-col justify-center items-center gap-sub-large w-full">
       {data.map((post) => {
         return <PostBar post={post} key={uuidv4()}></PostBar>;
       })}
