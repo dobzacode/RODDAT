@@ -11,10 +11,12 @@ export default async function ProfilePage({}) {
   const { posts } = await getUserPosts(session);
 
   return (
-    <div className="flex flex-col justify-center items-center gap-sub-large w-1/4">
-      {posts.map((post) => {
-        return <PostBar post={post} key={uuidv4()}></PostBar>;
-      })}
+    <div className="flex justify-center">
+      <div className="flex flex-col justify-center items-center gap-sub-large w-1/4">
+        {posts.map((post) => {
+          return <PostBar post={post} key={uuidv4()}></PostBar>;
+        })}
+      </div>
     </div>
   );
 }

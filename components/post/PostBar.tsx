@@ -12,6 +12,7 @@ import prisma from "@/prisma/client";
 import { Post } from "@prisma/client";
 import { getDateDifference } from "@/utils/getDateDifference";
 import getPostInformation from "@/utils/postUtils/getPostInformation";
+import React from "react";
 
 export default async function PostBar({ post }: { post: Post }) {
   const { votes, author, commentCount } = await getPostInformation(post);
