@@ -63,6 +63,7 @@ export default function PostForm({
           event.target !== communityResearchInputRef.current
         ) {
           setShowCommunity(false);
+          setSearchValue(formData.community);
         }
       }
     };
@@ -77,7 +78,9 @@ export default function PostForm({
   useEffect(() => {
     const fetchUserCommunities = async () => {
       try {
-        setUserCommunities(await getUserCommunities());
+        const userCommunities = await getUserCommunities();
+        setUserCommunities(userCommunities);
+        setCommunities(userCommunities);
       } catch (e) {
         console.log(e);
       }
@@ -144,6 +147,8 @@ export default function PostForm({
 
       setCommunities(communityNames);
 
+      console.log(communityNames);
+
       setFormData((prevData) => ({
         ...prevData,
         community: communityNames[0],
@@ -156,6 +161,7 @@ export default function PostForm({
   const handleSearchCommunityChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue);
+    console.log(searchValue);
     setCommunities([""]);
     setFormData((prevData) => ({
       ...prevData,
