@@ -7,7 +7,7 @@ import postMock from "@/mocks/POST_MOCK.json";
 
 export default async function HomePosts({}) {
   const posts: Post[] =
-    process.env.NODE_ENV !== "production"
+    process.env.NODE_ENV === "production"
       ? await prisma.post.findMany()
       : (postMock as any);
 

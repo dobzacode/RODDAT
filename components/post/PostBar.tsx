@@ -24,14 +24,14 @@ export default async function PostBar({ post }: { post: Post }) {
   const downvotes = votes.filter((vote) => vote.type === "DOWNVOTE");
 
   return (
-    <section className="flex brutalism-border border-primary80 rounded-small w-full primary-hover h-fit">
-      <div className="flex gap-extra-small flex-col items-center  bg-primary10 rounded-l-small p-small">
+    <section className="brutalism-border primary-hover flex h-fit w-full rounded-small border-primary80">
+      <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
         <Icon path={mdiArrowUp} size={1}></Icon>
         <P>{votes ? upvotes.length - downvotes.length : 0}</P>
         <Icon path={mdiArrowDown} size={1}></Icon>
       </div>
-      <div className="flex flex-col gap-small p-small w-[92%] ">
-        <div className="flex gap-extra-small caption">
+      <div className="flex w-[92%] flex-col gap-small p-small ">
+        <div className="caption flex gap-extra-small">
           <Avatar size={1}></Avatar>
           <P type="caption">r/nextjs</P>
           <P type="caption">{`Posted by u/${
@@ -39,7 +39,7 @@ export default async function PostBar({ post }: { post: Post }) {
           }`}</P>
           <P type="caption">{getDateDifference(post.createdAt)}</P>
         </div>
-        <div className="flex flex-col gap-extra-small h-fit">
+        <div className="flex h-fit flex-col gap-extra-small">
           <H2 type="sub-heading">{post.title}</H2>
           <P customCSS="break-words">{post.content}</P>
         </div>
