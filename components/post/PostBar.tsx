@@ -10,7 +10,7 @@ import H2 from "../ui/text/H2";
 import P from "../ui/text/P";
 import prisma from "@/prisma/client";
 import { Post } from "@prisma/client";
-import { getDateDifference } from "@/utils/getDateDifference";
+import { getDateDifference } from "@/utils/utils";
 import getPostInformation from "@/utils/postUtils/getPostInformation";
 import React from "react";
 

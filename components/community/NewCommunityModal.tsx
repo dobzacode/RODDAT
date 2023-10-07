@@ -23,10 +23,11 @@ export default function NewCommunityModal({}) {
     <>
       <Button
         size="small"
-        customCSS="brutalism-border border-primary80"
-        margin=""
-        rounded="rounded-extra-small"
-        hover="primary-transparent-hover"
+        intent="primary"
+        modifier="brutalism"
+        transparent={true}
+        hover={true}
+        rounded="small"
         onClick={() => setIsOpen(true)}
       >
         Create a community

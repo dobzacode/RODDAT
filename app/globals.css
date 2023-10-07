@@ -5,75 +5,55 @@
 
 @layer components {
   .heading--extra-large {
-    @apply text-heading-extra-large leading-heading-extra-large font-bold;
+    @apply text-heading-extra-large font-bold leading-heading-extra-large;
   }
 
   .heading--large {
-    @apply text-heading-large leading-heading-large font-bold;
+    @apply text-heading-large font-bold leading-heading-large;
   }
 
   .heading--sub-large {
-    @apply text-heading-sub-large leading-heading-sub-large font-medium;
+    @apply text-heading-sub-large font-medium leading-heading-sub-large;
   }
 
   .heading {
-    @apply text-heading leading-heading font-medium;
+    @apply text-heading font-medium leading-heading;
   }
 
   .sub-heading {
-    @apply text-sub-heading leading-sub-heading font-normal;
+    @apply text-sub-heading font-normal leading-sub-heading;
   }
 
   .body {
-    @apply text-body leading-body font-normal;
+    @apply text-body font-normal leading-body;
   }
 
   .caption {
-    @apply text-caption leading-caption font-normal;
-  }
-
-  .button--primary {
-    @apply text-primary1 bg-primary40;
-  }
-
-  .button--large {
-    @apply py-sub-large px-large heading--sub-large;
-  }
-
-  .button--medium {
-    @apply py-sub-medium px-sub-large heading;
-  }
-
-  .button--small {
-    @apply py-small px-sub-large text-body leading-body font-medium;
-  }
-
-  .button--clay {
-    @apply py-sub-medium px-[4.8rem] heading font-semibold;
+    @apply text-caption font-normal leading-caption;
   }
 
   .brutalism-border {
-    @apply border-b-4 border-r-4 border-t border-l;
+    @apply border-b-4 border-l border-r-4 border-t;
   }
 
   .cancel-hover {
-    @apply  hover:border-transparent hover:bg-error40 hover:text-error1 hover:shadow-inner duration-medium
+    @apply duration-medium hover:border-transparent hover:bg-error40 hover:text-error1 hover:shadow-inner;
   }
 
   .validate-hover {
-    @apply  hover:border-transparent hover:bg-success40 hover:text-success1 hover:shadow-inner duration-medium
+    @apply duration-medium hover:border-transparent hover:bg-success40 hover:text-success1 hover:shadow-inner;
   }
 
   .primary-transparent-hover {
-    @apply hover:scale-[102%] duration-fast hover:shadow-primary-medium
+    @apply duration-fast hover:scale-[102%] hover:shadow-primary-medium;
   }
 
   .primary-hover {
-    @apply hover:scale-[102%] duration-fast hover:shadow-primary-medium
+    @apply duration-fast hover:scale-[102%] hover:shadow-primary-medium;
   }
 
   .secondary-hover {
-    @apply hover:scale-[102%] duration-fast hover:shadow-secondary-medium
+    @apply duration-fast hover:scale-[102%] hover:shadow-secondary-medium;
   }
 }
 
@@ -81,8 +61,8 @@
 
 :root {
   --primary-color: theme("colors.primary40");
-  --secondary-color: theme("colors.secondary40")
-  color: theme("colors.neutral80");
+  --secondary-color: theme("colors.secondary40") color:
+    theme("colors.neutral80");
 }
 
 *,
@@ -119,14 +99,12 @@ input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
-  -webkit-appearance:none;
-
+  -webkit-appearance: none;
 }
 
 input[type="search"]:focus {
   outline: none;
 }
-
 
 .toggle-switch {
   display: inline-block;
@@ -139,7 +117,8 @@ input[type="search"]:focus {
   transition: background 0.25s;
 }
 
-.toggle-switch:before, .toggle-switch:after {
+.toggle-switch:before,
+.toggle-switch:after {
   content: "";
 }
 
@@ -232,7 +211,9 @@ input[type="search"]:focus {
 .popup-enter-active {
   opacity: 1;
   transform: translateY(0%);
-  transition: opacity 1500ms, transform 1500ms;
+  transition:
+    opacity 1500ms,
+    transform 1500ms;
 }
 
 /* CSS pour la classe "popup-exit" lorsque le popup disparaît */
@@ -245,9 +226,10 @@ input[type="search"]:focus {
 .popup-exit-active {
   opacity: 0;
   transform: translateY(-500%);
-  transition: opacity 7000ms, transform 10000ms;
+  transition:
+    opacity 7000ms,
+    transform 10000ms;
 }
-
 
 .text--opacity-enter {
   opacity: 0;
@@ -268,5 +250,3 @@ input[type="search"]:focus {
 
   transition: opacity 600ms;
 }
-
-

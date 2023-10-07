@@ -85,7 +85,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
 
   return (
     <div
-      className={`flex flex-col gap-medium items-center text-${theme}80 bg-${theme}1 rounded-extra-small h-auto `}
+      className={`flex flex-col items-center gap-medium text-${theme}80 bg-${theme}1 h-auto rounded-extra-small `}
     >
       <form
         className={`body flex flex-col gap-sub-large`}
@@ -97,15 +97,17 @@ const GenericForm: React.FC<GenericFormProps> = ({
         {isError && (
           <p className="text-error40">Something went wrong, try again</p>
         )}
-        <div className="flex gap-small mt-small items-center">
+        <div className="mt-small flex items-center gap-small">
           {setIsOpen && (
             <Button
               type="button"
               size="small"
-              margin=""
-              customCSS="brutalism-border border-secondary80"
+              modifier="brutalism"
+              intent={theme}
+              rounded="small"
               onClick={() => setIsOpen()}
-              hover={`${theme}-hover`}
+              hover={true}
+              transparent={true}
             >
               Cancel
             </Button>
@@ -113,17 +115,17 @@ const GenericForm: React.FC<GenericFormProps> = ({
           <Button
             type="submit"
             size="small"
-            color={theme}
-            customCSS={`brutalism-border border-${theme}80`}
-            margin=""
-            hover={`${theme}-hover`}
+            intent={theme}
+            modifier="brutalism"
+            rounded="small"
+            hover={true}
           >
             {title}
           </Button>
 
           <ClipLoader
             loading={isSubmitting}
-            className="text-secondary80 ml-small"
+            className="ml-small text-secondary80"
           />
         </div>
       </form>
