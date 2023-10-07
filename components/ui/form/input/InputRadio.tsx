@@ -12,25 +12,23 @@ interface RadioProps
 }
 
 const InputRadio: FC<RadioProps> = forwardRef<HTMLInputElement, RadioProps>(
-  ({ className, id, choice, ...props }, ref) => {
+  ({ className, value, choice, name, onChange }, ref) => {
     return (
       <div className="flex items-center gap-extra-small">
         <input
           className={`${className}`}
           type="radio"
           id={choice}
-          name={id}
           value={choice}
-          checked={props.value === choice}
-          {...props}
+          checked={value === choice}
+          name={name}
+          onChange={onChange}
         ></input>
         <Label
-          className="text-90 body font-medium"
+          className="body font-medium text-secondary90"
           isHidden={false}
           htmlFor={choice}
-        >
-          {choice}
-        </Label>
+        ></Label>
       </div>
     );
   },

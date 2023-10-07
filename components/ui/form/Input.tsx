@@ -14,9 +14,7 @@ import {
 import Label from "./Label";
 import { v4 as uuidv4 } from "uuid";
 import P from "../text/P";
-import Icon from "@mdi/react";
-import { mdiMagnify } from "@mdi/js";
-import InputSelect from "./input/Select";
+
 import InputRadio from "./input/InputRadio";
 import InputTextArea from "./input/InputTextArea";
 import InputCheckbox from "./input/InputCheckbox";
@@ -24,7 +22,7 @@ import InputSearch from "./input/InputSearch";
 import InputText from "./input/InputText";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/utils/utils";
-import Select from "./input/Select";
+import Select from "./input/InputSelect";
 
 const inputVariants = cva("", {
   variants: {
@@ -62,42 +60,8 @@ interface InputProps
     | SelectHTMLAttributes<HTMLSelectElement>["onChange"]
     | InputHTMLAttributes<HTMLInputElement>["onChange"]
     | TextareaHTMLAttributes<HTMLTextAreaElement>["onChange"];
+  ref?: Ref<HTMLInputElement>;
 }
-
-// interface InputProps {
-//   required?: boolean;
-//   type:
-//     | "text"
-//     | "email"
-//     | "password"
-//     | "select"
-//     | "radio"
-//     | "textarea"
-//     | "checkbox"
-//     | "search";
-//   color?:
-//     | "primary"
-//     | "secondary"
-//     | "tertiary"
-//     | "neutral"
-//     | "error"
-//     | "warning"
-//     | "success"
-//     | "info";
-//   id: string;
-//   value?: string;
-//   flex?: string;
-//   onChange?: React.ChangeEventHandler<
-//     HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-//   >;
-//   placeholder?: string;
-
-//   hiddenLabel?: boolean;
-//   choices?: string[];
-//   customText?: string[];
-//   children?: JSX.Element[] | JSX.Element;
-//   loader?: JSX.Element;
-// }
 
 const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -111,7 +75,7 @@ const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
       loader,
       children,
       onChange,
-      id,
+
       ...props
     },
     ref,
@@ -128,6 +92,7 @@ const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
             )}
             loader={loader}
             choices={choices}
+            onChange={onChange as ChangeEventHandler<HTMLSelectElement>}
             {...props}
           />
         )}
@@ -139,6 +104,7 @@ const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
                 intent,
               }),
             )}
+            onChange={onChange as ChangeEventHandler<HTMLInputElement>}
             {...props}
           ></InputText>
         ) : (
@@ -156,8 +122,10 @@ const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
                         intent,
                       }),
                     )}
-                    choice={choice[index]}
-                    {...props}
+                    choice={choice}
+                    name={props.id}
+                    value={props.value}
+                    onChange={onChange as ChangeEventHandler<HTMLInputElement>}
                   />
                   {customText[index] && (
                     <P textColor="text-secondary30 caption">
@@ -177,21 +145,37 @@ const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
                 intent,
               }),
             )}
+            onChange={onChange as ChangeEventHandler<HTMLTextAreaElement>}
             {...props}
           >
             {props.placeholder}
           </InputTextArea>
         )}
-        {type === "checkbox" && <InputCheckbox {...props}></InputCheckbox>}
-        {type === "search" && <InputSearch ref={ref} {...props}></InputSearch>}
+        {type === "checkbox" && (
+          <InputCheckbox
+            onChange={onChange as ChangeEventHandler<HTMLInputElement>}
+            {...props}
+          ></InputCheckbox>
+        )}
+        {type === "search" && (
+          <InputSearch
+            onChange={onChange as ChangeEventHandler<HTMLInputElement>}
+            className={cn(
+              inputVariants({
+                className,
+                intent,
+              }),
+            )}
+            ref={ref}
+            {...props}
+          ></InputSearch>
+        )}
         {type !== "radio" ? (
           <Label
             className="text-90 body font-medium"
-            isHidden={false}
-            htmlFor={id}
-          >
-            {id}
-          </Label>
+            isHidden={true}
+            htmlFor={props.id}
+          ></Label>
         ) : null}{" "}
       </>
     );

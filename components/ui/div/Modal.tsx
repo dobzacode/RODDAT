@@ -49,14 +49,14 @@ export default function Modal({
       classNames="modal"
       unmountOnExit // Retirer le composant de l'arbre DOM lorsque `in` est à `false`
     >
-      <div className="fixed inset-0 flex items-center justify-center z-50 ">
-        <div className=" absolute inset-0 bg-black opacity-50 modal-container"></div>
-        <div className=" bg-secondary1 max-w-1/5 mx-auto shadow-lg z-50 overflow-y-auto brutalism-border border-secondary80 rounded-sub-large p-medium relative">
-          <div className="py-4 text-left px-6 flex flex-col gap-sub-large">
+      <div className="fixed inset-0 z-50 flex items-center justify-center ">
+        <div className=" modal-container absolute inset-0 bg-black opacity-50"></div>
+        <div className=" max-w-1/5 brutalism-border relative z-50 mx-auto overflow-y-auto rounded-sub-large border-secondary80 bg-secondary1 p-medium shadow-lg">
+          <div className="flex flex-col gap-sub-large px-6 py-4 text-left">
             <div className="pb-3">
               <h2 className={`heading ${titleCSS}`}>{title}</h2>
               <Button
-                customCSS="absolute top-2 right-4 p-3 m-3"
+                className="absolute right-4 top-2 m-3 p-3 text-secondary80"
                 onClick={onClose}
               >
                 <Icon size={2} path={mdiClose}></Icon>

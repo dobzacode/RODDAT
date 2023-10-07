@@ -54,8 +54,7 @@ export default function PostForm({
     const handleClickOutside = (event: MouseEvent) => {
       if (showCommunity) {
         const communityInput = document.getElementById("community");
-
-        console.log(event.target);
+        console.log(communityInput);
         // Vérifiez si l'élément cliqué n'est pas l'input de recherche
         if (
           communityInput &&
@@ -227,10 +226,10 @@ export default function PostForm({
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Community</H3>
           <div className="relative flex flex-col justify-between">
-            <span onClick={() => setShowCommunity(true)}>
+            <span onClick={() => !showCommunity && setShowCommunity(true)}>
               <Input
                 hiddenLabel={true}
-                color={theme}
+                intent={theme}
                 type="search"
                 id="communityResearch"
                 value={searchValue}
@@ -257,7 +256,7 @@ export default function PostForm({
                 }
                 required
                 hiddenLabel={true}
-                color={theme}
+                intent={theme}
                 type="select"
                 id="community"
                 value={formData.community}
@@ -275,9 +274,9 @@ export default function PostForm({
           <Input
             required
             hiddenLabel={true}
-            color={theme}
+            intent={theme}
             type="text"
-            flex="flex flex-col gap-small"
+            className="flex flex-col gap-small"
             id="title"
             value={formData.title}
             onChange={handleChange}
@@ -289,7 +288,7 @@ export default function PostForm({
             required
             type="textarea"
             hiddenLabel={true}
-            color={theme}
+            intent={theme}
             id="content"
             value={formData.content}
             onChange={handleChange}

@@ -18,6 +18,7 @@ const InputTextArea: FC<TextAreaProps> = ({
         className,
       )}
       name={id}
+      id={id}
       rows={3}
       cols={50}
       {...props}

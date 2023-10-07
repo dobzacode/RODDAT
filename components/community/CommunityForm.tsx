@@ -43,7 +43,7 @@ export default function CommunityForm({
   const [isAlreadyTaken, setIsAlreadyTaken] = useState<string | null>(null);
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     handleInputChange(e, formData, setFormData);
   };
@@ -68,22 +68,9 @@ export default function CommunityForm({
     return data;
   };
 
-  //bg-primary5
-  //bg-secondary5
-  //bg-tertiary5
-  //bg-neutral5
-  //text-primary1
-  //text-secondary1
-  //text-tertiary1
-  //text-neutral1
-  //border-primary10
-  //border-secondary10
-  //border-tertiary10
-  //border-neutral10
-
   return (
     <div
-      className={`flex flex-col text-${theme}80 gap-medium items-center bg-${theme}1 rounded-extra-small h-auto`}
+      className={`flex flex-col text-${theme}80 items-center gap-medium bg-${theme}1 h-auto rounded-extra-small`}
     >
       <GenericForm
         theme={theme}
@@ -101,7 +88,7 @@ export default function CommunityForm({
             placeholder="r/"
             color={theme}
             type="text"
-            flex="flex flex-col gap-small"
+            className="flex flex-col gap-small"
             id="name"
             value={formData.name}
             onChange={handleChange}
@@ -116,7 +103,7 @@ export default function CommunityForm({
             required
             type="radio"
             hiddenLabel={false}
-            color={theme}
+            intent={theme}
             id="visibility"
             choices={["Public", "Restricted", "Private"]}
             customText={[

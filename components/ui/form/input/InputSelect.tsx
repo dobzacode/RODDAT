@@ -17,7 +17,7 @@ interface SelectProps
   loader?: JSX.Element;
 }
 
-const Select: FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
+const InputSelect: FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
   ({ className, choices, loader, id, placeholder, ...props }, ref) => {
     return (
       <>
@@ -85,6 +85,6 @@ const Select: FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
   },
 );
 
-Select.displayName = "Select";
+InputSelect.displayName = "Select";
 
-export default Select;
+export default InputSelect;

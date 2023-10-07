@@ -16,6 +16,7 @@ const InputText: FC<TextProps> = forwardRef<HTMLInputElement, TextProps>(
           className,
         )}
         name={id}
+        id={id}
         {...props}
       ></input>
     );

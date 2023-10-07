@@ -12,7 +12,7 @@ const labelVariants = cva("", {
 interface LabelProps
   extends LabelHTMLAttributes<HTMLLabelElement>,
     VariantProps<typeof labelVariants> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Label: FC<LabelProps> = ({ className, isHidden, children, ...props }) => {
@@ -26,7 +26,7 @@ const Label: FC<LabelProps> = ({ className, isHidden, children, ...props }) => {
       )}
       {...props}
     >
-      {children}
+      {props.htmlFor}
     </label>
   );
 };
