@@ -33,7 +33,7 @@ export default function PostForm({
   const [searchValue, setSearchValue] = useState<string>("");
 
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
-    null
+    null,
   );
   const [showCommunity, setShowCommunity] = useState<boolean>(false);
   const [userCommunities, setUserCommunities] = useState<string[] | null>(null);
@@ -108,7 +108,7 @@ export default function PostForm({
       }
 
       const searchResult = await fetch(
-        `/api/communities?${queryParams.toString()}`
+        `/api/communities?${queryParams.toString()}`,
       );
 
       const communities: { communities: Community[]; status: number } =
@@ -126,15 +126,15 @@ export default function PostForm({
         (community) => {
           if (community.visibility === "PRIVATE") {
             return userCommunities?.some(
-              (userCommunity) => userCommunity === community.name
+              (userCommunity) => userCommunity === community.name,
             );
           }
           return true;
-        }
+        },
       );
 
       const communityNames: string[] = filteredCommunities.map(
-        (community) => community.name
+        (community) => community.name,
       );
 
       if (communityNames.length === 0) {
@@ -173,12 +173,12 @@ export default function PostForm({
     setSearchTimeout(
       setTimeout(() => {
         handleSearch();
-      }, 500)
+      }, 500),
     );
   };
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     handleInputChange(e, formData, setFormData);
     if (e.target.type === "select-one") {
@@ -216,7 +216,7 @@ export default function PostForm({
   };
 
   return (
-    <div className=" p-sub-large rounded-sub-large">
+    <div className=" rounded-sub-large p-sub-large">
       <GenericForm
         theme={theme}
         title={title}
@@ -226,7 +226,7 @@ export default function PostForm({
       >
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Community</H3>
-          <div className="flex flex-col justify-between relative">
+          <div className="relative flex flex-col justify-between">
             <span onClick={() => setShowCommunity(true)}>
               <Input
                 hiddenLabel={true}
