@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FC, FormEvent, HTMLProps, useState } from "react";
 import Input from "../ui/form/Input";
 import Label from "../ui/form/Label";
 
@@ -23,17 +23,19 @@ interface CommunityFormData {
   isNsfw: boolean;
 }
 
-export default function CommunityForm({
-  title,
-  theme,
-  setIsOpen,
-  setIsSuccess,
-}: {
+interface CommunityFormProps extends HTMLProps<HTMLElement> {
   title: string;
   theme: "primary" | "secondary" | "tertiary" | "neutral";
   setIsOpen: Function;
   setIsSuccess: Function;
-}) {
+}
+
+const CommunityForm: FC<CommunityFormProps> = ({
+  title,
+  theme,
+  setIsOpen,
+  setIsSuccess,
+}) => {
   const [formData, setFormData] = useState<CommunityFormData>({
     name: "",
     visibility: "Public",
@@ -141,4 +143,6 @@ export default function CommunityForm({
       </GenericForm>
     </div>
   );
-}
+};
+
+export default CommunityForm;

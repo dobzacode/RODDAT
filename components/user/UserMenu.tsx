@@ -1,26 +1,30 @@
 "use client";
 
-import { Session } from "next-auth";
+import { Session, User } from "next-auth";
 import Avatar from "../ui/Avatar";
 import Icon from "@mdi/react";
 import { mdiArrowDown } from "@mdi/js";
-import { useState } from "react";
+import { FC, HTMLProps, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { signOut } from "next-auth/react";
 import NavLink from "../ui/header/NavLink";
 import Link from "next/link";
 
-export default function UserMenu({ session }: { session: Session }) {
+interface UserMenuProps extends HTMLProps<HTMLElement> {
+  session: Session;
+}
+
+const UserMenu: FC<UserMenuProps> = ({ session }) => {
   const [isShown, setIsShown] = useState<Boolean>(false);
 
   return (
-    <div className="flex flex-col relative">
+    <div className="relative flex flex-col">
       <button
         onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
           e.stopPropagation();
           setIsShown(!isShown);
         }}
-        className="bg-white gap-small text-body font-medium rounded-full flex justify-center items-center px-sub-medium brutalism-border py-1 border-primary80 relative z-20"
+        className="brutalism-border relative z-20 flex items-center justify-center gap-small rounded-full border-primary80 bg-white px-sub-medium py-1 text-body font-medium"
       >
         <div className="flex items-center">
           <Avatar src={session?.user?.image}></Avatar>
@@ -36,19 +40,19 @@ export default function UserMenu({ session }: { session: Session }) {
       >
         <ul
           onClick={() => setIsShown(false)}
-          className="text-primary90 fade-enter-done absolute top-12 bg-white gap-small text-body font-medium rounded-b-sub-large flex flex-col items-center brutalism-border  border-primary80 w-full z-10 pb-small pt-sub-large cursor-pointer"
+          className="fade-enter-done brutalism-border absolute top-12 z-10 flex w-full cursor-pointer flex-col items-center gap-small rounded-b-sub-large border-primary80  bg-white pb-small pt-sub-large text-body font-medium text-primary90"
         >
           <li className="group w-full ">
             <Link
               href="/profile"
-              className=" opacity-90 group-hover:scale-[103%] group-hover:opacity-100 mt-extra-small block text-center"
+              className=" mt-extra-small block text-center opacity-90 group-hover:scale-[103%] group-hover:opacity-100"
             >
               Profile
             </Link>
           </li>
-          <hr className="border-primary80 border opacity-20 w-full"></hr>
+          <hr className="w-full border border-primary80 opacity-20"></hr>
           <li onClick={() => signOut()} className="group w-full text-center">
-            <button className="opacity-90 group-hover:scale-[103%] group-hover:opacity-100 w-full">
+            <button className="w-full opacity-90 group-hover:scale-[103%] group-hover:opacity-100">
               Sign-out
             </button>
           </li>
@@ -56,4 +60,6 @@ export default function UserMenu({ session }: { session: Session }) {
       </CSSTransition>
     </div>
   );
-}
+};
+
+export default UserMenu;

@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { FC, HTMLProps, useState } from "react";
 import Icon from "@mdi/react";
 import { mdiMenu } from "@mdi/js";
+import { cn } from "@/utils/utils";
 
-interface NavProps {
+interface NavProps extends HTMLProps<HTMLElement> {
   children: React.ReactNode;
   logo?: JSX.Element;
   navStyle?: string;
@@ -12,14 +13,14 @@ interface NavProps {
   height: string;
 }
 
-export default function MobileNav({
+const MobileNav: FC<NavProps> = ({
   logo,
   navStyle = "",
   navLinkStyle = "",
   children,
   modalStyle,
   height,
-}: NavProps) {
+}: NavProps) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
@@ -29,12 +30,17 @@ export default function MobileNav({
         <Icon path={mdiMenu} size={3.5}></Icon>
       </button>
       <div
-        className={`${modalStyle} absolute z-10 ${
-          showMenu ? "left-0" : "-left-[768px] "
-        } top-${height.slice(2)}`}
+        className={cn(
+          modalStyle,
+          "absolute z-10",
+          showMenu ? "left-0" : "-left-[768px] ",
+          `top-${height.slice(2)}`,
+        )}
       >
         <ul className={`${navLinkStyle}`}>{children}</ul>
       </div>
     </nav>
   );
-}
+};
+
+export default MobileNav;

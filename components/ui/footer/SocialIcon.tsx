@@ -1,16 +1,24 @@
 import Icon from "@mdi/react";
-import Link from "next/link";
+import { IconProps } from "@mdi/react/dist/IconProps";
+import Link, { LinkProps } from "next/link";
+import { FC } from "react";
 
-interface SocialIconProps {
+interface SocialIconProps extends LinkProps<IconProps> {
   mdiPath: string;
-  linkTo: string;
+
   size: number;
 }
 
-export default function SocialIcon({ mdiPath, linkTo, size }: SocialIconProps) {
+const SocialIcon: FC<SocialIconProps> = ({
+  mdiPath,
+  href,
+  size,
+}: SocialIconProps) => {
   return (
-    <Link href={linkTo}>
+    <Link href={href}>
       <Icon path={mdiPath} size={size} className="text-white"></Icon>
     </Link>
   );
-}
+};
+
+export default SocialIcon;

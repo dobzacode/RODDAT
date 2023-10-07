@@ -3,9 +3,10 @@
 
 import { mdiMagnify } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useState } from "react";
+import { FC, useState } from "react";
+import Button from "../button/Button";
 
-export default function SearchBar() {
+const SearchBar: FC = () => {
   const [query, setQuery] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,10 +16,10 @@ export default function SearchBar() {
   const handleSearch = () => {};
 
   return (
-    <div className="heading flex gap-extra-small bg-neutral1 rounded-large  p-extra-small brutalism-border border-primary80 absolute h-fit m-auto left-0 right-0 w-fit">
-      <button onClick={handleSearch}>
+    <div className="heading brutalism-border absolute left-0 right-0  m-auto flex h-fit w-fit gap-extra-small rounded-large border-primary80 bg-neutral1 p-extra-small">
+      <Button onClick={handleSearch}>
         <Icon path={mdiMagnify} size={2}></Icon>
-      </button>
+      </Button>
       <input
         className="body focus:outline-none "
         type="text"
@@ -28,4 +29,6 @@ export default function SearchBar() {
       />
     </div>
   );
-}
+};
+
+export default SearchBar;

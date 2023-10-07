@@ -1,15 +1,28 @@
-interface H2Props {
-  children: any;
+import { cn } from "@/utils/utils";
+import { FC, HTMLProps } from "react";
+
+interface H2Props extends HTMLProps<HTMLHeadingElement> {
+  children: string | JSX.Element;
   type: string;
   textColor?: string;
   bgColor?: string;
+  padding?: string;
+  rounded?: string;
 }
 
-export default function H2({
+const H2: FC<H2Props> = ({
   children,
   type,
   textColor = "",
   bgColor = "",
-}: H2Props) {
-  return <h2 className={`${type} ${textColor} ${bgColor} `}>{children}</h2>;
-}
+  padding = "",
+  rounded = "",
+}) => {
+  return (
+    <h2 className={cn(type, textColor, bgColor, padding, rounded)}>
+      {children}
+    </h2>
+  );
+};
+
+export default H2;

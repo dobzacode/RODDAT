@@ -1,4 +1,7 @@
-interface H1Props {
+import { cn } from "@/utils/utils";
+import { FC, HTMLProps } from "react";
+
+interface H1Props extends HTMLProps<HTMLHeadingElement> {
   children: string | JSX.Element;
   type: string;
   textColor?: string;
@@ -7,17 +10,19 @@ interface H1Props {
   rounded?: string;
 }
 
-export default function H1({
+const H1: FC<H1Props> = ({
   children,
   type,
   textColor = "",
   bgColor = "",
   padding = "",
   rounded = "",
-}: H1Props) {
+}) => {
   return (
-    <h1 className={`${type} ${textColor} ${bgColor} ${padding} ${rounded}`}>
+    <h1 className={cn(type, textColor, bgColor, padding, rounded)}>
       {children}
     </h1>
   );
-}
+};
+
+export default H1;

@@ -12,9 +12,13 @@ import prisma from "@/prisma/client";
 import { Post } from "@prisma/client";
 import { getDateDifference } from "@/utils/utils";
 import getPostInformation from "@/utils/postUtils/getPostInformation";
-import React from "react";
+import React, { FC, HTMLProps } from "react";
 
-export default async function PostBar({ post }: { post: Post }) {
+interface PostBarProps extends HTMLProps<HTMLElement> {
+  post: Post;
+}
+
+export default async function PostBar({ post }: PostBarProps) {
   const { votes, author, commentCount } =
     process.env.NODE_ENV === "production"
       ? await getPostInformation(post)
@@ -41,7 +45,7 @@ export default async function PostBar({ post }: { post: Post }) {
         </div>
         <div className="flex h-fit flex-col gap-extra-small">
           <H2 type="sub-heading">{post.title}</H2>
-          <P customCSS="break-words">{post.content}</P>
+          <P className="break-words">{post.content}</P>
         </div>
         <div className="flex gap-small">
           <div className="flex gap-extra-small">

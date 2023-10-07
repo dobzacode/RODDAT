@@ -1,11 +1,12 @@
+import { FC, HTMLProps } from "react";
 import { CSSTransition } from "react-transition-group";
 
-type PopUpProps = {
+interface PopUpProps extends HTMLProps<HTMLElement> {
   children: JSX.Element;
   isSuccess: boolean;
-};
+}
 
-export default function PopUp({ children, isSuccess }: PopUpProps) {
+const PopUp: FC<PopUpProps> = ({ children, isSuccess }) => {
   return (
     <CSSTransition
       in={isSuccess as boolean}
@@ -13,13 +14,15 @@ export default function PopUp({ children, isSuccess }: PopUpProps) {
       classNames="popup"
       unmountOnExit // Retirer le composant de l'arbre DOM lorsque `in` est à `false`
     >
-      <div className="fixed bottom-10 right-10 flex items-center justify-center z-50">
-        <div className=" bg-success1 w-auto mx-auto shadow-lg z-50 overflow-y-auto brutalism-border border-success80 rounded-sub-large p-medium relative">
-          <div className="py-4 text-left px-6 flex flex-col gap-sub-large">
+      <div className="fixed bottom-10 right-10 z-50 flex items-center justify-center">
+        <div className=" brutalism-border relative z-50 mx-auto w-auto overflow-y-auto rounded-sub-large border-success80 bg-success1 p-medium shadow-lg">
+          <div className="flex flex-col gap-sub-large px-6 py-4 text-left">
             {children}
           </div>
         </div>
       </div>
     </CSSTransition>
   );
-}
+};
+
+export default PopUp;

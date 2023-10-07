@@ -1,6 +1,14 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  HTMLProps,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Input from "../ui/form/Input";
 import H3 from "../ui/text/H3";
 import { getSession } from "next-auth/react";
@@ -18,16 +26,13 @@ interface PostFormData {
   community: string;
 }
 
-export default function PostForm({
-  theme,
-  setIsSuccess,
-  title,
-}: {
+interface PostFormProps extends HTMLProps<HTMLElement> {
   title: string;
   theme: "primary" | "secondary" | "tertiary" | "neutral";
-
   setIsSuccess: Function;
-}) {
+}
+
+const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   const [communities, setCommunities] = useState<string[]>([""]);
 
   const [searchValue, setSearchValue] = useState<string>("");
@@ -297,4 +302,6 @@ export default function PostForm({
       </GenericForm>
     </div>
   );
-}
+};
+
+export default PostForm;

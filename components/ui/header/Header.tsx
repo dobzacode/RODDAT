@@ -1,11 +1,12 @@
-import { ReactNode } from "react";
+import { FC, HTMLProps, ReactNode } from "react";
 import Nav from "./Nav";
 import NavLink from "./NavLink";
 import H2 from "../text/H2";
 import MobileNav from "./MobileNav";
 import Link from "next/link";
+import { cn } from "@/utils/utils";
 
-interface HeaderProps {
+interface HeaderProps extends HTMLProps<HTMLElement> {
   children?: ReactNode;
   height: string;
   bgColor?: string;
@@ -16,7 +17,7 @@ interface HeaderProps {
   mobileTextType?: string;
 }
 
-export default function Header({
+const Header: FC<HeaderProps> = ({
   children,
   height,
   bgColor = "",
@@ -25,7 +26,7 @@ export default function Header({
   logoColor,
   logoType = "",
   mobileTextType = "",
-}: HeaderProps) {
+}) => {
   const logo = () => {
     return (
       <Link href="/">
@@ -52,7 +53,11 @@ export default function Header({
 
   return (
     <header
-      className={`${height} ${bgColor} flex items-center justify-between px-large `}
+      className={cn(
+        height,
+        bgColor,
+        "flex items-center justify-between px-large",
+      )}
     >
       <Nav
         navStyle="tablet:flex hidden gap-large items-center justify-between"
@@ -73,4 +78,6 @@ export default function Header({
       </MobileNav>
     </header>
   );
-}
+};
+
+export default Header;

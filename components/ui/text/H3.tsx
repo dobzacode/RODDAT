@@ -1,17 +1,28 @@
-interface H3Props {
+import { cn } from "@/utils/utils";
+import { FC, HTMLProps } from "react";
+
+interface H3Props extends HTMLProps<HTMLHeadingElement> {
   children: string | JSX.Element;
+  type: string;
   textColor?: string;
   bgColor?: string;
-  type?: string;
+  padding?: string;
+  rounded?: string;
 }
 
-export default function H3({
+const H3: FC<H3Props> = ({
   children,
+  type,
   textColor = "",
   bgColor = "",
-  type = "",
-}: H3Props) {
+  padding = "",
+  rounded = "",
+}) => {
   return (
-    <h3 className={`${type} ${textColor} ${bgColor} ${type}`}>{children}</h3>
+    <h3 className={cn(type, textColor, bgColor, padding, rounded)}>
+      {children}
+    </h3>
   );
-}
+};
+
+export default H3;

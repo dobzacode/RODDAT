@@ -1,26 +1,31 @@
 import { mdiAccount } from "@mdi/js";
 import Icon from "@mdi/react";
 import { getSession } from "next-auth/react";
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
+import { FC } from "react";
+import { IconProps } from "@mdi/react/dist/IconProps";
 
-export default function Avatar({
-  size = 3,
-  src,
-}: {
+interface AvatarProps {
   size?: number;
   src?: string | null;
-}) {
+  alt?: string;
+  path?: string;
+}
+
+const Avatar: FC<AvatarProps> = ({ size = 3, src, alt }) => {
   if (src) {
     return (
       <Image
         src={src}
-        alt="profile-picture"
+        alt={alt || "profile-picture"}
         width={30}
         height={30}
-        className="rounded-full mr-4 my-extra-small"
+        className="my-extra-small mr-4 rounded-full"
       ></Image>
     );
   }
 
   return <Icon path={mdiAccount} size={size}></Icon>;
-}
+};
+
+export default Avatar;

@@ -1,5 +1,11 @@
 // GenericForm.tsx
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  FormHTMLAttributes,
+  ReactNode,
+  useState,
+} from "react";
 import Input from "./Input";
 import H3 from "../text/H3";
 import Button from "../button/Button";
@@ -17,25 +23,25 @@ interface FormData {
   community?: string;
 }
 
-interface GenericFormProps {
+interface GenericFormProps<T> {
   theme: "primary" | "secondary" | "tertiary" | "neutral";
   setIsOpen?: Function;
   setIsSuccess: Function;
   title: string;
-  formData: FormData;
-  onSubmit: (formData: FormData) => Promise<void>;
-  children: React.ReactNode; // Ajoutez cette prop pour inclure les champs spécifiques
+  formData: T; // Utilisez le type générique ici
+  onSubmit: (formData: T) => Promise<void>;
+  children: ReactNode;
 }
 
-const GenericForm: React.FC<GenericFormProps> = ({
+const GenericForm = <T extends FormData>({
   theme,
   setIsOpen,
   setIsSuccess,
   title,
   formData,
   onSubmit,
-  children, // Récupérez les enfants pour inclure les champs spécifiques
-}) => {
+  children,
+}: GenericFormProps<T>) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -70,19 +76,6 @@ const GenericForm: React.FC<GenericFormProps> = ({
     }
   };
 
-  //bg-primary5
-  //bg-secondary5
-  //bg-tertiary5
-  //bg-neutral5
-  //text-primary1
-  //text-secondary1
-  //text-tertiary1
-  //text-neutral1
-  //border-primary10
-  //border-secondary10
-  //border-tertiary10
-  //border-neutral10
-
   return (
     <div
       className={`flex flex-col items-center gap-medium text-${theme}80 bg-${theme}1 h-auto rounded-extra-small `}
@@ -91,7 +84,6 @@ const GenericForm: React.FC<GenericFormProps> = ({
         className={`body flex flex-col gap-sub-large`}
         onSubmit={handleSubmit}
       >
-        {/* Rendre les champs spécifiques ici */}
         {children}
 
         {isError && (

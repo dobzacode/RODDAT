@@ -9,11 +9,11 @@ import PostSkeleton from "@/components/post/PostSkeleton";
 
 export default async function Home() {
   return (
-    <main className="flex justify-center gap-medium mx-extra-large ">
-      <section className="flex flex-col w-2/5 gap-sub-large ">
+    <main className="mx-extra-large flex justify-center gap-medium ">
+      <section className="flex w-2/5 flex-col gap-sub-large ">
         <NewPostBar></NewPostBar>
 
-        <div className="flex flex-col justify-center items-center gap-sub-large w-full">
+        <div className="flex w-full flex-col items-center justify-center gap-sub-large">
           <Suspense
             fallback={
               <>
@@ -29,7 +29,7 @@ export default async function Home() {
           </Suspense>
         </div>
       </section>
-      <aside className="w-1/4 text-primary80  brutalism-border p-medium border-primary80 rounded-medium flex flex-col gap-small items h-fit">
+      <aside className="brutalism-border items  flex h-fit w-1/4 flex-col gap-small rounded-medium border-primary80 p-medium text-primary80">
         <UserInfo></UserInfo>
       </aside>
     </main>

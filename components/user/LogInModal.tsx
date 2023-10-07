@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import Button from "../ui/button/Button";
 import { signIn } from "next-auth/react";
 import Modal from "../ui/div/Modal";
 
-export default function LoginModal({}) {
+const LoginModal: FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const openModal = () => {
@@ -15,19 +15,21 @@ export default function LoginModal({}) {
     <>
       <Button
         onClick={() => openModal()}
-        customCSS="bg-white gap-extra-small sub-heading font-medium rounded-full flex justify-center items-center  brutalism-border px-sub-medium py-small border-primary80"
+        className="sub-heading brutalism-border flex items-center justify-center gap-extra-small rounded-full border-primary80  bg-white px-sub-medium py-small font-medium"
       >
         Login
       </Button>
       <Modal title="Login" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <Button
           onClick={() => signIn("google")}
-          hover="secondary-hover"
-          customCSS="bg-secondary20 text-secondary80 gap-extra-small sub-heading font-medium rounded-small flex justify-center items-center  brutalism-border px-sub-medium py-small border-secondary80"
+          hover={true}
+          className="sub-heading brutalism-border flex items-center justify-center gap-extra-small rounded-small border-secondary80 bg-secondary20  px-sub-medium py-small font-medium text-secondary80"
         >
           Sign in with Google
         </Button>
       </Modal>
     </>
   );
-}
+};
+
+export default LoginModal;

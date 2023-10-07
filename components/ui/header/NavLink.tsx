@@ -1,34 +1,37 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
+import { FC, LinkHTMLAttributes } from "react";
 
-interface NavLinkProps {
+interface NavLinkProps extends LinkProps {
   href: string;
   children: string;
   hover?: string;
   currentNavStyle: string;
 }
 
-export default function NavLink({
-  href,
+const NavLink: FC<NavLinkProps> = ({
   children,
   hover,
   currentNavStyle,
-}: NavLinkProps) {
+  ...props
+}: NavLinkProps) => {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const isActive = pathname === props.href;
 
   return (
     <li>
       <Link
         className={`${hover} ${
           isActive && currentNavStyle
-        } px-8 py-4 rounded-lg  `}
-        href={href}
+        } rounded-lg px-8 py-4  `}
+        {...props}
       >
         {children}
       </Link>
     </li>
   );
-}
+};
+
+export default NavLink;

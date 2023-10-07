@@ -1,10 +1,13 @@
+import { FC, HTMLProps } from "react";
 import Avatar from "../ui/Avatar";
 
-export default function PostSkeleton({}) {
+const PostSkeleton: FC<HTMLProps<HTMLElement>> = () => {
   return (
-    <section className="flex brutalism-border border-primary80 rounded-small w-full h-[14rem] animate-pulse">
-      <div className="flex gap-extra-small flex-col items-center  bg-primary10 rounded-l-small p-small"></div>
-      <div className="flex flex-col gap-small p-small w-full rounded-r-small"></div>
+    <section className="brutalism-border flex h-[14rem] w-full animate-pulse rounded-small border-primary80">
+      <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small"></div>
+      <div className="flex w-full flex-col gap-small rounded-r-small p-small"></div>
     </section>
   );
-}
+};
+
+export default PostSkeleton;

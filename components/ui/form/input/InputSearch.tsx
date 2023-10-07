@@ -8,7 +8,7 @@ interface SearchProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const InputSearch: FC<SearchProps> = forwardRef<HTMLInputElement, SearchProps>(
-  ({ className, id, ...props }, ref) => {
+  ({ className, ...props }, ref) => {
     return (
       <div
         className={cn(
@@ -23,7 +23,7 @@ const InputSearch: FC<SearchProps> = forwardRef<HTMLInputElement, SearchProps>(
             className,
           )}
           type="search"
-          name={id}
+          name={props.id}
           ref={ref}
           {...props}
         ></input>
