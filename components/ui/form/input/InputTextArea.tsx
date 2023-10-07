@@ -1,33 +1,30 @@
-interface TextAreaProps {
-  determineColor: Function;
-  onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
-  required?: boolean;
-  id: string;
-  value?: string;
-  placeholder?: string;
-  children?: string;
+import { cn } from "@/utils/utils";
+import { FC, TextareaHTMLAttributes } from "react";
+
+interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  children?: React.ReactNode;
 }
 
-export default function InputTextArea({
-  required,
-  determineColor = () => {},
+const InputTextArea: FC<TextAreaProps> = ({
+  className,
   id,
-  value,
-  onChange,
   children,
-}: TextAreaProps) {
+  ...props
+}) => {
   return (
     <textarea
-      required={required}
-      className={`${determineColor()} body placeholder:body p-extra-small  rounded-lg box-border border shadow-inner w-full leading-9 h-auto`}
-      id={id}
+      className={cn(
+        " body placeholder:body box-border  h-auto w-full rounded-lg border p-extra-small leading-9 shadow-inner",
+        className,
+      )}
       name={id}
       rows={3}
       cols={50}
-      value={value}
-      onChange={onChange}
+      {...props}
     >
       {children}
     </textarea>
   );
-}
+};
+
+export default InputTextArea;

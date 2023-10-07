@@ -1,45 +1,37 @@
+import { cn } from "@/utils/utils";
 import { mdiMagnify } from "@mdi/js";
 import Icon from "@mdi/react";
-import { LegacyRef, Ref, forwardRef } from "react";
+import { FC, InputHTMLAttributes, LegacyRef, Ref, forwardRef } from "react";
 
-interface SearchProps {
-  determineColor: Function;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  required?: boolean;
-  id: string;
-  value?: string;
-  placeholder?: string;
+interface SearchProps extends InputHTMLAttributes<HTMLInputElement> {
+  ref?: Ref<HTMLInputElement>;
 }
 
-const InputSearch = forwardRef(function InputSearch(
-  {
-    determineColor = () => {},
-    onChange,
-    required,
-    id,
-    value,
-    placeholder,
-  }: SearchProps,
-  ref: LegacyRef<HTMLInputElement>
-) {
-  return (
-    <div
-      className={`${determineColor()}   rounded-lg box-border border shadow-inner flex items-center px-extra-small`}
-    >
-      <Icon path={mdiMagnify} size={2}></Icon>
-      <input
-        className={`${determineColor()} body placeholder:body p-extra-small w-full`}
-        required={required}
-        type="search"
-        id={id}
-        name={id}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder ? placeholder : ""}
-        ref={ref}
-      ></input>
-    </div>
-  );
-});
+const InputSearch: FC<SearchProps> = forwardRef<HTMLInputElement, SearchProps>(
+  ({ className, id, ...props }, ref) => {
+    return (
+      <div
+        className={cn(
+          "box-border flex items-center rounded-lg border px-extra-small shadow-inner",
+          className,
+        )}
+      >
+        <Icon path={mdiMagnify} size={2}></Icon>
+        <input
+          className={cn(
+            " body placeholder:body w-full p-extra-small",
+            className,
+          )}
+          type="search"
+          name={id}
+          ref={ref}
+          {...props}
+        ></input>
+      </div>
+    );
+  },
+);
+
+InputSearch.displayName = "InputSearch";
 
 export default InputSearch;

@@ -1,22 +1,34 @@
-interface LabelProps {
-  children: string | JSX.Element;
-  htmlFor: string;
-  hidden: boolean;
-  style?: string;
+import { cn } from "@/utils/utils";
+import { VariantProps, cva } from "class-variance-authority";
+import { FC, LabelHTMLAttributes } from "react";
+
+const labelVariants = cva("", {
+  variants: {
+    isHidden: {
+      true: "--visually-hidden",
+    },
+  },
+});
+interface LabelProps
+  extends LabelHTMLAttributes<HTMLLabelElement>,
+    VariantProps<typeof labelVariants> {
+  children: React.ReactNode;
 }
 
-export default function Label({
-  children,
-  htmlFor,
-  hidden,
-  style = "",
-}: LabelProps) {
+const Label: FC<LabelProps> = ({ className, isHidden, children, ...props }) => {
   return (
     <label
-      htmlFor={htmlFor}
-      className={`${hidden ? "--visually-hidden" : ""} ${style}`}
+      className={cn(
+        labelVariants({
+          className,
+          isHidden,
+        }),
+      )}
+      {...props}
     >
       {children}
     </label>
   );
-}
+};
+
+export default Label;

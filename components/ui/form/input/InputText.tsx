@@ -1,33 +1,27 @@
-interface TextProps {
-  determineColor: Function;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  required?: boolean;
-  id: string;
-  value?: string;
-  placeholder?: string;
+import { FC, InputHTMLAttributes, forwardRef } from "react";
+import { inputVariants } from "../Input";
+import { VariantProps } from "class-variance-authority";
+import { cn } from "@/utils/utils";
 
-  type: "text" | "password" | "email";
-}
+interface TextProps
+  extends InputHTMLAttributes<HTMLInputElement>,
+    VariantProps<typeof inputVariants> {}
 
-export default function InputText({
-  type,
-  required,
-  determineColor = () => {},
-  id,
-  value,
-  onChange,
-  placeholder,
-}: TextProps) {
-  return (
-    <input
-      className={`${determineColor()} body placeholder:body p-extra-small  rounded-lg box-border border shadow-inner`}
-      required={required}
-      type={type}
-      id={id}
-      name={id}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder ? placeholder : ""}
-    ></input>
-  );
-}
+const InputText: FC<TextProps> = forwardRef<HTMLInputElement, TextProps>(
+  ({ className, id, ...props }, ref) => {
+    return (
+      <input
+        className={cn(
+          "body placeholder:body box-border  rounded-lg border p-extra-small shadow-inner",
+          className,
+        )}
+        name={id}
+        {...props}
+      ></input>
+    );
+  },
+);
+
+InputText.displayName = "InputText";
+
+export default InputText;

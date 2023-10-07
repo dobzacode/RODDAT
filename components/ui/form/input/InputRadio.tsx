@@ -1,45 +1,41 @@
 "use client";
 
+import { FC, InputHTMLAttributes, forwardRef } from "react";
 import Label from "../Label";
+import { VariantProps } from "class-variance-authority";
+import { inputVariants } from "../Input";
 
-interface RadioProps {
-  determineColor: Function;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  required?: boolean;
-  id: string;
-  value?: string;
-  placeholder?: string;
+interface RadioProps
+  extends InputHTMLAttributes<HTMLInputElement>,
+    VariantProps<typeof inputVariants> {
   choice: string;
-  color: string;
 }
 
-export default function InputRadio({
-  required,
-  choice,
-  id,
-  value,
-  onChange,
-  color,
-}: RadioProps) {
-  return (
-    <div className="flex gap-extra-small items-center">
-      <input
-        className={`cursor-pointer `}
-        required={required}
-        type="radio"
-        id={choice}
-        name={id}
-        value={choice}
-        checked={value === choice}
-        onChange={onChange}
-      ></input>
-      <Label
-        style={`text-${color}90 body font-medium`}
-        hidden={false}
-        htmlFor={choice}
-      >
-        {choice}
-      </Label>
-    </div>
-  );
-}
+const InputRadio: FC<RadioProps> = forwardRef<HTMLInputElement, RadioProps>(
+  ({ className, id, choice, ...props }, ref) => {
+    return (
+      <div className="flex items-center gap-extra-small">
+        <input
+          className={`${className}`}
+          type="radio"
+          id={choice}
+          name={id}
+          value={choice}
+          checked={props.value === choice}
+          {...props}
+        ></input>
+        <Label
+          className="text-90 body font-medium"
+          isHidden={false}
+          htmlFor={choice}
+        >
+          {choice}
+        </Label>
+      </div>
+    );
+  },
+);
+
+InputRadio.displayName = "InputRadio";
+
+export default InputRadio;

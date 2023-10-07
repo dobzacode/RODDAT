@@ -1,26 +1,14 @@
-interface CheckboxProps {
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  required?: boolean;
-  id: string;
-  value?: string;
+import { FC, InputHTMLAttributes } from "react";
 
-  children?: string;
+interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
+  children?: React.ReactNode;
 }
-
-export default function InputCheckbox({
-  required,
+const InputCheckbox: FC<CheckboxProps> = ({
+  className,
   id,
-  value,
-  onChange,
-}: CheckboxProps) {
-  return (
-    <input
-      type="checkbox"
-      required={required}
-      id={id}
-      name={id}
-      value={value}
-      onChange={onChange}
-    ></input>
-  );
-}
+  ...props
+}: CheckboxProps) => {
+  return <input name={id} {...props}></input>;
+};
+
+export default InputCheckbox;
