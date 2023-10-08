@@ -26,7 +26,7 @@ interface PostFormData {
   community: string;
 }
 
-interface PostFormProps extends HTMLProps<HTMLElement> {
+interface PostFormProps {
   title: string;
   theme: "primary" | "secondary" | "tertiary" | "neutral";
   setIsSuccess: Function;

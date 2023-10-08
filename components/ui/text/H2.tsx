@@ -17,9 +17,10 @@ const H2: FC<H2Props> = ({
   bgColor = "",
   padding = "",
   rounded = "",
+  ...props
 }) => {
   return (
-    <h2 className={cn(type, textColor, bgColor, padding, rounded)}>
+    <h2 className={cn(type, textColor, bgColor, padding, rounded)} {...props}>
       {children}
     </h2>
   );

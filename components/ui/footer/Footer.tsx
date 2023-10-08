@@ -2,7 +2,7 @@ import { FC, HTMLProps } from "react";
 import SocialIcon from "./SocialIcon";
 import { mdiInstagram, mdiFacebook, mdiTwitter, mdiLinkedin } from "@mdi/js";
 
-interface FooterProps extends HTMLProps<HTMLElement> {
+interface FooterProps {
   height: string;
   bgColor: string;
   flex?: string;

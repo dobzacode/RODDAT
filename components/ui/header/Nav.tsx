@@ -1,7 +1,7 @@
 "use client";
 import React, { FC, HTMLProps } from "react";
 
-interface NavProps extends HTMLProps<HTMLElement> {
+interface NavProps {
   children: React.ReactNode;
   logo?: JSX.Element;
   navStyle?: string;

@@ -18,9 +18,13 @@ const P: FC<PProps> = ({
   bgColor = "",
   padding = "",
   rounded = "",
+  ...props
 }) => {
   return (
-    <p className={cn(className, type, textColor, bgColor, padding, rounded)}>
+    <p
+      className={cn(className, type, textColor, bgColor, padding, rounded)}
+      {...props}
+    >
       {children}
     </p>
   );

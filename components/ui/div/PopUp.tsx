@@ -1,7 +1,7 @@
 import { FC, HTMLProps } from "react";
 import { CSSTransition } from "react-transition-group";
 
-interface PopUpProps extends HTMLProps<HTMLElement> {
+interface PopUpProps {
   children: JSX.Element;
   isSuccess: boolean;
 }

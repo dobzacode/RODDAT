@@ -4,8 +4,9 @@ import H2 from "../ui/text/H1";
 
 import Link from "next/link";
 import { buttonVariants } from "../ui/button/Button";
+import { FC } from "react";
 
-export default function UserInfo({}) {
+const UserInfo: FC = () => {
   return (
     <>
       <H2 type="heading">Home</H2>
@@ -30,4 +31,6 @@ export default function UserInfo({}) {
       <NewCommunityModal></NewCommunityModal>
     </>
   );
-}
+};
+
+export default UserInfo;

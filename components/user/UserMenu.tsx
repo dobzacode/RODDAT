@@ -10,7 +10,7 @@ import { signOut } from "next-auth/react";
 import NavLink from "../ui/header/NavLink";
 import Link from "next/link";
 
-interface UserMenuProps extends HTMLProps<HTMLElement> {
+interface UserMenuProps {
   session: Session;
 }
 

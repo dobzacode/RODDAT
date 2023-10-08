@@ -14,7 +14,7 @@ import { getDateDifference } from "@/utils/utils";
 import getPostInformation from "@/utils/postUtils/getPostInformation";
 import React, { FC, HTMLProps } from "react";
 
-interface PostBarProps extends HTMLProps<HTMLElement> {
+interface PostBarProps {
   post: Post;
 }
 

@@ -2,7 +2,7 @@
 
 import { mdiClose } from "@mdi/js";
 import Icon from "@mdi/react";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import Button from "../button/Button";
 
@@ -14,13 +14,13 @@ interface ModalProps {
   titleCSS?: string;
 }
 
-export default function Modal({
+const Modal: FC<ModalProps> = ({
   isOpen,
   onClose,
   children,
   title,
   titleCSS,
-}: ModalProps) {
+}) => {
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (isOpen) {
@@ -68,4 +68,6 @@ export default function Modal({
       </div>
     </CSSTransition>
   );
-}
+};
+
+export default Modal;

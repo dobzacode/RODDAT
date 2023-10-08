@@ -23,7 +23,7 @@ interface CommunityFormData {
   isNsfw: boolean;
 }
 
-interface CommunityFormProps extends HTMLProps<HTMLElement> {
+interface CommunityFormProps {
   title: string;
   theme: "primary" | "secondary" | "tertiary" | "neutral";
   setIsOpen: Function;

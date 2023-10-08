@@ -13,9 +13,10 @@ const SocialIcon: FC<SocialIconProps> = ({
   mdiPath,
   href,
   size,
+  ...props
 }: SocialIconProps) => {
   return (
-    <Link href={href}>
+    <Link href={href} {...props}>
       <Icon path={mdiPath} size={size} className="text-white"></Icon>
     </Link>
   );

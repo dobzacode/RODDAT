@@ -6,7 +6,7 @@ import MobileNav from "./MobileNav";
 import Link from "next/link";
 import { cn } from "@/utils/utils";
 
-interface HeaderProps extends HTMLProps<HTMLElement> {
+interface HeaderProps {
   children?: ReactNode;
   height: string;
   bgColor?: string;

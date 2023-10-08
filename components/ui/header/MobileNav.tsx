@@ -4,7 +4,7 @@ import Icon from "@mdi/react";
 import { mdiMenu } from "@mdi/js";
 import { cn } from "@/utils/utils";
 
-interface NavProps extends HTMLProps<HTMLElement> {
+interface NavProps {
   children: React.ReactNode;
   logo?: JSX.Element;
   navStyle?: string;
