@@ -57,7 +57,32 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
     };
   }, [isShown]);
 
-  console.log(isLaptopScreen);
+  const navLink = (isMobile: boolean) => {
+    return (
+      <>
+        <li className="group w-full ">
+          <Link
+            href="/profile"
+            className={`${
+              isMobile && "mt-extra-small text-center"
+            } block opacity-90 group-hover:scale-[103%] group-hover:opacity-100`}
+          >
+            Profile
+          </Link>
+        </li>
+        <hr className="w-full border border-primary80 opacity-20"></hr>
+        <li onClick={() => signOut()} className="group w-full ">
+          <button
+            className={`${
+              isMobile && "mt-extra-small text-center"
+            } w-full opacity-90 group-hover:scale-[103%] group-hover:opacity-100`}
+          >
+            Sign-out
+          </button>
+        </li>
+      </>
+    );
+  };
 
   return (
     <div className="laptop:small z-20 flex items-center justify-between gap-small laptop:relative laptop:justify-start">
@@ -101,22 +126,9 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
           <ul
             ref={modalRef}
             onClick={() => setIsShown(false)}
-            className="fade-enter-done brutalism-border absolute top-12 z-10 flex w-full cursor-pointer flex-col items-center gap-small rounded-b-sub-large border-primary80  bg-white pb-small pt-sub-large text-body font-medium text-primary90"
+            className="fade-enter-done brutalism-border absolute top-12 z-10 flex w-full cursor-pointer flex-col items-center justify-center gap-small rounded-b-sub-large border-primary80  bg-white pb-small pt-sub-large text-body font-medium text-primary90"
           >
-            <li className="group w-full ">
-              <Link
-                href="/profile"
-                className=" mt-extra-small block text-center opacity-90 group-hover:scale-[103%] group-hover:opacity-100"
-              >
-                Profile
-              </Link>
-            </li>
-            <hr className="w-full border border-primary80 opacity-20"></hr>
-            <li onClick={() => signOut()} className="group w-full text-center">
-              <button className="w-full opacity-90 group-hover:scale-[103%] group-hover:opacity-100">
-                Sign-out
-              </button>
-            </li>
+            {navLink(true)}
           </ul>
         </CSSTransition>
       ) : (
@@ -130,20 +142,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
             ref={modalRef}
             className={`flex flex-col justify-center gap-small  text-body font-medium text-primary90`}
           >
-            <li className="group w-full ">
-              <Link
-                href="/profile"
-                className=" block opacity-90 group-hover:scale-[103%] group-hover:opacity-100"
-              >
-                Profile
-              </Link>
-            </li>
-            <hr className="w-full border border-primary80 opacity-20"></hr>
-            <li onClick={() => signOut()} className="group w-full ">
-              <button className="opacity-90 group-hover:scale-[103%] group-hover:opacity-100">
-                Sign-out
-              </button>
-            </li>
+            {navLink(true)}
           </ul>
         </div>
       )}
