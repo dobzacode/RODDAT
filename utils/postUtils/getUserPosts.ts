@@ -11,5 +11,5 @@ export default async function getUserPosts(session: Session | null) {
     where: { author_id: user?.id },
   });
 
-  return { posts };
+  return posts;
 }

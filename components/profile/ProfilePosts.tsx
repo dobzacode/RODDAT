@@ -12,7 +12,7 @@ export default async function ProfilePosts({
   session: Session | null;
 }) {
   const posts: Post[] =
-    process.env.NODE_ENV === "production"
+    process.env.NODE_ENV !== "production"
       ? await getUserPosts(session)
       : (postMock as any);
 
