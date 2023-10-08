@@ -16,12 +16,12 @@ const SearchBar: FC = () => {
   const handleSearch = () => {};
 
   return (
-    <div className="heading brutalism-border absolute left-0 right-0  m-auto flex h-fit w-fit gap-extra-small rounded-large border-primary80 bg-neutral1 p-extra-small">
+    <div className="heading brutalism-border l left-0 right-0 flex  h-fit gap-extra-small rounded-large border-primary80 bg-neutral1 p-extra-small laptop:absolute laptop:m-auto laptop:w-fit">
       <Button onClick={handleSearch}>
         <Icon path={mdiMagnify} size={2}></Icon>
       </Button>
       <input
-        className="body focus:outline-none "
+        className="body w-full focus:outline-none laptop:w-auto "
         type="text"
         placeholder=""
         value={query}

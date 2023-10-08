@@ -56,26 +56,17 @@ const Header: FC<HeaderProps> = ({
       className={cn(
         height,
         bgColor,
-        "flex items-center justify-between px-large",
+        "flex items-center justify-between gap-small px-extra-small mobile-large:px-medium laptop:gap-0 laptop:px-large",
       )}
     >
       <Nav
-        navStyle="tablet:flex hidden gap-large items-center justify-between"
+        navStyle="flex gap-large items-center justify-between"
         navLinkStyle={`flex laptopL:gap-large laptop:gap-sub-large tablet:gap-small justify-center ${textType} ${textColor}`}
         logo={logo()}
       >
         {navlink()}
       </Nav>
       {children}
-      <MobileNav
-        navStyle="flex tablet:hidden gap-large items-center justify-between w-full mobile-large:mx-sub-large mx-small"
-        navLinkStyle={`flex flex-col gap-large justify-center ${mobileTextType} mt-sub-large pl-8 ${textColor}`}
-        modalStyle={`h-screen bg-white w-screen duration-700`}
-        height={height}
-        logo={logo()}
-      >
-        {navlink()}
-      </MobileNav>
     </header>
   );
 };

@@ -4,15 +4,23 @@ import { getSession } from "next-auth/react";
 import Image, { ImageProps } from "next/image";
 import { FC } from "react";
 import { IconProps } from "@mdi/react/dist/IconProps";
+import { cn } from "@/utils/utils";
 
 interface AvatarProps {
+  className?: string;
   size?: number;
   src?: string | null;
   alt?: string;
   path?: string;
 }
 
-const Avatar: FC<AvatarProps> = ({ size = 3, src, alt }) => {
+const Avatar: FC<AvatarProps> = ({
+  className,
+  size = 3,
+  src,
+  alt,
+  ...props
+}) => {
   if (src) {
     return (
       <Image
@@ -20,7 +28,7 @@ const Avatar: FC<AvatarProps> = ({ size = 3, src, alt }) => {
         alt={alt || "profile-picture"}
         width={30}
         height={30}
-        className="my-extra-small mr-4 rounded-full"
+        className={cn("my-extra-small mr-4 rounded-full", className)}
       ></Image>
     );
   }

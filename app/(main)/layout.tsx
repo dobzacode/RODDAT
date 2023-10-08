@@ -27,7 +27,7 @@ export default async function RootLayout({
   return (
     <>
       <Header
-        height="h-[100px]"
+        height="h-[100px] "
         //top-[100px]
         textColor="text-neutral80"
         textType="sub-heading"

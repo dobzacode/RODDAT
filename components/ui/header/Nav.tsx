@@ -14,12 +14,7 @@ const Nav: FC<NavProps> = ({
   navLinkStyle = "",
   children,
 }) => {
-  return (
-    <nav className={navStyle}>
-      {logo ? logo : ""}
-      <ul className={`${navLinkStyle}`}>{children}</ul>
-    </nav>
-  );
+  return <nav className={navStyle}>{logo ? logo : ""}</nav>;
 };
 
 export default Nav;

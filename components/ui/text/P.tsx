@@ -2,7 +2,7 @@ import { cn } from "@/utils/utils";
 import { FC, HTMLProps } from "react";
 
 interface PProps extends HTMLProps<HTMLParagraphElement> {
-  children: string | number | JSX.Element;
+  children: string | number | JSX.Element | null | undefined;
   type?: string;
   textColor?: string;
   bgColor?: string;
@@ -22,7 +22,7 @@ const P: FC<PProps> = ({
 }) => {
   return (
     <p
-      className={cn(className, type, textColor, bgColor, padding, rounded)}
+      className={cn(type, textColor, bgColor, padding, rounded, className)}
       {...props}
     >
       {children}

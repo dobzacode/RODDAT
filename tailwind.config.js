@@ -103,8 +103,8 @@ module.exports = {
       "mobile-small": "320px",
       "mobile-large": "425px",
       tablet: "768px",
-      "laptop-large": "1440px",
       laptop: "1024px",
+      "laptop-large": "1440px",
     },
     extend: {
       colors: {
