@@ -1,14 +1,12 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import PostBar from "@/components/post/PostBar";
-import UserInfo from "@/components/home/UserInfoHome";
-import getUserPosts from "@/utils/postUtils/getUserPosts";
 
 import { getServerSession } from "next-auth";
-import { v4 as uuidv4 } from "uuid";
+
 import UserInfoProfile from "@/components/user/UserInfoProfile";
 import { Suspense } from "react";
-import ProfilePosts from "@/components/profile/ProfilePosts";
+
 import PostSkeleton from "@/components/post/PostSkeleton";
+import Posts from "@/components/post/Posts";
 
 export default async function ProfilePage({}) {
   const session = await getServerSession(authOptions);
@@ -30,7 +28,7 @@ export default async function ProfilePage({}) {
               </>
             }
           >
-            <ProfilePosts session={session}></ProfilePosts>
+            <Posts session={session}></Posts>
           </Suspense>
         </div>
       </section>

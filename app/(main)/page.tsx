@@ -1,11 +1,10 @@
 import NewPostBar from "@/components/home/NewPostBar";
-import HomePosts from "@/components/home/HomePosts";
 
 import UserInfo from "@/components/home/UserInfoHome";
-import prisma from "@/prisma/client";
-import { Post } from "@prisma/client";
+
 import { Suspense } from "react";
 import PostSkeleton from "@/components/post/PostSkeleton";
+import Posts from "@/components/post/Posts";
 
 export default async function Home() {
   return (
@@ -25,7 +24,7 @@ export default async function Home() {
               </>
             }
           >
-            <HomePosts></HomePosts>
+            <Posts></Posts>
           </Suspense>
         </div>
       </section>
