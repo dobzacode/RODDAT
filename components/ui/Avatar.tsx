@@ -26,9 +26,9 @@ const Avatar: FC<AvatarProps> = ({
       <Image
         src={src}
         alt={alt || "profile-picture"}
-        width={30}
-        height={30}
-        className={cn("my-extra-small mr-4 rounded-full", className)}
+        width={size * 10}
+        height={size * 10}
+        className={className}
       ></Image>
     );
   }

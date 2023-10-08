@@ -26,7 +26,7 @@ interface CommunityFormData {
 interface CommunityFormProps {
   title: string;
   theme: "primary" | "secondary" | "tertiary" | "neutral";
-  setIsOpen: Function;
+  setIsOpen?: Function;
   setIsSuccess: Function;
 }
 

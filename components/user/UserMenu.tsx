@@ -58,14 +58,19 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
   }, [isShown]);
 
   const navLink = (isMobile: boolean) => {
+    const MOBILELINK_STYLING =
+      "block opacity-90 group-hover:scale-[103%] group-hover:opacity-100";
+    const LAPTOPLINK_CENTER = "mt-extra-small w-full text-center";
+
     return (
       <>
         <li className="group w-full ">
           <Link
+            onClick={() => setIsShown(false)}
             href="/profile"
             className={`${
-              isMobile && "mt-extra-small text-center"
-            } block opacity-90 group-hover:scale-[103%] group-hover:opacity-100`}
+              !isMobile && LAPTOPLINK_CENTER
+            } ${MOBILELINK_STYLING}`}
           >
             Profile
           </Link>
@@ -74,11 +79,36 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
         <li onClick={() => signOut()} className="group w-full ">
           <button
             className={`${
-              isMobile && "mt-extra-small text-center"
-            } w-full opacity-90 group-hover:scale-[103%] group-hover:opacity-100`}
+              !isMobile && LAPTOPLINK_CENTER
+            } ${MOBILELINK_STYLING}`}
           >
             Sign-out
           </button>
+        </li>
+
+        <hr className="w-full border border-primary80 opacity-20"></hr>
+        <li className="group w-full ">
+          <Link
+            onClick={() => setIsShown(false)}
+            href="/post/create"
+            className={`${
+              !isMobile && LAPTOPLINK_CENTER
+            } ${MOBILELINK_STYLING}`}
+          >
+            New Post
+          </Link>
+        </li>
+        <hr className="w-full border border-primary80 opacity-20"></hr>
+        <li className="group w-full ">
+          <Link
+            onClick={() => setIsShown(false)}
+            href="/community/create"
+            className={`${
+              !isMobile && LAPTOPLINK_CENTER
+            } ${MOBILELINK_STYLING}`}
+          >
+            New Community
+          </Link>
         </li>
       </>
     );
@@ -93,7 +123,10 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
         className="brutalism-border relative z-20 flex h-[50px] w-[50px] items-center justify-center rounded-full border-primary80 bg-white px-extra-small text-body font-medium laptop:h-auto laptop:w-auto laptop:gap-small laptop:px-sub-medium laptop:py-1"
       >
         <div className="flex min-w-full items-center ">
-          <Avatar className="" src={session?.user?.image}></Avatar>
+          <Avatar
+            className="my-extra-small mr-4 rounded-full"
+            src={session?.user?.image}
+          ></Avatar>
           <P className="text-truncate hidden w-full whitespace-nowrap laptop:block">
             {session?.user?.name}
           </P>
@@ -116,10 +149,10 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
         </button>
       )}
 
-      {isLaptopScreen ? (
+      {isLaptopScreen || isLaptopScreen === null ? (
         <CSSTransition
           in={isShown as boolean}
-          timeout={300}
+          timeout={400}
           classNames="fade"
           unmountOnExit
         >
@@ -128,7 +161,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
             onClick={() => setIsShown(false)}
             className="fade-enter-done brutalism-border absolute top-12 z-10 flex w-full cursor-pointer flex-col items-center justify-center gap-small rounded-b-sub-large border-primary80  bg-white pb-small pt-sub-large text-body font-medium text-primary90"
           >
-            {navLink(true)}
+            {navLink(false)}
           </ul>
         </CSSTransition>
       ) : (

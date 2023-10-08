@@ -136,7 +136,7 @@ const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
                       }
                     />
                     {customText[index] && (
-                      <P textColor="text-secondary30 caption">
+                      <P textColor={`text-${intent}30 caption`}>
                         {customText[index]}
                       </P>
                     )}

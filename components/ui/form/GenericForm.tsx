@@ -90,20 +90,21 @@ const GenericForm = <T extends FormData>({
           <p className="text-error40">Something went wrong, try again</p>
         )}
         <div className="mt-small flex items-center gap-small">
-          {setIsOpen && (
-            <Button
-              type="button"
-              size="small"
-              modifier="brutalism"
-              intent={theme}
-              rounded="small"
-              onClick={() => setIsOpen()}
-              hover={true}
-              transparent={true}
-            >
-              Cancel
-            </Button>
-          )}
+          <Button
+            type="button"
+            size="small"
+            modifier="brutalism"
+            intent={theme}
+            rounded="small"
+            onClick={() => {
+              setIsOpen ? setIsOpen() : router.push("/");
+            }}
+            hover={true}
+            transparent={true}
+          >
+            Cancel
+          </Button>
+
           <Button
             type="submit"
             size="small"

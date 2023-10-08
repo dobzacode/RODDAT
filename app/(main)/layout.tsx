@@ -44,11 +44,6 @@ export default async function RootLayout({
         )}
       </Header>
       {children}
-      {/* <Footer
-        height="h-[100px]"
-        bgColor="bg-black"
-        flex="flex items-center justify-center"
-      ></Footer> */}
     </>
   );
 }

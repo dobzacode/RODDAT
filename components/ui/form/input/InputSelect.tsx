@@ -18,7 +18,7 @@ interface SelectProps
 }
 
 const InputSelect: FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
-  ({ className, choices, loader, id, placeholder, ...props }, ref) => {
+  ({ className, choices, loader, placeholder, ...props }, ref) => {
     return (
       <>
         {!loader ? (
@@ -27,8 +27,8 @@ const InputSelect: FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
               "body placeholder:body box-border cursor-pointer rounded-lg border px-extra-small py-[1.1rem] shadow-inner",
               className,
             )}
-            name={id}
-            aria-label={id}
+            name={props.id}
+            aria-label={props.id}
             {...props}
           >
             {placeholder && (
@@ -57,9 +57,9 @@ const InputSelect: FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
                 `body placeholder:body w-full p-extra-small `,
                 className,
               )}
-              name={id}
+              name={props.id}
               placeholder={placeholder ? placeholder : ""}
-              aria-label={id}
+              aria-label={props.id}
               disabled={
                 choices[0] === "" || choices[0] === "No community is matching"
               }
