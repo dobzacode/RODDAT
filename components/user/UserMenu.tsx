@@ -13,6 +13,7 @@ import P from "../ui/text/P";
 import { useMediaQuery } from "usehooks-ts";
 import { cn } from "@/utils/utils";
 import { useRouter } from "next/navigation";
+import useBetterMediaQuery from "../hooks/useBetterMediaQuery";
 
 interface UserMenuProps {
   session: Session;
@@ -26,7 +27,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
   const modalRef = useRef<HTMLUListElement | null>(null);
   null;
 
-  const isLaptopScreen = useMediaQuery("(min-width: 1024px)");
+  const isLaptopScreen = useBetterMediaQuery("(min-width: 1024px)");
 
   console.log(isLaptopScreen);
 
@@ -56,6 +57,8 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
     };
   }, [isShown]);
 
+  console.log(isLaptopScreen);
+
   return (
     <div className="laptop:small z-20 flex items-center justify-between gap-small laptop:relative laptop:justify-start">
       <button
@@ -69,16 +72,16 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
           <P className="text-truncate hidden w-full whitespace-nowrap laptop:block">
             {session?.user?.name}
           </P>
-          {isLaptopScreen && (
+          {isLaptopScreen || isLaptopScreen === null ? (
             <Icon
               className="ml-extra-small"
               path={mdiArrowDown}
               size={2}
             ></Icon>
-          )}
+          ) : null}
         </div>
       </button>
-      {!isLaptopScreen && (
+      {isLaptopScreen || isLaptopScreen === null ? null : (
         <button
           onClick={(e) => {
             laptopShowMenu(e);
@@ -87,6 +90,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
           <Icon path={mdiMenu} size={2}></Icon>
         </button>
       )}
+
       {isLaptopScreen ? (
         <CSSTransition
           in={isShown as boolean}
