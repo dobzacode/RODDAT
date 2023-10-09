@@ -1,17 +1,31 @@
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-export default async function POST(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const { post_id, content, author_id, parent_comment_id } =
-      await request.json();
+    const { post_id, content, email } = await request.json();
+
+    console.log("fdsfdsfdsfdsfdsf");
+
+    const user = await prisma.user.findUnique({ where: { email: email } });
+
+    if (!user) {
+      const message = `No user was found with the followind email : ${email}`;
+      return NextResponse.json(
+        {
+          message,
+        },
+        {
+          status: 404,
+        },
+      );
+    }
 
     const createdComment = await prisma.comment.create({
       data: {
         post_id,
         content,
-        author_id,
-        parent_comment_id,
+        author_id: user.id,
       },
     });
 

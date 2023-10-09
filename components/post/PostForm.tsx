@@ -198,7 +198,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
     if (formData.community === "") {
       return setNoCommunity(true);
     }
-    formData;
+
     const session: Session | null = await getSession();
     const res = await fetch(`/api/posts?email=${session?.user?.email}`, {
       method: "POST",

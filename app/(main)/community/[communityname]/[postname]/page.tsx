@@ -6,6 +6,7 @@ import prisma from "@/prisma/client";
 import { Post, User } from "@prisma/client";
 import { Suspense } from "react";
 import CommunityInfo from "@/components/community/CommunityInfo";
+import { CommentForm } from "@/components/post/comment/CommentForm";
 
 export async function generateStaticParams() {
   const posts: Post[] = await prisma.post.findMany();
@@ -47,6 +48,7 @@ export default async function PostPage({
               comments={postDetails.comments}
             ></PostBar>
           </Suspense>
+          <CommentForm post_id={postDetails.post_id}></CommentForm>
         </div>
       </section>
       <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 laptop:flex">
