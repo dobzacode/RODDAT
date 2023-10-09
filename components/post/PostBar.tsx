@@ -82,7 +82,9 @@ export default async function PostBar({
           {postContent()}
         </Link>
       ) : (
-        postContent()
+        <div className="flex w-[92%] flex-col gap-small p-small ">
+          {postContent()}
+        </div>
       )}
     </section>
   );
