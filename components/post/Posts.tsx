@@ -9,12 +9,16 @@ import getUserPosts from "@/utils/postUtils/getUserPosts";
 import { Session } from "next-auth";
 import { PostDetailProps } from "@/interface/interface";
 
+export const revalidate = 0;
+
 export default async function Posts({ userid }: { userid?: string }) {
   const url: string = userid
     ? `http://localhost:3000/api/posts/details?user=${userid}`
     : "http://localhost:3000/api/posts/details";
 
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    cache: "no-store",
+  });
 
   const { posts }: { posts: PostDetailProps[] } = await res.json();
 
