@@ -104,7 +104,7 @@ model Post {
 
 model Comment {
   comment_id      String       @id @default(uuid())
-  contenu         String
+  content         String
   createdAt       DateTime     @default(now())
 
   auteur          User         @relation(fields: [author_id], references: [id])

@@ -8,8 +8,6 @@ export default async function CommunityInfo({ id }: { id?: string }) {
 
   const { community, postAmount, userAmount } = await res.json();
 
-  console.log(community);
-
   return (
     <>
       <div className="flex items-end gap-small">

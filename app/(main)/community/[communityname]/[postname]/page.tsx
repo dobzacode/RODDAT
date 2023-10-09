@@ -28,6 +28,8 @@ export default async function PostPage({
 
   const { postDetails }: { postDetails: PostDetailProps } = await res.json();
 
+  console.log(postDetails.comments);
+
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
       <section className="flex w-full flex-col gap-sub-large laptop:w-[600px]">

@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const DetailedArrayPosts: any[] = [];
+    const postDetailsArray: any[] = [];
 
     const user = request.nextUrl.searchParams.get("user");
 
@@ -78,14 +78,14 @@ export async function GET(request: NextRequest) {
               },
             },
           });
-          DetailedArrayPosts.push(detailedPost);
+          postDetailsArray.push(detailedPost);
         }),
       );
 
       const message = "All the detailed publications of the user are returned";
       return NextResponse.json({
         message,
-        posts: DetailedArrayPosts,
+        posts: postDetailsArray,
       });
     }
 
@@ -110,14 +110,14 @@ export async function GET(request: NextRequest) {
             },
           },
         });
-        DetailedArrayPosts.push(detailedPost);
+        postDetailsArray.push(detailedPost);
       }),
     );
 
     const message = "All the detailed publications are returned";
     return NextResponse.json({
       message,
-      posts: DetailedArrayPosts,
+      posts: postDetailsArray,
     });
   } catch (e) {
     const message = "Can't return all the detailed publications";

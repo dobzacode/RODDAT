@@ -18,7 +18,7 @@ export default async function Posts({ userid }: { userid?: string }) {
 
   const { posts }: { posts: PostDetailProps[] } = await res.json();
 
-  posts[0].author.name;
+  console.log(posts);
 
   return (
     <>

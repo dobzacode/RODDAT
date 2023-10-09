@@ -61,8 +61,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
     const handleClickOutside = (event: MouseEvent) => {
       if (showCommunity) {
         const communityInput = document.getElementById("community");
-        communityInput;
-        // Vérifiez si l'élément cliqué n'est pas l'input de recherche
+
         if (
           communityInput &&
           !communityInput.contains(event.target as Node) &&
@@ -95,13 +94,6 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   }, []);
 
   const handleSearch = async () => {
-    if (searchValue.trim() === "") {
-      if (userCommunities !== null) {
-        setCommunities(userCommunities);
-      }
-      return;
-    }
-
     try {
       const session: Session | null = await getSession();
       const email = session?.user?.email;
@@ -125,7 +117,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
           ...prevData,
           community: "",
         }));
-        return setCommunities([`No community is matching`]);
+        setCommunities([`No community is matching`]);
       }
 
       const filteredCommunities = communities.communities.filter(
@@ -175,6 +167,12 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
     }));
     if (searchTimeout) {
       clearTimeout(searchTimeout);
+    }
+    if (newSearchValue === "") {
+      if (userCommunities !== null) {
+        setCommunities(userCommunities);
+      }
+      return;
     }
     setSearchTimeout(
       setTimeout(() => {
@@ -273,6 +271,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
                 intent={theme}
                 type="select"
                 id="community"
+                placeholder={communities[0] === "" ? "" : "Select a community"}
                 value={formData.community}
                 onChange={handleChange}
                 choices={communities}

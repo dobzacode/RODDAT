@@ -65,11 +65,12 @@ const InputSelect: FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
               }
               {...props}
             >
-              {placeholder && (
+              {placeholder && choices[0] !== "No community is matching" ? (
                 <option value="" className="" disabled hidden>
                   {placeholder}
                 </option>
-              )}
+              ) : null}
+
               {choices.map((choice) => {
                 return (
                   <option key={uuidv4()} value={choice}>
