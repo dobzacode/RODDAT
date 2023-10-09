@@ -10,7 +10,7 @@ import Posts from "@/components/post/Posts";
 import { v4 as uuidv4 } from "uuid";
 import prisma from "@/prisma/client";
 import PostBar from "@/components/post/PostBar";
-import { Post } from "@prisma/client";
+import { Post, User } from "@prisma/client";
 
 export const revalidate = 0;
 
@@ -24,10 +24,14 @@ export default async function ProfilePage({}) {
     },
   );
 
-  const { userInfo } = await res.json();
+  const {
+    userInfo,
+    posts,
+    communities,
+  }: { userInfo: User; posts: number; communities: number } = await res.json();
 
   const skeletons = () => {
-    for (const post in userInfo?.posts) {
+    for (let i = 0; i < posts; i++) {
       return <PostSkeleton />;
     }
   };
@@ -37,9 +41,7 @@ export default async function ProfilePage({}) {
       <section className="flex w-full flex-col gap-sub-large laptop:w-[600px]">
         <div className="flex w-full flex-col items-center justify-center gap-sub-large">
           <Suspense fallback={skeletons()}>
-            {userInfo?.posts.map((post: Post) => {
-              return <PostBar post={post} key={uuidv4()}></PostBar>;
-            })}
+            <Posts userid={userInfo.id}></Posts>
           </Suspense>
         </div>
       </section>
@@ -49,8 +51,8 @@ export default async function ProfilePage({}) {
           name={session?.user?.name}
           image={session?.user?.image}
           createdAt={userInfo?.createdAt}
-          postAmount={userInfo?.posts.length}
-          communityAmount={userInfo?.communities.length}
+          postAmount={posts}
+          communityAmount={communities}
         ></UserInfoProfile>
       </aside>
     </main>

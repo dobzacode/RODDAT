@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }
@@ -67,6 +67,22 @@ export async function POST(req: NextRequest) {
       }
 
       data.community_id = community.community_id;
+
+      const existingPost = await prisma.post.findFirst({
+        where: {
+          title: post.title,
+          community_id: community.community_id,
+        },
+      });
+
+      if (existingPost) {
+        const message =
+          "A post with the same title already exists in this community";
+        return NextResponse.json({
+          message,
+          status: 409,
+        });
+      }
     }
 
     try {

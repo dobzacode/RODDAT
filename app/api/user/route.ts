@@ -23,18 +23,52 @@ export async function GET(req: NextRequest) {
       where: {
         email: email as string,
       },
-      include: {
-        posts: true,
-        comments: true,
-        communities: true,
-        votes: true,
+    });
+
+    if (!userInfo) {
+      const message = `No user was found with ${email}`;
+      return NextResponse.json(
+        {
+          message: message,
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
+    const posts = await prisma.post.count({
+      where: {
+        author_id: userInfo?.id,
+      },
+    });
+
+    const communities = await prisma.communityUser.count({
+      where: {
+        user_id: userInfo?.id,
+      },
+    });
+
+    const comments = await prisma.comment.count({
+      where: {
+        author_id: userInfo?.id,
+      },
+    });
+
+    const votes = await prisma.vote.count({
+      where: {
+        author_id: userInfo?.id,
       },
     });
 
     const message = "All the user informations are returned";
     return NextResponse.json({
       message,
-      userInfo: userInfo,
+      userInfo,
+      posts,
+      communities,
+      comments,
+      votes,
     });
   } catch (e) {
     const message = "Can't return user informations";

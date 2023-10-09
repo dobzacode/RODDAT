@@ -87,7 +87,7 @@ model CommunityUser {
 
 model Post {
   post_id         String       @id @default(uuid())
-  title           String
+  title           String  @unique
   content         String
   createdAt       DateTime  @default(now())
 

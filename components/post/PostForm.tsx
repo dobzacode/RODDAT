@@ -53,6 +53,8 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
 
   const [isNotFound, setIsNotFound] = useState<string | null>(null);
 
+  const [postAlreadyExist, setPostAlreadyExist] = useState<boolean>(false);
+
   const communityResearchInputRef = useRef(null);
 
   useEffect(() => {
@@ -215,6 +217,12 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
       setIsNotFound(data.community);
       throw new Error("404");
     }
+
+    if (data.status === 409) {
+      setPostAlreadyExist(true);
+      throw new Error("409");
+    }
+
     setIsNotFound(null);
 
     return data;
@@ -287,6 +295,11 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
             value={formData.title}
             onChange={handleChange}
           ></Input>
+          {postAlreadyExist && (
+            <p className="text-error40">
+              A post with this title already exist in the community
+            </p>
+          )}
         </div>
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Content</H3>
