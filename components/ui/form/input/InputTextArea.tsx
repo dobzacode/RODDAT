@@ -8,7 +8,7 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 const InputTextArea: FC<TextAreaProps> = ({
   className,
   id,
-  children,
+
   ...props
 }) => {
   return (
@@ -19,12 +19,8 @@ const InputTextArea: FC<TextAreaProps> = ({
       )}
       name={id}
       id={id}
-      rows={3}
-      cols={50}
       {...props}
-    >
-      {children}
-    </textarea>
+    ></textarea>
   );
 };
 

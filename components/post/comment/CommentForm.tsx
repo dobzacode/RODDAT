@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/ui/button/Button";
+import PopUp from "@/components/ui/div/PopUp";
 import Input from "@/components/ui/form/Input";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
@@ -55,6 +56,8 @@ export function CommentForm({ post_id }: { post_id: string }) {
         id="content"
         value={content}
         onChange={handleContentChange}
+        rows={4}
+        cols={50}
       />
       <Button intent={"pastelPrimary"} size="small" type="submit">
         Comment

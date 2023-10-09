@@ -305,6 +305,8 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
           <Input
             required
             type="textarea"
+            rows={3}
+            cols={50}
             hiddenLabel={true}
             intent={theme}
             id="content"

@@ -1,4 +1,4 @@
-import { Post, Vote } from "@prisma/client";
+import { Comment, Post, Vote } from "@prisma/client";
 
 export interface PostDetailProps
   extends Omit<Post, "community_id" | "post_id" | "author_id"> {

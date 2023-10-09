@@ -61,6 +61,8 @@ interface InputProps
     | InputHTMLAttributes<HTMLInputElement>["onChange"]
     | TextareaHTMLAttributes<HTMLTextAreaElement>["onChange"];
   ref?: Ref<HTMLInputElement>;
+  rows?: number;
+  cols?: number;
 }
 
 const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
@@ -156,9 +158,7 @@ const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
               )}
               onChange={onChange as ChangeEventHandler<HTMLTextAreaElement>}
               {...props}
-            >
-              {props.placeholder}
-            </InputTextArea>
+            ></InputTextArea>
           );
         case "checkbox":
           return (
