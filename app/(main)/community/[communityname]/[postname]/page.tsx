@@ -34,6 +34,7 @@ export default async function PostPage({
         <div className="flex w-full flex-col items-center justify-center gap-sub-large">
           <Suspense fallback={<PostSkeleton></PostSkeleton>}>
             <PostBar
+              isPagePost={true}
               post_id={postDetails.post_id}
               createdAt={postDetails.createdAt}
               author={postDetails.author}

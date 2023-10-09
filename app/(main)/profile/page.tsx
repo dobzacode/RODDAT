@@ -9,7 +9,7 @@ import PostSkeleton from "@/components/post/PostSkeleton";
 import Posts from "@/components/post/Posts";
 import { v4 as uuidv4 } from "uuid";
 import prisma from "@/prisma/client";
-import Post from "@/components/post/PostBar";
+import PostBar from "@/components/post/PostBar";
 import { Post, User } from "@prisma/client";
 import ProfileInfo from "@/components/profile/ProfileInfo";
 

@@ -25,23 +25,14 @@ export default async function PostBar({
   content,
   votes,
   comments,
-}: PostDetailProps) {
+  isPagePost = false,
+}: PostDetailProps & { isPagePost?: boolean }) {
   const upvotes = votes?.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes?.filter((vote) => vote.type === "DOWNVOTE");
 
-  return (
-    <section className="brutalism-border primary-hover flex h-fit w-full rounded-small border-primary80">
-      <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
-        <Icon path={mdiArrowUp} size={1}></Icon>
-        <P>{votes ? upvotes.length - downvotes.length : 0}</P>
-        <Icon path={mdiArrowDown} size={1}></Icon>
-      </div>
-      <Link
-        href={{
-          pathname: `/community/${community.name}/${title}`,
-        }}
-        className="flex w-[92%] flex-col gap-small p-small "
-      >
+  const postContent = () => {
+    return (
+      <>
         <div className="caption flex gap-extra-small">
           <Avatar size={1}></Avatar>
           <P type="caption">r/{community?.name}</P>
@@ -70,7 +61,29 @@ export default async function PostBar({
             <P>Share</P>
           </div>
         </div>
-      </Link>
+      </>
+    );
+  };
+
+  return (
+    <section className="brutalism-border primary-hover flex h-fit w-full rounded-small border-primary80">
+      <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
+        <Icon path={mdiArrowUp} size={1}></Icon>
+        <P>{votes ? upvotes.length - downvotes.length : 0}</P>
+        <Icon path={mdiArrowDown} size={1}></Icon>
+      </div>
+      {!isPagePost ? (
+        <Link
+          href={{
+            pathname: `/community/${community.name}/${title}`,
+          }}
+          className="flex w-[92%] flex-col gap-small p-small "
+        >
+          {postContent()}
+        </Link>
+      ) : (
+        postContent()
+      )}
     </section>
   );
 }
