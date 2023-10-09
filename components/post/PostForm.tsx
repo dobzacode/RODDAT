@@ -216,6 +216,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
       throw new Error("404");
     }
     setIsNotFound(null);
+
     return data;
   };
 

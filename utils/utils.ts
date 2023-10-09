@@ -1,5 +1,6 @@
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { format } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -27,4 +28,9 @@ export function getDateDifference(dateString: Date): string {
   } else if (differenceInDays > 0) {
     return `${differenceInDays} day${differenceInDays > 1 ? "s" : ""} ago`;
   } else return `Today`;
+}
+
+export function formatDateConverter(dateString: Date) {
+  const formattedDate = format(new Date(dateString), "MMMM dd, yyyy");
+  return formattedDate;
 }

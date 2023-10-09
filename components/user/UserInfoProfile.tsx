@@ -1,5 +1,3 @@
-"use client";
-
 import NewCommunityModal from "@/components/community/NewCommunityModal";
 import P from "../ui/text/P";
 import H2 from "../ui/text/H1";
@@ -9,25 +7,50 @@ import { FC } from "react";
 import { buttonVariants } from "../ui/button/Button";
 import { Session } from "next-auth";
 import Avatar from "../ui/Avatar";
+import { formatDateConverter } from "@/utils/utils";
 
 interface UserInfoProfileProps {
-  session: Session | null;
+  email: string | null | undefined;
+  name: string | null | undefined;
+  image: string | null | undefined;
+  createdAt: Date | null | undefined;
+  postAmount: number | null | undefined;
+  communityAmount: number | null | undefined;
 }
 
-const UserInfoProfile: FC<UserInfoProfileProps> = ({ session }) => {
-  console.log(session);
-
+const UserInfoProfile: FC<UserInfoProfileProps> = ({
+  email,
+  name,
+  image,
+  createdAt,
+  postAmount,
+  communityAmount,
+}) => {
   return (
     <>
       <div className="flex items-end gap-small">
-        <Avatar
-          size={5}
-          className="rounded-small"
-          src={session?.user?.image}
-        ></Avatar>
-        <P className="w-full whitespace-nowrap laptop:block">
-          u/{session?.user?.name as string}
+        <Avatar size={5} className="rounded-small" src={image}></Avatar>
+        <P className="w-full whitespace-nowrap font-medium laptop:block">
+          u/{name}
         </P>
+      </div>
+      <hr className=" border border-primary80 opacity-20"></hr>
+
+      <div className="flex flex-col gap-extra-small">
+        <P className="font-medium">Cake day</P>
+        <P>{createdAt ? formatDateConverter(createdAt) : null}</P>
+      </div>
+      <div className="flex justify-between">
+        <div className="flex flex-col gap-extra-small">
+          <P className="flex gap-extra-small">
+            <span className="font-medium">{postAmount}</span> Post
+          </P>
+        </div>
+        <div className="flex flex-col gap-extra-small">
+          <P className="flex gap-extra-small">
+            <span className="font-medium">{communityAmount}</span> Communities
+          </P>
+        </div>
       </div>
       <hr className=" border border-primary80 opacity-20"></hr>
       <Link
