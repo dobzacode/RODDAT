@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       author_id: string;
       community_id?: string;
     } = {
-      title: post.title,
+      title: post.title.toLowerCase(),
       content: post.content,
       author_id: user.id,
     };
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
 
       const existingPost = await prisma.post.findFirst({
         where: {
-          title: post.title,
+          title: post.title.toLowerCase(),
           community_id: community.community_id,
         },
       });

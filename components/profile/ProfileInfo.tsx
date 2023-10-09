@@ -9,7 +9,7 @@ import { Session } from "next-auth";
 import Avatar from "../ui/Avatar";
 import { formatDateConverter } from "@/utils/utils";
 
-interface UserInfoProfileProps {
+interface ProfileInfoProps {
   email: string | null | undefined;
   name: string | null | undefined;
   image: string | null | undefined;
@@ -18,7 +18,7 @@ interface UserInfoProfileProps {
   communityAmount: number | null | undefined;
 }
 
-const UserInfoProfile: FC<UserInfoProfileProps> = ({
+const ProfileInfo: FC<ProfileInfoProps> = ({
   email,
   name,
   image,
@@ -71,4 +71,4 @@ const UserInfoProfile: FC<UserInfoProfileProps> = ({
   );
 };
 
-export default UserInfoProfile;
+export default ProfileInfo;

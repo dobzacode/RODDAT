@@ -5,6 +5,6 @@ export interface PostDetailProps
   votes: Vote[];
   comments: Comment[];
   author: { name: string };
-  community: { name: string };
+  community: { name: string; community_id?: string };
   post_id: string;
 }

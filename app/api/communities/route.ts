@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     try {
       const newCommunity = await prisma.community.create({
         data: {
-          name: community.name,
+          name: community.name.toLowerCase(),
           isNsfw: community.isNsfw,
           visibility: community.visibility.toUpperCase(),
           admin: {

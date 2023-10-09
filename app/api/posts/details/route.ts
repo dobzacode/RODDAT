@@ -37,6 +37,7 @@ export async function GET(request: NextRequest) {
           community: {
             select: {
               name: true,
+              community_id: true,
             },
           },
         },

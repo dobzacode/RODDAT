@@ -1,9 +1,11 @@
 import PostBar from "@/components/post/PostBar";
+import PostInfo from "@/components/community/CommunityInfo";
 import PostSkeleton from "@/components/post/PostSkeleton";
 import { PostDetailProps } from "@/interface/interface";
 import prisma from "@/prisma/client";
 import { Post, User } from "@prisma/client";
 import { Suspense } from "react";
+import CommunityInfo from "@/components/community/CommunityInfo";
 
 export async function generateStaticParams() {
   const posts: Post[] = await prisma.post.findMany();
@@ -24,7 +26,7 @@ export default async function PostPage({
     },
   );
 
-  const { postDetails } = await res.json();
+  const { postDetails }: { postDetails: PostDetailProps } = await res.json();
 
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
@@ -44,7 +46,9 @@ export default async function PostPage({
           </Suspense>
         </div>
       </section>
-      <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 laptop:flex"></aside>
+      <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 laptop:flex">
+        <CommunityInfo id={postDetails.community.community_id}></CommunityInfo>
+      </aside>
     </main>
   );
 }

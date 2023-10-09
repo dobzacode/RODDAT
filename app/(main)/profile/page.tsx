@@ -2,15 +2,16 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { getServerSession } from "next-auth";
 
-import UserInfoProfile from "@/components/user/UserInfoProfile";
+import UserInfoProfile from "@/components/profile/ProfileInfo";
 import { Suspense } from "react";
 
 import PostSkeleton from "@/components/post/PostSkeleton";
 import Posts from "@/components/post/Posts";
 import { v4 as uuidv4 } from "uuid";
 import prisma from "@/prisma/client";
-import PostBar from "@/components/post/PostBar";
+import Post from "@/components/post/PostBar";
 import { Post, User } from "@prisma/client";
+import ProfileInfo from "@/components/profile/ProfileInfo";
 
 export const revalidate = 0;
 
@@ -48,14 +49,14 @@ export default async function ProfilePage({}) {
         </div>
       </section>
       <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 laptop:flex">
-        <UserInfoProfile
+        <ProfileInfo
           email={session?.user?.email}
           name={session?.user?.name}
           image={session?.user?.image}
           createdAt={userInfo?.createdAt}
           postAmount={posts}
           communityAmount={communities}
-        ></UserInfoProfile>
+        ></ProfileInfo>
       </aside>
     </main>
   );

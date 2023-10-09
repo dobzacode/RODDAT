@@ -51,7 +51,9 @@ export default async function PostBar({
           <P type="caption">{getDateDifference(createdAt)}</P>
         </div>
         <div className="flex h-fit flex-col gap-extra-small">
-          <H2 type="sub-heading">{title}</H2>
+          <H2 type="sub-heading">
+            {title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
+          </H2>
           <P className="break-words">{content}</P>
         </div>
         <div className="flex gap-small">
