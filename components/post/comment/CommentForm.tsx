@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/ui/button/Button";
 import Input from "@/components/ui/form/Input";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
@@ -41,17 +42,23 @@ export function CommentForm({ post_id }: { post_id: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="brutalism-border primary-hover flex h-fit w-full flex-col overflow-hidden rounded-small border-primary80"
+    >
       <Input
+        placeholder="What are your throughts ? "
         required
         type="textarea"
         hiddenLabel={true}
-        intent="primary"
+        intent="neutral"
         id="content"
         value={content}
         onChange={handleContentChange}
       />
-      <button type="submit">Publier</button>
+      <Button intent={"pastelPrimary"} size="small" type="submit">
+        Comment
+      </Button>
     </form>
   );
 }

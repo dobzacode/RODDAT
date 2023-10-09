@@ -102,6 +102,14 @@ input[type="search"]::-webkit-search-results-decoration {
   -webkit-appearance: none;
 }
 
+input:focus {
+  outline: 2px solid black;
+}
+
+textarea:focus {
+  outline: 2px solid black;
+}
+
 input[type="search"]:focus {
   outline: none;
 }
