@@ -29,7 +29,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
 
   const isLaptopScreen = useBetterMediaQuery("(min-width: 1024px)");
 
-  console.log(isLaptopScreen);
+  isLaptopScreen;
 
   const laptopShowMenu = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,

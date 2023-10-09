@@ -62,7 +62,7 @@ const GenericForm = <T extends FormData>({
         setIsSuccess();
       }
     } catch (error: any) {
-      console.log(error);
+      error;
       switch (error.message) {
         case "404":
           break;

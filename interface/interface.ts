@@ -6,4 +6,5 @@ export interface PostDetailProps
   comments: Comment[];
   author: { name: string };
   community: { name: string };
+  post_id: string;
 }

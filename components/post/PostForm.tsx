@@ -61,7 +61,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
     const handleClickOutside = (event: MouseEvent) => {
       if (showCommunity) {
         const communityInput = document.getElementById("community");
-        console.log(communityInput);
+        communityInput;
         // Vérifiez si l'élément cliqué n'est pas l'input de recherche
         if (
           communityInput &&
@@ -88,7 +88,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
         setUserCommunities(userCommunities);
         setCommunities(userCommunities);
       } catch (e) {
-        console.log(e);
+        e;
       }
     };
     fetchUserCommunities();
@@ -153,7 +153,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
 
       setCommunities(communityNames);
 
-      console.log(communityNames);
+      communityNames;
 
       setFormData((prevData) => ({
         ...prevData,
@@ -167,7 +167,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   const handleSearchCommunityChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue);
-    console.log(searchValue);
+    searchValue;
     setCommunities([""]);
     setFormData((prevData) => ({
       ...prevData,
@@ -200,7 +200,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
     if (formData.community === "") {
       return setNoCommunity(true);
     }
-    console.log(formData);
+    formData;
     const session: Session | null = await getSession();
     const res = await fetch(`/api/posts?email=${session?.user?.email}`, {
       method: "POST",
@@ -211,7 +211,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
     });
     const data = await res.json();
 
-    console.log(data);
+    data;
 
     if (data.status === 404) {
       setIsNotFound(data.community);

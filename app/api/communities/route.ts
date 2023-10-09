@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     const community = await req.json();
 
-    console.log(community);
+    community;
 
     try {
       const newCommunity = await prisma.community.create({
@@ -112,7 +112,7 @@ export async function GET(req: NextRequest) {
       });
 
       const userCommunities: Community[] = communities.map(
-        (cu) => cu.community
+        (cu) => cu.community,
       );
 
       const message = "The user communities has been found";

@@ -31,9 +31,11 @@ export default async function ProfilePage({}) {
   }: { userInfo: User; posts: number; communities: number } = await res.json();
 
   const skeletons = () => {
+    const skeletonElements = [];
     for (let i = 0; i < posts; i++) {
-      return <PostSkeleton />;
+      skeletonElements.push(<PostSkeleton />);
     }
+    return skeletonElements;
   };
 
   return (

@@ -14,10 +14,12 @@ import { getDateDifference } from "@/utils/utils";
 import getPostInformation from "@/utils/postUtils/getPostInformation";
 import React, { FC, HTMLProps } from "react";
 import { PostDetailProps } from "@/interface/interface";
+import Link from "next/link";
 
 export default async function PostBar({
   createdAt,
   author,
+  post_id,
   community,
   title,
   content,
@@ -34,7 +36,12 @@ export default async function PostBar({
         <P>{votes ? upvotes.length - downvotes.length : 0}</P>
         <Icon path={mdiArrowDown} size={1}></Icon>
       </div>
-      <div className="flex w-[92%] flex-col gap-small p-small ">
+      <Link
+        href={{
+          pathname: `/community/${community.name}/${title}`,
+        }}
+        className="flex w-[92%] flex-col gap-small p-small "
+      >
         <div className="caption flex gap-extra-small">
           <Avatar size={1}></Avatar>
           <P type="caption">r/{community?.name}</P>
@@ -61,7 +68,7 @@ export default async function PostBar({
             <P>Share</P>
           </div>
         </div>
-      </div>
+      </Link>
     </section>
   );
 }

@@ -11,12 +11,12 @@ export async function generateStaticParams() {
 export default function CommunityPage({
   params,
 }: {
-  params: { name: string };
+  params: { communityname: string };
 }) {
   console.log(params);
   return (
     <div>
-      <p>{params.name}</p>
+      <p>{params.communityname}</p>
     </div>
   );
 }
