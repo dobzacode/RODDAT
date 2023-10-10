@@ -32,6 +32,7 @@ export async function GET(request: NextRequest) {
           author: {
             select: {
               name: true,
+              image: true,
             },
           },
           community: {
@@ -69,6 +70,7 @@ export async function GET(request: NextRequest) {
               author: {
                 select: {
                   name: true,
+                  image: true,
                 },
               },
               community: {
@@ -101,6 +103,7 @@ export async function GET(request: NextRequest) {
             author: {
               select: {
                 name: true,
+                image: true,
               },
             },
             community: {

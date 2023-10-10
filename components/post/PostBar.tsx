@@ -30,11 +30,28 @@ export default async function PostBar({
   const upvotes = votes?.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes?.filter((vote) => vote.type === "DOWNVOTE");
 
+  console.log(author);
+
   const postContent = () => {
     return (
       <>
-        <div className="caption flex gap-extra-small">
-          <Avatar size={1}></Avatar>
+        <div className="caption flex items-center gap-extra-small">
+          {isPagePost ? (
+            <div className="absolute -left-large top-small flex flex-col items-center">
+              <Avatar
+                src={author.image}
+                size={5}
+                className="rounded-small"
+              ></Avatar>
+              <div className="h-[35rem] w-[1px] border border-primary20"></div>
+            </div>
+          ) : (
+            <Avatar
+              src={author.image}
+              size={1}
+              className="rounded-full"
+            ></Avatar>
+          )}
           <P type="caption">r/{community?.name}</P>
           <P type="caption">{`Posted by u/${
             author.name ? author.name : "deleted"
@@ -66,7 +83,7 @@ export default async function PostBar({
   };
 
   return (
-    <section className="brutalism-border primary-hover flex h-fit w-full rounded-small border-primary80">
+    <section className="brutalism-border primary-hover relative flex h-fit w-full rounded-small border-primary80">
       <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
         <Icon path={mdiArrowUp} size={1}></Icon>
         <P>{votes ? upvotes.length - downvotes.length : 0}</P>
@@ -75,7 +92,10 @@ export default async function PostBar({
       {!isPagePost ? (
         <Link
           href={{
-            pathname: `/community/${community.name}/${title}`,
+            pathname: `/community/${community.name}/${title.replace(
+              /\s/g,
+              "_",
+            )}`,
           }}
           className="flex w-[92%] flex-col gap-small p-small "
         >

@@ -14,7 +14,7 @@ import { v4 as uuid } from "uuid";
 export async function generateStaticParams() {
   const posts: Post[] = await prisma.post.findMany();
   return posts.map((post) => ({
-    postname: post.title,
+    postname: post.title.replace(/\s/g, "_"),
   }));
 }
 
@@ -24,7 +24,10 @@ export default async function PostPage({
   params: { postname: string; communityname: string };
 }) {
   const res = await fetch(
-    `http://localhost:3000/api/posts/details?post=${params.postname}&community=${params.communityname}`,
+    `http://localhost:3000/api/posts/details?post=${params.postname.replace(
+      /_/g,
+      " ",
+    )}&community=${params.communityname}`,
     {
       cache: "no-store",
     },

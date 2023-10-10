@@ -59,6 +59,8 @@ const CommunityForm: FC<CommunityFormProps> = ({
       } else {
         setIsSpecialCharacter(false);
       }
+      const specialValue = e.target.value.replace(/\s/g, "");
+      return handleInputChange(e, formData, setFormData, specialValue);
     }
     handleInputChange(e, formData, setFormData);
   };

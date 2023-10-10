@@ -107,7 +107,7 @@ model Comment {
   content         String
   createdAt       DateTime     @default(now())
 
-  auteur          User         @relation(fields: [author_id], references: [id])
+  author          User         @relation(fields: [author_id], references: [id])
   author_id       String
 
   post            Post         @relation(fields: [post_id], references: [post_id])

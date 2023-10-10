@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const user = await prisma.user.findUnique({ where: { email: email } });
 
     if (!user) {
-      const message = `No user was found with the followind email : ${email}`;
+      const message = `No user was found with the following email : ${email}`;
       return NextResponse.json(
         {
           message,
@@ -70,6 +70,12 @@ export async function GET(request: NextRequest) {
       where: { comment_id: comment_id },
       include: {
         votes: true,
+        author: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
       },
     });
 

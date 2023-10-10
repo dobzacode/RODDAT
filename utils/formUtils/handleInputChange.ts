@@ -3,7 +3,8 @@ import { ChangeEvent } from "react";
 export const handleInputChange = (
   e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   formData: unknown,
-  setFormData: any
+  setFormData: any,
+  specialValue?: string,
 ) => {
   e.stopPropagation();
 
@@ -15,6 +16,9 @@ export const handleInputChange = (
         ...prevFormData,
         [name]: (e.target as HTMLInputElement).checked,
       };
+    }
+    if (specialValue) {
+      return { ...prevFormData, [name]: specialValue };
     }
     return { ...prevFormData, [name]: value };
   });
