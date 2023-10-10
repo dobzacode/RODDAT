@@ -7,12 +7,6 @@ import { Comment } from "@prisma/client";
 import { CommentForm } from "./CommentForm";
 
 export default function Comments({ comments }: { comments: Comment[] }) {
-  const [replyingTo, setReplyingTo] = useState<string | null>(null);
-
-  const handleReplyClick = (comment_id: string) => {
-    setReplyingTo(comment_id);
-  };
-
   return (
     <>
       {comments.map((comment) => {

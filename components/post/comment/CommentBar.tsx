@@ -27,13 +27,9 @@ export default function CommentBar({
 }) {
   const [upvotes, setUpvotes] = useState<Vote[] | []>([]);
   const [downvotes, setDownvotes] = useState<Vote[] | []>([]);
-  const [author, setAuthor] = useState<{
-    name: string;
-    image: string | null;
-  } | null>(null);
   const [comment, setComment] = useState<CommentDetail | null>(null);
   const [isReplying, setIsReplying] = useState(false);
-  const [size, setSize] = useState(0);
+  const [isSibling, setIsSibling] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchComment = async () => {
@@ -47,27 +43,16 @@ export default function CommentBar({
         data.votes?.filter((vote: Vote) => vote.type === "DOWNVOTE"),
       );
 
-      setAuthor(data.author);
-
       setComment(data);
 
-      const parentElement = document.getElementById("parent_section");
-
-      // Comptez les sections enfants de l'élément parent
-      const sectionCount = parentElement
-        ? parentElement.querySelectorAll("section").length
-        : 0;
-
-      setSize(sectionCount);
+      const element = document.getElementById(comment_id);
+      if (element?.parentElement?.childElementCount)
+        setIsSibling(element?.parentElement?.childElementCount > 0);
     };
     fetchComment();
   }, [content]);
 
-  if (!comment) {
-    return <PostSkeleton></PostSkeleton>;
-  }
-
-  console.log(content, size);
+  console.log(isSibling);
 
   return (
     <>
@@ -76,76 +61,85 @@ export default function CommentBar({
           `relative z-50 flex h-full w-full flex-col gap-sub-large `,
           className,
         )}
-        id="parent_section"
+        id={comment_id}
       >
-        <div>
-          <div
-            className={cn(
-              "absolute -left-large z-0 flex  h-full flex-col items-center",
-              className,
-            )}
-          >
-            <Avatar
-              src={comment?.author.image}
-              size={5}
-              className="relative z-10 rounded-small"
-            ></Avatar>
-            {sibling > 1 && (
+        {comment ? (
+          <>
+            <div>
               <div
-                className={`pointer-events-none relative z-0 -mb-12 block h-full w-[1px] border-x border-t border-primary20`}
-              ></div>
-            )}
-          </div>
-          <div
-            className={cn(
-              "brutalism-border primary-hover relative flex  h-[14rem] w-full rounded-small border-primary80",
-            )}
-          >
-            <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
-              <Icon path={mdiArrowUp} size={1}></Icon>
-              <P>{comment?.votes ? upvotes.length - downvotes.length : 0}</P>
-              <Icon path={mdiArrowDown} size={1}></Icon>
-            </div>
-            <div className="flex flex-col justify-between gap-extra-small p-small">
-              <div className="caption flex items-center gap-extra-small">
-                <P type="caption">{`Posted by u/${
-                  comment?.author.name ? comment?.author.name : "deleted"
-                }`}</P>
-                <P type="caption">
-                  {comment?.createdAt && getDateDifference(comment?.createdAt)}
-                </P>
-              </div>
-              <P>{comment.content}</P>
-              <Button
-                onClick={() => setIsReplying(!isReplying)}
-                className="flex w-fit items-start gap-extra-small"
+                className={cn(
+                  "absolute -left-large z-0 flex  h-full flex-col items-center",
+                  className,
+                )}
               >
-                <Icon path={mdiCommentOutline} size={1.4}></Icon>
-                <P>Reply</P>
-              </Button>
+                <Avatar
+                  src={comment?.author.image}
+                  size={5}
+                  className="relative z-10 rounded-small"
+                ></Avatar>
+                {sibling > 1 && (
+                  <div
+                    className={`pointer-events-none relative z-0 -mb-12 block h-full w-[1px] border-x border-t border-primary20`}
+                  ></div>
+                )}
+              </div>
+              <div
+                className={cn(
+                  "brutalism-border primary-hover relative flex  h-[14rem] w-full rounded-small border-primary80",
+                )}
+              >
+                <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
+                  <Icon path={mdiArrowUp} size={1}></Icon>
+                  <P>
+                    {comment?.votes ? upvotes.length - downvotes.length : 0}
+                  </P>
+                  <Icon path={mdiArrowDown} size={1}></Icon>
+                </div>
+                <div className="flex flex-col justify-between gap-extra-small p-small">
+                  <div className="caption flex items-center gap-extra-small">
+                    <P type="caption">{`Posted by u/${
+                      comment?.author.name ? comment?.author.name : "deleted"
+                    }`}</P>
+                    <P type="caption">
+                      {comment?.createdAt &&
+                        getDateDifference(comment?.createdAt)}
+                    </P>
+                  </div>
+                  <P>{comment.content}</P>
+                  <Button
+                    onClick={() => setIsReplying(!isReplying)}
+                    className="flex w-fit items-start gap-extra-small"
+                  >
+                    <Icon path={mdiCommentOutline} size={1.4}></Icon>
+                    <P>Reply</P>
+                  </Button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        {isReplying && (
-          <CommentForm
-            className="ml-large"
-            parent_comment_id={comment.comment_id}
-            post_id={comment.post_id}
-            isReplying={isReplying}
-          />
+            {isReplying && (
+              <CommentForm
+                className="ml-large"
+                parent_comment_id={comment.comment_id}
+                post_id={comment.post_id}
+                isReplying={isReplying}
+              />
+            )}
+            {comment.child_comments &&
+              comment.child_comments.map((comment) => {
+                return (
+                  <CommentBar
+                    sibling={isSibling ? 2 : 1}
+                    className="z-0 pl-large"
+                    comment_id={comment.comment_id}
+                    content={comment.content}
+                    key={comment.comment_id}
+                  ></CommentBar>
+                );
+              })}
+          </>
+        ) : (
+          <PostSkeleton></PostSkeleton>
         )}
-        {comment.child_comments &&
-          comment.child_comments.map((comment) => {
-            return (
-              <CommentBar
-                sibling={2}
-                className="z-0 pl-large"
-                comment_id={comment.comment_id}
-                content={comment.content}
-                key={comment.comment_id}
-              ></CommentBar>
-            );
-          })}
       </section>
     </>
   );

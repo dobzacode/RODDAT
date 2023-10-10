@@ -22,8 +22,9 @@ export function CommentForm({
   const [content, setContent] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    const session: Session | null = await getSession();
     e.preventDefault();
+    const session: Session | null = await getSession();
+    console.log(e);
     try {
       if (content.trim() === "") {
         return;
@@ -44,9 +45,11 @@ export function CommentForm({
       });
       const data = await res.json();
 
+      console.log(data);
+
       setContent("");
-    } catch (e) {
-      // Gérer les erreurs ici
+    } catch (err) {
+      console.log(err);
     }
   };
 

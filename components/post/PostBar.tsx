@@ -12,9 +12,10 @@ import prisma from "@/prisma/client";
 import { Post, Vote } from "@prisma/client";
 import { cn, getDateDifference } from "@/utils/utils";
 import getPostInformation from "@/utils/postUtils/getPostInformation";
-import React, { FC, HTMLProps } from "react";
+import React, { FC, HTMLProps, ReactNode } from "react";
 import { PostDetailProps } from "@/interface/interface";
 import Link from "next/link";
+import { JsxElement } from "typescript";
 
 export default async function PostBar({
   createdAt,
@@ -26,11 +27,12 @@ export default async function PostBar({
   votes,
   comments,
   isPagePost = false,
-}: PostDetailProps & { isPagePost?: boolean }) {
+  children,
+}: PostDetailProps & { isPagePost?: boolean; children?: ReactNode }) {
   const upvotes = votes?.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes?.filter((vote) => vote.type === "DOWNVOTE");
 
-  console.log(author);
+  console.log(comments);
 
   const postContent = () => {
     return (
@@ -74,18 +76,20 @@ export default async function PostBar({
   };
 
   return (
-    <>
+    <div className="relative flex h-full w-full flex-col gap-sub-large">
+      {isPagePost && (
+        <div className="absolute -left-large flex h-full flex-col items-center">
+          <Avatar
+            src={author.image}
+            size={5}
+            className="rounded-small"
+          ></Avatar>
+          {comments.length ? (
+            <div className="-mb-12 h-full w-[1px] border border-primary20"></div>
+          ) : null}
+        </div>
+      )}
       <section className="relative flex h-fit w-full">
-        {isPagePost && (
-          <div className="absolute -left-large top-small flex flex-col items-center">
-            <Avatar
-              src={author.image}
-              size={5}
-              className="rounded-small"
-            ></Avatar>
-            <div className="h-[35rem] w-[1px] border border-primary20"></div>
-          </div>
-        )}
         <div className="brutalism-border primary-hover flex h-fit w-full  rounded-small border-primary80">
           <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
             <Icon path={mdiArrowUp} size={1}></Icon>
@@ -111,6 +115,7 @@ export default async function PostBar({
           )}
         </div>
       </section>
-    </>
+      {children}
+    </div>
   );
 }
