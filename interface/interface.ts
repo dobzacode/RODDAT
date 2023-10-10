@@ -1,4 +1,4 @@
-import { Comment, Post, Vote } from "@prisma/client";
+import { Comment, Post, User, Vote } from "@prisma/client";
 
 export interface PostDetailProps
   extends Omit<Post, "community_id" | "post_id" | "author_id"> {
@@ -12,5 +12,5 @@ export interface PostDetailProps
 export interface CommentDetail extends Comment {
   votes: Vote[];
   author: { name: string; image: string | null };
-  child_comments?: Comment[];
+  child_comments: Comment[];
 }

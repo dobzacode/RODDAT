@@ -34,3 +34,14 @@ export function formatDateConverter(dateString: Date) {
   const formattedDate = format(new Date(dateString), "MMMM dd, yyyy");
   return formattedDate;
 }
+
+export function countSections(element: HTMLElement | null): number {
+  let numb;
+  if (element) {
+    const sections = element.querySelectorAll("section");
+    numb = sections.length;
+  } else {
+    numb = 0;
+  }
+  return numb;
+}

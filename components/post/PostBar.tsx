@@ -10,7 +10,7 @@ import H2 from "../ui/text/H2";
 import P from "../ui/text/P";
 import prisma from "@/prisma/client";
 import { Post, Vote } from "@prisma/client";
-import { getDateDifference } from "@/utils/utils";
+import { cn, getDateDifference } from "@/utils/utils";
 import getPostInformation from "@/utils/postUtils/getPostInformation";
 import React, { FC, HTMLProps } from "react";
 import { PostDetailProps } from "@/interface/interface";
@@ -35,23 +35,10 @@ export default async function PostBar({
   const postContent = () => {
     return (
       <>
+        {!isPagePost && (
+          <Avatar src={author.image} size={1} className="rounded-full"></Avatar>
+        )}
         <div className="caption flex items-center gap-extra-small">
-          {isPagePost ? (
-            <div className="absolute -left-large top-small flex flex-col items-center">
-              <Avatar
-                src={author.image}
-                size={5}
-                className="rounded-small"
-              ></Avatar>
-              <div className="h-[35rem] w-[1px] border border-primary20"></div>
-            </div>
-          ) : (
-            <Avatar
-              src={author.image}
-              size={1}
-              className="rounded-full"
-            ></Avatar>
-          )}
           <P type="caption">r/{community?.name}</P>
           <P type="caption">{`Posted by u/${
             author.name ? author.name : "deleted"
@@ -83,29 +70,43 @@ export default async function PostBar({
   };
 
   return (
-    <section className="brutalism-border primary-hover relative flex h-fit w-full rounded-small border-primary80">
-      <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
-        <Icon path={mdiArrowUp} size={1}></Icon>
-        <P>{votes ? upvotes.length - downvotes.length : 0}</P>
-        <Icon path={mdiArrowDown} size={1}></Icon>
-      </div>
-      {!isPagePost ? (
-        <Link
-          href={{
-            pathname: `/community/${community.name}/${title.replace(
-              /\s/g,
-              "_",
-            )}`,
-          }}
-          className="flex w-[92%] flex-col gap-small p-small "
-        >
-          {postContent()}
-        </Link>
-      ) : (
-        <div className="flex w-[92%] flex-col gap-small p-small ">
-          {postContent()}
+    <>
+      <section className="relative flex h-fit w-full">
+        {isPagePost && (
+          <div className="absolute -left-large top-small flex flex-col items-center">
+            <Avatar
+              src={author.image}
+              size={5}
+              className="rounded-small"
+            ></Avatar>
+            <div className="h-[35rem] w-[1px] border border-primary20"></div>
+          </div>
+        )}
+        <div className="brutalism-border primary-hover flex h-fit w-full  rounded-small border-primary80">
+          <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
+            <Icon path={mdiArrowUp} size={1}></Icon>
+            <P>{votes ? upvotes.length - downvotes.length : 0}</P>
+            <Icon path={mdiArrowDown} size={1}></Icon>
+          </div>
+          {!isPagePost ? (
+            <Link
+              href={{
+                pathname: `/community/${community.name}/${title.replace(
+                  /\s/g,
+                  "_",
+                )}`,
+              }}
+              className="flex w-[92%] flex-col gap-small p-small "
+            >
+              {postContent()}
+            </Link>
+          ) : (
+            <div className="flex w-[92%] flex-col gap-small p-small ">
+              {postContent()}
+            </div>
+          )}
         </div>
-      )}
-    </section>
+      </section>
+    </>
   );
 }

@@ -99,8 +99,6 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    console.log(commentDetails);
-
     if (!commentDetails) {
       const message = `No comment was founded with the following ID: ${comment_id}`;
       return NextResponse.json(

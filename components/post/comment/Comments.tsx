@@ -13,32 +13,25 @@ export default function Comments({ comments }: { comments: Comment[] }) {
     setReplyingTo(comment_id);
   };
 
-  const memoizedComments = useMemo(() => {
-    return comments.map((comment) => {
-      return (
-        <div
-          className="flex w-full flex-col gap-sub-large laptop:w-[600px]"
-          key={comment.comment_id}
-        >
-          {!comment.parent_comment_id && (
+  return (
+    <>
+      {comments.map((comment) => {
+        if (comment.parent_comment_id) return;
+        return (
+          <div
+            className="flex h-fit w-full flex-col gap-sub-large laptop:w-[600px]"
+            key={comment.comment_id}
+          >
             <CommentBar
+              sibling={
+                comments.filter((comment) => !comment.parent_comment_id).length
+              }
               content={comment.content}
               comment_id={comment.comment_id}
-              handleReplyClick={handleReplyClick}
-            />
-          )}
-          {replyingTo === comment.comment_id && (
-            <CommentForm
-              key={comment.comment_id}
-              parent_comment_id={comment.comment_id}
-              post_id={comment.post_id}
-              isReplying={true}
-            />
-          )}
-        </div>
-      );
-    });
-  }, [comments, replyingTo]);
-
-  return <>{memoizedComments}</>;
+            ></CommentBar>
+          </div>
+        );
+      })}
+    </>
+  );
 }

@@ -3,48 +3,43 @@
 import Avatar from "@/components/ui/Avatar";
 import P from "@/components/ui/text/P";
 import { CommentDetail } from "@/interface/interface";
-import { cn, getDateDifference } from "@/utils/utils";
+import { cn, countSections, getDateDifference } from "@/utils/utils";
 import { mdiArrowDown, mdiArrowUp, mdiCommentOutline } from "@mdi/js";
 import Icon from "@mdi/react";
-import { Comment, Post, Vote } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { Comment, Post, User, Vote } from "@prisma/client";
+import { ReactNode, useEffect, useState } from "react";
 import PostSkeleton from "../PostSkeleton";
 import Button from "@/components/ui/button/Button";
 import { CommentForm } from "./CommentForm";
 
 export default function CommentBar({
-  content,
   comment_id,
-  handleReplyClick,
+  content,
   className,
+  children,
+  sibling,
 }: {
-  content: string;
   comment_id: string;
-  handleReplyClick: Function;
+  content: string;
   className?: string;
+  children?: ReactNode;
+  sibling: number;
 }) {
-  const [comment, setComment] = useState<CommentDetail | null>(null);
-  const [childComments, setChildComments] = useState<Comment[] | null>(null);
   const [upvotes, setUpvotes] = useState<Vote[] | []>([]);
   const [downvotes, setDownvotes] = useState<Vote[] | []>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isCommenting, setIsCommenting] = useState<boolean>(false);
+  const [author, setAuthor] = useState<{
+    name: string;
+    image: string | null;
+  } | null>(null);
+  const [comment, setComment] = useState<CommentDetail | null>(null);
+  const [isReplying, setIsReplying] = useState(false);
+  const [size, setSize] = useState(0);
 
   useEffect(() => {
     const fetchComment = async () => {
-      const url: string = `/api/comments?comment_id=${comment_id}`;
-
-      const res = await fetch(url);
+      const res = await fetch(`/api/comments?comment_id=${comment_id}`);
 
       const { comment: data }: { comment: CommentDetail } = await res.json();
-
-      console.log(data.child_comments);
-
-      setComment(data);
-
-      if (data.child_comments) {
-        setChildComments(data.child_comments);
-      }
 
       setUpvotes(data.votes?.filter((vote: Vote) => vote.type === "UPVOTE"));
 
@@ -52,78 +47,106 @@ export default function CommentBar({
         data.votes?.filter((vote: Vote) => vote.type === "DOWNVOTE"),
       );
 
-      setIsLoading(false);
+      setAuthor(data.author);
+
+      setComment(data);
+
+      const parentElement = document.getElementById("parent_section");
+
+      // Comptez les sections enfants de l'élément parent
+      const sectionCount = parentElement
+        ? parentElement.querySelectorAll("section").length
+        : 0;
+
+      setSize(sectionCount);
     };
     fetchComment();
   }, [content]);
 
-  if (isLoading) return <PostSkeleton></PostSkeleton>;
+  if (!comment) {
+    return null;
+  }
 
-  const renderChildComments = () => {
-    if (!childComments || childComments.length === 0) {
-      return null;
-    }
-
-    return (
-      <>
-        {childComments.map((childComment) => (
-          <CommentBar
-            className="ml-large"
-            key={childComment.comment_id}
-            content={childComment.content}
-            comment_id={childComment.comment_id}
-            handleReplyClick={handleReplyClick}
-          />
-        ))}
-      </>
-    );
-  };
+  console.log(content, size);
 
   return (
     <>
-      <section className={cn("relative", className)}>
-        <div className="absolute -left-large top-small flex  flex-col items-center">
-          <Avatar
-            src={comment?.author.image}
-            size={5}
-            className="rounded-small"
-          ></Avatar>
+      <section
+        className={cn(
+          `relative z-50 flex h-full w-full flex-col gap-sub-large laptop:w-[600px] `,
+          className,
+        )}
+        id="parent_section"
+      >
+        <div>
           <div
-            className={`pointer-events-none block h-[32rem] w-[1px] border border-primary20`}
-          ></div>
-        </div>
-        <div className="brutalism-border primary-hover relative flex  h-[14rem] w-full rounded-small border-primary80">
-          <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
-            <Icon path={mdiArrowUp} size={1}></Icon>
-            <P>{comment?.votes ? upvotes.length - downvotes.length : 0}</P>
-            <Icon path={mdiArrowDown} size={1}></Icon>
+            className={cn(
+              "absolute -left-large top-small z-0 flex  h-full flex-col items-center",
+              className,
+            )}
+          >
+            <Avatar
+              src={comment?.author.image}
+              size={5}
+              className="relative z-10 rounded-small"
+            ></Avatar>
+            {sibling > 1 && (
+              <div
+                className={`pointer-events-none relative z-0 -mb-[16px] -mt-[96px] block h-screen w-[1px] border border-primary20`}
+              ></div>
+            )}
           </div>
-          <div className="flex flex-col justify-between gap-extra-small p-small">
-            <div className="caption flex items-center gap-extra-small">
-              <P type="caption">{`Posted by u/${
-                comment?.author.name ? comment?.author.name : "deleted"
-              }`}</P>
-              <P type="caption">
-                {comment?.createdAt && getDateDifference(comment?.createdAt)}
-              </P>
+          <div
+            className={cn(
+              "brutalism-border primary-hover relative flex  h-[14rem] w-full rounded-small border-primary80",
+            )}
+          >
+            <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
+              <Icon path={mdiArrowUp} size={1}></Icon>
+              <P>{comment?.votes ? upvotes.length - downvotes.length : 0}</P>
+              <Icon path={mdiArrowDown} size={1}></Icon>
             </div>
-            <P>{content}</P>
-            <Button
-              onClick={() => {
-                handleReplyClick(
-                  comment?.comment_id ? comment?.comment_id : "",
-                );
-                setIsCommenting(true);
-              }}
-              className="flex w-fit items-start gap-extra-small"
-            >
-              <Icon path={mdiCommentOutline} size={1.4}></Icon>
-              <P>Reply</P>
-            </Button>
+            <div className="flex flex-col justify-between gap-extra-small p-small">
+              <div className="caption flex items-center gap-extra-small">
+                <P type="caption">{`Posted by u/${
+                  comment?.author.name ? comment?.author.name : "deleted"
+                }`}</P>
+                <P type="caption">
+                  {comment?.createdAt && getDateDifference(comment?.createdAt)}
+                </P>
+              </div>
+              <P>{comment.content}</P>
+              <Button
+                onClick={() => setIsReplying(!isReplying)}
+                className="flex w-fit items-start gap-extra-small"
+              >
+                <Icon path={mdiCommentOutline} size={1.4}></Icon>
+                <P>Reply</P>
+              </Button>
+            </div>
           </div>
         </div>
+        {isReplying && (
+          <CommentForm
+            className="ml-large"
+            parent_comment_id={comment.comment_id}
+            post_id={comment.post_id}
+            isReplying={isReplying}
+          />
+        )}
+        {comment.child_comments &&
+          comment.child_comments.map((comment) => {
+            return (
+              <CommentBar
+                sibling={2}
+                className="z-0 pl-large"
+                comment_id={comment.comment_id}
+                content={comment.content}
+                key={comment.comment_id}
+              ></CommentBar>
+            );
+          })}
       </section>
-      {renderChildComments()}
     </>
   );
 }

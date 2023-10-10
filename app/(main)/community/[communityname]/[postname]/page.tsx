@@ -12,6 +12,8 @@ import CommentBar from "@/components/post/comment/CommentBar";
 import { v4 as uuid } from "uuid";
 import Comments from "@/components/post/comment/Comments";
 
+export const revalidate = 0;
+
 export async function generateStaticParams() {
   const posts: Post[] = await prisma.post.findMany();
   return posts.map((post) => ({

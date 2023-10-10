@@ -3,6 +3,7 @@
 import Button from "@/components/ui/button/Button";
 import PopUp from "@/components/ui/div/PopUp";
 import Input from "@/components/ui/form/Input";
+import { cn } from "@/utils/utils";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import { ChangeEvent, FormEvent, useState } from "react";
@@ -11,10 +12,12 @@ export function CommentForm({
   post_id,
   isReplying,
   parent_comment_id,
+  className,
 }: {
   post_id: string;
   isReplying?: boolean;
   parent_comment_id?: string;
+  className?: string;
 }) {
   const [content, setContent] = useState<string>("");
 
@@ -40,7 +43,7 @@ export function CommentForm({
         body: JSON.stringify(commentData),
       });
       const data = await res.json();
-      console.log(data);
+
       setContent("");
     } catch (e) {
       // Gérer les erreurs ici
@@ -54,7 +57,12 @@ export function CommentForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="brutalism-border primary-hover flex h-fit w-full flex-col overflow-hidden rounded-small border-primary80"
+      className={cn(
+        `brutalism-border primary-hover flex h-fit ${
+          !isReplying && "w-full"
+        } flex-col overflow-hidden rounded-small border-primary80`,
+        className,
+      )}
     >
       <Input
         placeholder="What are your throughts ? "

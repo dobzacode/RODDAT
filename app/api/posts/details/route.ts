@@ -100,6 +100,7 @@ export async function GET(request: NextRequest) {
           include: {
             votes: true,
             comments: true,
+
             author: {
               select: {
                 name: true,
