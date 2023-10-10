@@ -31,6 +31,7 @@ interface GenericFormProps<T> {
   formData: T; // Utilisez le type générique ici
   onSubmit: (formData: T) => Promise<void>;
   children: ReactNode;
+  isSpecialCharacter?: boolean;
 }
 
 const GenericForm = <T extends FormData>({
@@ -41,6 +42,7 @@ const GenericForm = <T extends FormData>({
   formData,
   onSubmit,
   children,
+  isSpecialCharacter,
 }: GenericFormProps<T>) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -54,6 +56,8 @@ const GenericForm = <T extends FormData>({
 
     try {
       const data: any = await onSubmit(formData);
+      if (!data) return;
+      console.log(data);
       setIsOpen ? setIsOpen() : "";
       if (data.post) {
         router.push("/");
@@ -62,7 +66,6 @@ const GenericForm = <T extends FormData>({
         setIsSuccess();
       }
     } catch (error: any) {
-      error;
       switch (error.message) {
         case "404":
           break;
@@ -108,10 +111,11 @@ const GenericForm = <T extends FormData>({
           <Button
             type="submit"
             size="small"
-            intent={theme}
+            intent={!isSpecialCharacter ? theme : "neutral"}
             modifier="brutalism"
             rounded="small"
-            hover={true}
+            hover={!isSpecialCharacter}
+            disabled={isSpecialCharacter}
           >
             {title}
           </Button>

@@ -32,6 +32,8 @@ interface PostFormProps {
   setIsSuccess: Function;
 }
 
+const regex = /^[a-zA-Z0-9\s]+$/;
+
 const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   const [communities, setCommunities] = useState<string[]>([""]);
 
@@ -54,6 +56,8 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   const [isNotFound, setIsNotFound] = useState<string | null>(null);
 
   const [postAlreadyExist, setPostAlreadyExist] = useState<boolean>(false);
+
+  const [isSpecialCharacter, setIsSpecialCharacter] = useState<boolean>(false);
 
   const communityResearchInputRef = useRef(null);
 
@@ -184,6 +188,15 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
+    if (e.target.name === "title") {
+      if (e.target.value === "") {
+        setIsSpecialCharacter(false);
+      } else if (!regex.test(e.target.value)) {
+        setIsSpecialCharacter(true);
+      } else {
+        setIsSpecialCharacter(false);
+      }
+    }
     handleInputChange(e, formData, setFormData);
     if (e.target.type === "select-one") {
       setShowCommunity(false);
@@ -195,6 +208,10 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   };
 
   const handleSubmit = async () => {
+    if (isSpecialCharacter) {
+      return;
+    }
+
     if (formData.community === "") {
       return setNoCommunity(true);
     }
@@ -234,6 +251,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
         formData={formData}
         onSubmit={handleSubmit}
         setIsSuccess={setIsSuccess}
+        isSpecialCharacter={isSpecialCharacter}
       >
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Community</H3>
@@ -248,6 +266,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
                 onChange={handleSearchCommunityChange}
                 ref={communityResearchInputRef}
                 placeholder="Search a community"
+                required
               ></Input>
             </span>
             {isNotFound && (
@@ -297,6 +316,11 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
           {postAlreadyExist && (
             <p className="text-error40">
               A post with this title already exist in the community
+            </p>
+          )}
+          {isSpecialCharacter && (
+            <p className="text-error40">
+              Special characters are not allowed in post title
             </p>
           )}
         </div>

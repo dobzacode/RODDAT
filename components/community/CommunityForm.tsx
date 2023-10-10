@@ -30,6 +30,8 @@ interface CommunityFormProps {
   setIsSuccess: Function;
 }
 
+const regex = /^[a-zA-Z0-9\s]+$/;
+
 const CommunityForm: FC<CommunityFormProps> = ({
   title,
   theme,
@@ -42,15 +44,30 @@ const CommunityForm: FC<CommunityFormProps> = ({
     isNsfw: false,
   });
 
+  const [isSpecialCharacter, setIsSpecialCharacter] = useState<boolean>(false);
+
   const [isAlreadyTaken, setIsAlreadyTaken] = useState<string | null>(null);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
+    if (e.target.name === "name") {
+      if (e.target.value === "") {
+        setIsSpecialCharacter(false);
+      } else if (!regex.test(e.target.value)) {
+        setIsSpecialCharacter(true);
+      } else {
+        setIsSpecialCharacter(false);
+      }
+    }
     handleInputChange(e, formData, setFormData);
   };
 
   const handleSubmit = async () => {
+    if (isSpecialCharacter) {
+      return;
+    }
+
     const session = await getSession();
     const res = await fetch(`/api/communities?email=${session?.user?.email}`, {
       method: "POST",
@@ -81,6 +98,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
         title={title}
         formData={formData}
         onSubmit={handleSubmit}
+        isSpecialCharacter={isSpecialCharacter}
       >
         <div className="flex flex-col gap-sub-medium">
           <H3 type="sub-heading">Name</H3>
@@ -97,6 +115,11 @@ const CommunityForm: FC<CommunityFormProps> = ({
           ></Input>
           {isAlreadyTaken && (
             <p className="text-error40">{`r/${isAlreadyTaken} is already taken`}</p>
+          )}
+          {isSpecialCharacter && (
+            <p className="text-error40">
+              Special characters are not allowed in post title
+            </p>
           )}
         </div>
         <div className="flex flex-col gap-sub-medium">
