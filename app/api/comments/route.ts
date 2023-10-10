@@ -3,9 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { post_id, content, email } = await request.json();
-
-    console.log("fdsfdsfdsfdsfdsf");
+    const { post_id, content, email, parent_comment_id } = await request.json();
 
     const user = await prisma.user.findUnique({ where: { email: email } });
 
@@ -17,6 +15,27 @@ export async function POST(request: NextRequest) {
         },
         {
           status: 404,
+        },
+      );
+    }
+
+    if (parent_comment_id) {
+      const createdComment = await prisma.comment.create({
+        data: {
+          post_id,
+          content,
+          author_id: user.id,
+          parent_comment_id,
+        },
+      });
+      const message = "The child comment has been added";
+      return NextResponse.json(
+        {
+          createdComment,
+          message,
+        },
+        {
+          status: 201,
         },
       );
     }
@@ -70,6 +89,7 @@ export async function GET(request: NextRequest) {
       where: { comment_id: comment_id },
       include: {
         votes: true,
+        child_comments: true,
         author: {
           select: {
             name: true,
@@ -78,6 +98,8 @@ export async function GET(request: NextRequest) {
         },
       },
     });
+
+    console.log(commentDetails);
 
     if (!commentDetails) {
       const message = `No comment was founded with the following ID: ${comment_id}`;

@@ -119,6 +119,7 @@ model Comment {
   votes           Vote[]
   
   child_comments  Comment[]    @relation("ReponseA")
+
 }
 
 enum VoteType {

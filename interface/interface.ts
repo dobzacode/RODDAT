@@ -12,4 +12,5 @@ export interface PostDetailProps
 export interface CommentDetail extends Comment {
   votes: Vote[];
   author: { name: string; image: string | null };
+  child_comments?: Comment[];
 }

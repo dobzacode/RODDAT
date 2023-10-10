@@ -7,7 +7,15 @@ import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import { ChangeEvent, FormEvent, useState } from "react";
 
-export function CommentForm({ post_id }: { post_id: string }) {
+export function CommentForm({
+  post_id,
+  isReplying,
+  parent_comment_id,
+}: {
+  post_id: string;
+  isReplying?: boolean;
+  parent_comment_id?: string;
+}) {
   const [content, setContent] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -21,6 +29,7 @@ export function CommentForm({ post_id }: { post_id: string }) {
         post_id,
         content,
         email: session?.user?.email,
+        parent_comment_id,
       };
 
       const res = await fetch(`/api/comments`, {
@@ -60,7 +69,7 @@ export function CommentForm({ post_id }: { post_id: string }) {
         cols={50}
       />
       <Button intent={"pastelPrimary"} size="small" type="submit">
-        Comment
+        {isReplying ? "Reply" : "Comment"}
       </Button>
     </form>
   );

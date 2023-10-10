@@ -20,13 +20,20 @@ export default function Comments({ comments }: { comments: Comment[] }) {
           className="flex w-full flex-col gap-sub-large laptop:w-[600px]"
           key={comment.comment_id}
         >
-          <CommentBar
-            content={comment.content}
-            comment_id={comment.comment_id}
-            handleReplyClick={handleReplyClick}
-          />
+          {!comment.parent_comment_id && (
+            <CommentBar
+              content={comment.content}
+              comment_id={comment.comment_id}
+              handleReplyClick={handleReplyClick}
+            />
+          )}
           {replyingTo === comment.comment_id && (
-            <CommentForm key={comment.comment_id} post_id={comment.post_id} />
+            <CommentForm
+              key={comment.comment_id}
+              parent_comment_id={comment.comment_id}
+              post_id={comment.post_id}
+              isReplying={true}
+            />
           )}
         </div>
       );
