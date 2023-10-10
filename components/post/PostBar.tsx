@@ -35,10 +35,14 @@ export default async function PostBar({
   const postContent = () => {
     return (
       <>
-        {!isPagePost && (
-          <Avatar src={author.image} size={1} className="rounded-full"></Avatar>
-        )}
         <div className="caption flex items-center gap-extra-small">
+          {!isPagePost && (
+            <Avatar
+              src={author.image}
+              size={2}
+              className="rounded-full"
+            ></Avatar>
+          )}
           <P type="caption">r/{community?.name}</P>
           <P type="caption">{`Posted by u/${
             author.name ? author.name : "deleted"

@@ -58,7 +58,7 @@ export function CommentForm({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        `brutalism-border primary-hover flex h-fit ${
+        `brutalism-border primary-hover flex h-full ${
           !isReplying && "w-full"
         } flex-col overflow-hidden rounded-small border-primary80`,
         className,
@@ -73,7 +73,7 @@ export function CommentForm({
         id="content"
         value={content}
         onChange={handleContentChange}
-        rows={4}
+        rows={3}
         cols={50}
       />
       <Button intent={"pastelPrimary"} size="small" type="submit">

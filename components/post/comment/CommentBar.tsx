@@ -64,7 +64,7 @@ export default function CommentBar({
   }, [content]);
 
   if (!comment) {
-    return null;
+    return <PostSkeleton></PostSkeleton>;
   }
 
   console.log(content, size);
@@ -73,7 +73,7 @@ export default function CommentBar({
     <>
       <section
         className={cn(
-          `relative z-50 flex h-full w-full flex-col gap-sub-large laptop:w-[600px] `,
+          `relative z-50 flex h-full w-full flex-col gap-sub-large `,
           className,
         )}
         id="parent_section"
@@ -81,7 +81,7 @@ export default function CommentBar({
         <div>
           <div
             className={cn(
-              "absolute -left-large top-small z-0 flex  h-full flex-col items-center",
+              "absolute -left-large z-0 flex  h-full flex-col items-center",
               className,
             )}
           >
@@ -92,7 +92,7 @@ export default function CommentBar({
             ></Avatar>
             {sibling > 1 && (
               <div
-                className={`pointer-events-none relative z-0 -mb-[16px] -mt-[96px] block h-screen w-[1px] border border-primary20`}
+                className={`pointer-events-none relative z-0 -mb-12 block h-full w-[1px] border-x border-t border-primary20`}
               ></div>
             )}
           </div>
