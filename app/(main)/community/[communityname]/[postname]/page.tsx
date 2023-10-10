@@ -10,6 +10,7 @@ import { CommentForm } from "@/components/post/comment/CommentForm";
 import CommentFormSkeleton from "@/components/post/comment/CommentFormSkeleton";
 import CommentBar from "@/components/post/comment/CommentBar";
 import { v4 as uuid } from "uuid";
+import Comments from "@/components/post/comment/Comments";
 
 export async function generateStaticParams() {
   const posts: Post[] = await prisma.post.findMany();
@@ -63,15 +64,7 @@ export default async function PostPage({
               comments={postDetails.comments}
             ></PostBar>
             <CommentForm post_id={postDetails.post_id}></CommentForm>
-            {postDetails.comments.map((comment: Comment) => {
-              return (
-                <CommentBar
-                  key={uuid()}
-                  content={comment.content}
-                  comment_id={comment.comment_id}
-                ></CommentBar>
-              );
-            })}
+            <Comments comments={postDetails.comments}></Comments>
           </Suspense>
         </div>
       </section>
