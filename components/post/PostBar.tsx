@@ -17,7 +17,7 @@ import { PostDetailProps } from "@/interface/interface";
 import Link from "next/link";
 import { JsxElement } from "typescript";
 
-export default async function PostBar({
+export default function PostBar({
   createdAt,
   author,
   post_id,

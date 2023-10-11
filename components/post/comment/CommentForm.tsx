@@ -14,15 +14,15 @@ export function CommentForm({
   isReplying,
   parent_comment_id,
   className,
-  addNewChildComment,
+  addNewComment,
   setIsReplying,
 }: {
   post_id: string;
   isReplying?: boolean;
   parent_comment_id?: string;
   className?: string;
-  addNewChildComment: (newComment: CommentDetail) => void;
-  setIsReplying: (isReplying: boolean) => void;
+  addNewComment: (newComment: CommentDetail) => void;
+  setIsReplying?: (isReplying: boolean) => void;
 }) {
   const [content, setContent] = useState<string>("");
 
@@ -51,10 +51,10 @@ export function CommentForm({
       const { createdComment: newComment }: { createdComment: CommentDetail } =
         await res.json();
 
-      addNewChildComment(newComment);
+      addNewComment(newComment);
 
       setContent("");
-      setIsReplying(false);
+      if (setIsReplying) setIsReplying(false);
     } catch (err) {
       console.log(err);
     }
