@@ -8,6 +8,8 @@ import { cn } from "@/utils/utils";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import { ChangeEvent, FormEvent, useState } from "react";
+import CommentFormSkeleton from "./CommentFormSkeleton";
+import PostSkeleton from "../PostSkeleton";
 
 export function CommentForm({
   post_id,
@@ -16,6 +18,7 @@ export function CommentForm({
   className,
   addNewComment,
   setIsReplying,
+  isLoading,
 }: {
   post_id: string;
   isReplying?: boolean;
@@ -23,11 +26,15 @@ export function CommentForm({
   className?: string;
   addNewComment: (newComment: CommentDetail) => void;
   setIsReplying?: (isReplying: boolean) => void;
+  isLoading?: boolean;
 }) {
   const [content, setContent] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    setIsSubmitting(true);
     e.preventDefault();
+    window.focus();
     const session: Session | null = await getSession();
 
     try {
@@ -55,6 +62,7 @@ export function CommentForm({
 
       setContent("");
       if (setIsReplying) setIsReplying(false);
+      setIsSubmitting(false);
     } catch (err) {
       console.log(err);
     }
@@ -63,6 +71,15 @@ export function CommentForm({
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
+
+  if (isLoading) return <CommentFormSkeleton></CommentFormSkeleton>;
+
+  if (isSubmitting)
+    return (
+      <PostSkeleton
+        className={isReplying ? "ml-large w-auto" : ""}
+      ></PostSkeleton>
+    );
 
   return (
     <form

@@ -28,11 +28,14 @@ export default function PostBar({
   comments,
   isPagePost = false,
   children,
-}: PostDetailProps & { isPagePost?: boolean; children?: ReactNode }) {
+  isLoading,
+}: PostDetailProps & {
+  isPagePost?: boolean;
+  children?: ReactNode;
+  isLoading?: boolean;
+}) {
   const upvotes = votes?.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes?.filter((vote) => vote.type === "DOWNVOTE");
-
-  console.log(comments);
 
   const postContent = () => {
     return (
@@ -84,7 +87,7 @@ export default function PostBar({
             size={5}
             className="rounded-small"
           ></Avatar>
-          {comments.length ? (
+          {comments.length && !isLoading ? (
             <div className="-mb-12 h-full w-[1px] border border-primary20"></div>
           ) : null}
         </div>

@@ -38,25 +38,10 @@ export default async function PostPage({
   );
   const { postDetails }: { postDetails: PostDetailProps } = await res.json();
 
-  const skeleton = () => {
-    return (
-      <div className="flex w-full flex-col items-center justify-center gap-sub-large">
-        <PostSkeleton></PostSkeleton>
-        <CommentFormSkeleton></CommentFormSkeleton>
-        {postDetails.comments.map((_) => {
-          return <PostSkeleton key={uuid()}></PostSkeleton>;
-        })}
-      </div>
-    );
-  };
-
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
-      <section className="flex w-full flex-col gap-sub-large laptop:w-[600px]">
-        <div className="flex w-full flex-col items-center justify-center gap-sub-large">
-          <CommentSection postDetails={postDetails}></CommentSection>
-        </div>
-      </section>
+      <CommentSection postDetails={postDetails}></CommentSection>
+
       <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 laptop:flex">
         <CommunityInfo id={postDetails.community.community_id}></CommunityInfo>
       </aside>
