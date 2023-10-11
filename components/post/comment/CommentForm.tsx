@@ -3,6 +3,7 @@
 import Button from "@/components/ui/button/Button";
 import PopUp from "@/components/ui/div/PopUp";
 import Input from "@/components/ui/form/Input";
+import { CommentDetail } from "@/interface/interface";
 import { cn } from "@/utils/utils";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
@@ -13,18 +14,22 @@ export function CommentForm({
   isReplying,
   parent_comment_id,
   className,
+  addNewChildComment,
+  setIsReplying,
 }: {
   post_id: string;
   isReplying?: boolean;
   parent_comment_id?: string;
   className?: string;
+  addNewChildComment: (newComment: CommentDetail) => void;
+  setIsReplying: (isReplying: boolean) => void;
 }) {
   const [content, setContent] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const session: Session | null = await getSession();
-    console.log(e);
+
     try {
       if (content.trim() === "") {
         return;
@@ -43,11 +48,13 @@ export function CommentForm({
         },
         body: JSON.stringify(commentData),
       });
-      const data = await res.json();
+      const { createdComment: newComment }: { createdComment: CommentDetail } =
+        await res.json();
 
-      console.log(data);
+      addNewChildComment(newComment);
 
       setContent("");
+      setIsReplying(false);
     } catch (err) {
       console.log(err);
     }

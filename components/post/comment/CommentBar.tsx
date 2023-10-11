@@ -18,6 +18,7 @@ export default function CommentBar({
   className,
   children,
   sibling,
+  ...props
 }: {
   comment_id: string;
   content: string;
@@ -52,7 +53,15 @@ export default function CommentBar({
     fetchComment();
   }, [content]);
 
-  console.log(isSibling);
+  const addNewChildComment = (newComment: Comment) => {
+    if (!comment) return;
+    const updatedComment = { ...comment };
+
+    if (updatedComment.child_comments) {
+      updatedComment.child_comments.unshift(newComment);
+      setComment(updatedComment);
+    }
+  };
 
   return (
     <>
@@ -122,6 +131,8 @@ export default function CommentBar({
                 parent_comment_id={comment.comment_id}
                 post_id={comment.post_id}
                 isReplying={isReplying}
+                setIsReplying={setIsReplying}
+                addNewChildComment={addNewChildComment}
               />
             )}
             {comment.child_comments &&
