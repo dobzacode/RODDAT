@@ -49,7 +49,7 @@ const Modal: FC<ModalProps> = ({
       classNames="modal"
       unmountOnExit // Retirer le composant de l'arbre DOM lorsque `in` est à `false`
     >
-      <div className="fixed inset-0 z-50 flex items-center justify-center ">
+      <div className="fixed inset-0 z-[60] flex items-center justify-center ">
         <div className=" modal-container absolute inset-0 bg-black opacity-50"></div>
         <div className=" max-w-1/5 brutalism-border relative z-50 mx-auto overflow-y-auto rounded-sub-large border-secondary80 bg-secondary1 p-medium shadow-lg">
           <div className="flex flex-col gap-sub-large px-6 py-4 text-left">

@@ -26,7 +26,7 @@ export function CommentForm({
   className?: string;
   addNewComment: (newComment: CommentDetail) => void;
   setIsReplying?: (isReplying: boolean) => void;
-  isLoading?: boolean;
+  isLoading?: boolean | 0;
 }) {
   const [content, setContent] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);

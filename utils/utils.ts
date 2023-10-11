@@ -1,6 +1,9 @@
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
+import { getSession } from "next-auth/react";
+import { Session } from "next-auth";
+import { User, Vote } from "@prisma/client";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -44,4 +47,33 @@ export function countSections(element: HTMLElement | null): number {
     numb = 0;
   }
   return numb;
+}
+
+export async function handleVote(
+  type: "DOWNVOTE" | "UPVOTE",
+  to: "comment" | "post",
+  id: string,
+  addVote: Function,
+  userId: string,
+) {
+  const vote = { type, user_id: userId, comment_id: id };
+  addVote(vote);
+  const session: Session | null = await getSession();
+  if (!session) return;
+  const res = await fetch(
+    `/api/votes?${to}_id=${id}&email=${session?.user?.email}&type=${type}`,
+    { method: "POST" },
+  );
+  const { data } = await res.json();
+
+  console.log(data);
+}
+
+export async function getUserInformation() {
+  const session: Session | null = await getSession();
+  const res = await fetch(
+    `/api/user/getuserinformation?email=${session?.user?.email}`,
+  );
+  const { user }: { user: User } = await res.json();
+  return user;
 }

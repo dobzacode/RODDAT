@@ -16,6 +16,7 @@ import React, { FC, HTMLProps, ReactNode } from "react";
 import { PostDetailProps } from "@/interface/interface";
 import Link from "next/link";
 import { JsxElement } from "typescript";
+import VoteButton from "./VoteButton";
 
 export default function PostBar({
   createdAt,
@@ -29,10 +30,12 @@ export default function PostBar({
   isPagePost = false,
   children,
   isLoading,
+  userId,
 }: PostDetailProps & {
   isPagePost?: boolean;
   children?: ReactNode;
   isLoading?: boolean;
+  userId: string;
 }) {
   const upvotes = votes?.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes?.filter((vote) => vote.type === "DOWNVOTE");
@@ -95,9 +98,13 @@ export default function PostBar({
       <section className="relative flex h-fit w-full">
         <div className="brutalism-border primary-hover flex h-fit w-full  rounded-small border-primary80">
           <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
-            <Icon path={mdiArrowUp} size={1}></Icon>
-            <P>{votes ? upvotes.length - downvotes.length : 0}</P>
-            <Icon path={mdiArrowDown} size={1}></Icon>
+            <VoteButton
+              userId={userId}
+              post_id={post_id}
+              votes={votes}
+              upvotes={upvotes}
+              downvotes={downvotes}
+            ></VoteButton>
           </div>
           {!isPagePost ? (
             <Link

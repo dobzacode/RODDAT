@@ -10,9 +10,11 @@ import PostSkeleton from "../PostSkeleton";
 export default function Comments({
   comments,
   setIsLoading,
+  userId,
 }: {
   comments: Comment[];
   setIsLoading: Function;
+  userId: string | null;
 }) {
   return (
     <Suspense fallback={<PostSkeleton></PostSkeleton>}>
@@ -21,6 +23,7 @@ export default function Comments({
 
         return (
           <CommentBar
+            userId={userId ? userId : ""}
             setIsLoading={() => setIsLoading()}
             key={comment.comment_id}
             sibling={

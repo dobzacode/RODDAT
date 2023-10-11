@@ -131,8 +131,8 @@ model Vote {
   vote_id         String       @id @default(uuid())
   type            VoteType
   date_de_creation DateTime  @default(now())
-  auteur          User      @relation(fields: [author_id], references: [id])
-  author_id String
+  user          User      @relation(fields: [user_id], references: [id])
+  user_id String
 
   post            Post?      @relation(fields: [post_id], references: [post_id])
   post_id String?
