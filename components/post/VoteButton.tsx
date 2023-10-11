@@ -60,7 +60,6 @@ export default function VoteButton({
       `/api/votes?post_id=${post_id}&email=${session?.user?.email}&type=${type}`,
       { method: "POST" },
     );
-    const data = await res.json();
   };
 
   const deleteVote = async (type: "UPVOTE" | "DOWNVOTE") => {
@@ -81,7 +80,6 @@ export default function VoteButton({
       `/api/votes?post_id=${post_id}&email=${session?.user?.email}&type=${type}`,
       { method: "DELETE" },
     );
-    const data = await res.json();
   };
 
   return (
