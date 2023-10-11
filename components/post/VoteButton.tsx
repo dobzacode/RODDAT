@@ -25,8 +25,6 @@ export default function VoteButton({
   const [upvotes, setUpvotes] = useState<Vote[] | []>(up);
   const [downvotes, setDownvotes] = useState<Vote[] | []>(down);
 
-  console.log(upvotes);
-
   const handleVote = async (type: "UPVOTE" | "DOWNVOTE") => {
     const vote = { type, user_id: userId, post_id: post_id };
 

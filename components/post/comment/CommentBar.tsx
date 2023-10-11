@@ -23,8 +23,6 @@ export default function CommentBar({
   comment_id,
   content,
   className,
-  children,
-  sibling,
   setIsLoading,
   userId,
 }: {
@@ -32,7 +30,6 @@ export default function CommentBar({
   content: string;
   className?: string;
   children?: ReactNode;
-  sibling: number;
   setIsLoading: Function;
   userId: string;
 }) {
@@ -48,15 +45,26 @@ export default function CommentBar({
 
       setComment(data);
 
-      const element = document.getElementById(comment_id);
-      if (element?.parentElement?.childElementCount) {
-        setIsSibling(element?.parentElement?.childElementCount > 0);
-      }
-
       if (data.child_comments.length === 0) {
         setIsLoading();
       }
     };
+
+    const divElement = document.getElementById(comment_id);
+
+    const parentElement = divElement?.parentElement;
+
+    if (!parentElement) return;
+    const descendants = Array.from(parentElement.children);
+
+    const index = descendants.indexOf(divElement);
+
+    if (index !== -1 && index < descendants.length - 1) {
+      setIsSibling(true);
+    } else {
+      setIsSibling(false);
+    }
+
     fetchComment();
   }, [content]);
 
@@ -86,16 +94,9 @@ export default function CommentBar({
       );
     });
 
-    if (existingVoteIndex !== -1) {
-      // Remplacez le vote existant par le nouveau vote
-      updatedComment.votes[existingVoteIndex] = newVote;
-    } else {
-      // Ajoutez le nouveau vote à l'array
-      updatedComment.votes.push(newVote);
-    }
+    setComment(updatedComment);
 
     // Mettez à jour l'objet comment avec le nouvel array de votes
-    setComment(updatedComment);
   };
 
   const deleteVote = async (type: "UPVOTE" | "DOWNVOTE") => {
@@ -142,7 +143,7 @@ export default function CommentBar({
               size={5}
               className="relative z-10 rounded-small"
             ></Avatar>
-            {sibling > 1 ? (
+            {isSibling ? (
               <div
                 className={`pointer-events-none relative z-0 -mb-12 block h-full w-[1px] border-x border-t border-primary20`}
               ></div>
@@ -264,7 +265,6 @@ export default function CommentBar({
                 <CommentBar
                   userId={userId}
                   setIsLoading={setIsLoading}
-                  sibling={isSibling ? 2 : 1}
                   className="z-0 pl-large"
                   comment_id={comment.comment_id}
                   content={comment.content}
