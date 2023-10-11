@@ -68,6 +68,8 @@ export default function CommentBar({
     }
   };
 
+  const handleVote = async () => {};
+
   return (
     <section
       className={cn(
@@ -102,9 +104,13 @@ export default function CommentBar({
               )}
             >
               <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
-                <Icon path={mdiArrowUp} size={1}></Icon>
+                <Button>
+                  <Icon path={mdiArrowUp} size={1}></Icon>
+                </Button>
                 <P>{comment?.votes ? upvotes.length - downvotes.length : 0}</P>
-                <Icon path={mdiArrowDown} size={1}></Icon>
+                <Button>
+                  <Icon path={mdiArrowDown} size={1}></Icon>
+                </Button>
               </div>
               <div className="flex h-full flex-col justify-between gap-small p-small">
                 <div className="caption flex items-center gap-extra-small">
