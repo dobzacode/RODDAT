@@ -13,20 +13,22 @@ export default function VoteButton({
   upvotes: up,
   downvotes: down,
   votes,
-  post_id,
+  id,
   userId,
+  to,
 }: {
   upvotes: Vote[] | [];
   downvotes: Vote[] | [];
   votes: Vote[] | [];
-  post_id: string;
+  id: string;
   userId: string;
+  to: "post" | "comment";
 }) {
   const [upvotes, setUpvotes] = useState<Vote[] | []>(up);
   const [downvotes, setDownvotes] = useState<Vote[] | []>(down);
 
   const handleVote = async (type: "UPVOTE" | "DOWNVOTE") => {
-    const vote = { type, user_id: userId, post_id: post_id };
+    const vote = { type, user_id: userId, post_id: id };
 
     if (type === "UPVOTE") {
       setUpvotes([...upvotes, vote as Vote]);
@@ -55,7 +57,7 @@ export default function VoteButton({
     if (!session) return;
 
     const res = await fetch(
-      `/api/votes?post_id=${post_id}&email=${session?.user?.email}&type=${type}`,
+      `/api/votes?${to}_id=${id}&email=${session?.user?.email}&type=${type}`,
       { method: "POST" },
     );
   };
@@ -75,7 +77,7 @@ export default function VoteButton({
     if (!session) return;
 
     const res = await fetch(
-      `/api/votes?post_id=${post_id}&email=${session?.user?.email}&type=${type}`,
+      `/api/votes?${to}_id=${id}&email=${session?.user?.email}&type=${type}`,
       { method: "DELETE" },
     );
   };

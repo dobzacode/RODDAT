@@ -82,30 +82,32 @@ export function CommentForm({
     );
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={cn(
-        `brutalism-border primary-hover flex h-full ${
-          !isReplying && "w-full"
-        } flex-col overflow-hidden rounded-small border-primary80`,
-        className,
-      )}
-    >
-      <Input
-        placeholder="What are your throughts ? "
-        required
-        type="textarea"
-        hiddenLabel={true}
-        intent="neutral"
-        id="content"
-        value={content}
-        onChange={handleContentChange}
-        rows={3}
-        cols={50}
-      />
-      <Button intent={"pastelPrimary"} size="small" type="submit">
-        {isReplying ? "Reply" : "Comment"}
-      </Button>
-    </form>
+    <div>
+      <form
+        onSubmit={handleSubmit}
+        className={cn(
+          `brutalism-border primary-hover flex h-full ${
+            !isReplying && "w-full"
+          } flex-col overflow-hidden rounded-small border-primary80`,
+          className,
+        )}
+      >
+        <Input
+          placeholder="What are your throughts ? "
+          required
+          type="textarea"
+          hiddenLabel={true}
+          intent="neutral"
+          id="content"
+          value={content}
+          onChange={handleContentChange}
+          rows={3}
+          cols={50}
+        />
+        <Button intent={"pastelPrimary"} size="small" type="submit">
+          {isReplying ? "Reply" : "Comment"}
+        </Button>
+      </form>
+    </div>
   );
 }

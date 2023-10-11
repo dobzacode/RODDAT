@@ -100,7 +100,8 @@ export default function PostBar({
           <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
             <VoteButton
               userId={userId}
-              post_id={post_id}
+              id={post_id}
+              to="post"
               votes={votes}
               upvotes={upvotes}
               downvotes={downvotes}
