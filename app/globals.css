@@ -49,7 +49,7 @@
   }
 
   .primary-hover {
-    @apply duration-fast hover:scale-[102%] hover:shadow-primary-medium;
+    @apply duration-fast hover:scale-[102%] hover:shadow-primary-medium dark:hover:shadow-primary-medium-light;
   }
 
   .secondary-hover {

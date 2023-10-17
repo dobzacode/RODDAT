@@ -96,7 +96,7 @@ export default function PostBar({
         </div>
       )}
       <section className="relative flex h-fit w-full dark:text-primary1">
-        <div className="brutalism-border primary-hover flex h-fit w-full  rounded-small border-primary80 dark:border-primary20">
+        <div className="brutalism-border primary-hover dark:primary-hover-dark flex h-fit  w-full rounded-small border-primary80 dark:border-primary20">
           <div className="flex flex-col items-center  gap-extra-small rounded-l-small bg-primary10 p-small dark:bg-primary90">
             <VoteButton
               userId={userId}

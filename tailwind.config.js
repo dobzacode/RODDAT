@@ -15,7 +15,7 @@ const PRIMARY_COLOR_SHADOW = `${PRIMARY_COLOR_HSL.split(",")[0]}deg ${
 }% ${LIGHTNESS_FACTOR}`;
 const PRIMARY_COLOR_LIGHT = `${PRIMARY_COLOR_HSL.split(",")[0]}deg ${
   69 - SATURATION_FACTOR
-}% 80`;
+}% 80%`;
 
 const SECONDARY_COLOR_HSL = "200, 56%";
 const SECONDARY_COLOR_SHADOW = `${SECONDARY_COLOR_HSL.split(",")[0]}deg ${
@@ -258,7 +258,7 @@ module.exports = {
       boxShadow: {
         "primary-low": lowShadow(PRIMARY_COLOR_SHADOW),
         "primary-medium": mediumShadow(PRIMARY_COLOR_SHADOW),
-        "primary-medium-light": mediumLight(PRIMARY_COLOR_LIGHT),
+        "primary-medium-light": mediumShadow(PRIMARY_COLOR_LIGHT),
         "primary-high": highShadow(PRIMARY_COLOR_SHADOW),
         "primary-clay": clayShadow(PRIMARY_COLOR_HSL),
         "secondary-low": lowShadow(SECONDARY_COLOR_SHADOW),
