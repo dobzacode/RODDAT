@@ -1,17 +1,27 @@
 import Link from "next/link";
 import Avatar from "../ui/Avatar";
+import { Session, getServerSession } from "next-auth";
+import { getSession } from "next-auth/react";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default function NewPostBar({}) {
+export default async function NewPostBar({}) {
+  const session: Session | null = await getServerSession(authOptions);
+
+  console.log(session);
+
   return (
     <Link
       href="/post/create"
-      className="flex gap-extra-small bg-primary10 p-extra-small brutalism-border border-primary80 rounded-small cursor-pointer primary-hover w-full"
+      className="brutalism-border primary-hover flex w-full cursor-pointer gap-extra-small rounded-small border-primary80 bg-primary10 p-extra-small dark:border-primary20 dark:bg-primary80"
     >
-      <div className="bg-white rounded-small p-extra-small">
-        <Avatar></Avatar>
+      <div className="rounded-small bg-white p-extra-small dark:bg-primary90">
+        <Avatar
+          className="rounded-small dark:text-primary1"
+          src={session?.user?.image}
+        ></Avatar>
       </div>
       <input
-        className="body focus:outline-none bg-white rounded-small px-small placeholder:text-neutral80 cursor-pointer w-full"
+        className="body w-full cursor-pointer rounded-small bg-white px-small placeholder:text-neutral80 focus:outline-none dark:bg-primary90 dark:placeholder:text-primary1"
         type="text"
         placeholder="New publication"
       />

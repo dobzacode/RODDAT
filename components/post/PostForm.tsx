@@ -244,7 +244,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   };
 
   return (
-    <div className=" rounded-sub-large p-sub-large">
+    <div className=" rounded-sub-large p-sub-large ">
       <GenericForm
         theme={theme}
         title={title}
@@ -254,7 +254,9 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
         isSpecialCharacter={isSpecialCharacter}
       >
         <div className="flex flex-col gap-sub-medium">
-          <H3 type="sub-heading">Community</H3>
+          <H3 className="dark:text-primary1" type="sub-heading">
+            Community
+          </H3>
           <div className="relative flex flex-col justify-between">
             <span onClick={() => !showCommunity && setShowCommunity(true)}>
               <Input
@@ -302,7 +304,9 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
           )}
         </div>
         <div className="flex flex-col gap-sub-medium">
-          <H3 type="sub-heading">Title</H3>
+          <H3 className="dark:text-primary1" type="sub-heading">
+            Title
+          </H3>
           <Input
             required
             hiddenLabel={true}
@@ -325,7 +329,9 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
           )}
         </div>
         <div className="flex flex-col gap-sub-medium">
-          <H3 type="sub-heading">Content</H3>
+          <H3 className="dark:text-primary1" type="sub-heading">
+            Content
+          </H3>
           <Input
             required
             type="textarea"

@@ -35,14 +35,14 @@ const NewCommunityModal: FC = () => {
 
       <Modal
         title="New community"
-        titleCSS="text-secondary80"
+        titleCSS="text-secondary80 dark:text-secondary1"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       >
         <CommunityForm
           setIsSuccess={() => setIsSuccess(true)}
           setIsOpen={() => setIsOpen(false)}
-          theme="secondary"
+          theme="primary"
           title="Create Community"
         ></CommunityForm>
       </Modal>

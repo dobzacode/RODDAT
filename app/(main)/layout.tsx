@@ -23,7 +23,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
   return (
     <>
       <Header
@@ -31,18 +30,11 @@ export default async function RootLayout({
         //top-[100px]
         textColor="text-neutral80"
         textType="sub-heading"
-        logoColor="text-neutral80"
+        logoColor="text-neutral80 dark:text-primary10"
         logoType="heading font-bold tracking-widest"
         mobileTextType="sub-heading"
-        bgColor="bg-primary10 border-b-4 border-neutral80"
-      >
-        <SearchBar></SearchBar>
-        {session ? (
-          <UserMenu session={session}></UserMenu>
-        ) : (
-          <LoginModal></LoginModal>
-        )}
-      </Header>
+        bgColor="bg-primary10 border-b-4 border-neutral80 dark:border-primary20 dark:bg-primary90"
+      ></Header>
       {children}
     </>
   );

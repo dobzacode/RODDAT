@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
 
     const votes = await prisma.vote.count({
       where: {
-        author_id: userInfo?.id,
+        user_id: userInfo?.id,
       },
     });
 

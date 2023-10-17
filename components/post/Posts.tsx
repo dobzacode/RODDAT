@@ -22,13 +22,12 @@ export default async function Posts({ userid }: { userid?: string }) {
 
   const { posts }: { posts: PostDetailProps[] } = await res.json();
 
-  console.log(posts);
-
   return (
     <>
       {posts.map((post) => {
         return (
           <PostBar
+            userId={userid ? userid : ""}
             post_id={post.post_id}
             createdAt={post.createdAt}
             author={post.author}

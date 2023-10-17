@@ -149,7 +149,7 @@ input[type="search"]:focus {
 }
 
 .toggle-checkbox:checked + .toggle-switch {
-  background: rgb(121, 186, 219);
+  background: var(--primary-color);
 }
 
 .toggle-checkbox:checked + .toggle-switch:before {

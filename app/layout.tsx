@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import { Providers } from "@/components/darkMode/providers";
 
 import type { Metadata } from "next";
 
@@ -15,8 +16,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="flex flex-col gap-sub-large relative min-h-screen">
-        {children}
+      <body className="relative flex min-h-screen flex-col gap-sub-large duration-medium dark:bg-black">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -91,9 +91,10 @@ const CommunityForm: FC<CommunityFormProps> = ({
 
   return (
     <div
-      className={`flex flex-col text-${theme}80 items-center gap-medium bg-${theme}1 h-auto rounded-extra-small`}
+      className={`flex flex-col text-${theme}80 h-auto items-center  gap-medium rounded-extra-small`}
     >
       <GenericForm
+        modalCSS="dark:bg-primary80"
         theme={theme}
         setIsOpen={setIsOpen}
         setIsSuccess={setIsSuccess}
@@ -102,13 +103,13 @@ const CommunityForm: FC<CommunityFormProps> = ({
         onSubmit={handleSubmit}
         isSpecialCharacter={isSpecialCharacter}
       >
-        <div className="flex flex-col gap-sub-medium">
+        <div className="flex flex-col gap-sub-medium  ">
           <H3 type="sub-heading">Name</H3>
           <Input
             required
             hiddenLabel={true}
             placeholder="r/"
-            color={theme}
+            intent={theme}
             type="text"
             className="flex flex-col gap-small"
             id="name"

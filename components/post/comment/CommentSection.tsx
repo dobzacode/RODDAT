@@ -48,7 +48,7 @@ export default function CommentSection({
         <CommentForm
           addNewComment={addNewComment}
           post_id={postDetails?.post_id}
-          isLoading={postDetails.comments.length ? isLoading : 0}
+          isLoading={postDetails?.comments.length ? isLoading : 0}
         ></CommentForm>
       </PostBar>
 

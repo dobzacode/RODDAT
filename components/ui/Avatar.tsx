@@ -33,7 +33,7 @@ const Avatar: FC<AvatarProps> = ({
     );
   }
 
-  return <Icon path={mdiAccount} size={size}></Icon>;
+  return <Icon path={mdiAccount} className={className} size={size}></Icon>;
 };
 
 export default Avatar;

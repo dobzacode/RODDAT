@@ -43,7 +43,7 @@ export default function PostBar({
   const postContent = () => {
     return (
       <>
-        <div className="caption flex items-center gap-extra-small">
+        <div className="caption flex items-center gap-extra-small dark:text-primary1">
           {!isPagePost && (
             <Avatar
               src={author.image}
@@ -57,13 +57,13 @@ export default function PostBar({
           }`}</P>
           <P type="caption">{getDateDifference(createdAt)}</P>
         </div>
-        <div className="flex h-fit flex-col gap-extra-small">
+        <div className=" flex h-fit flex-col gap-extra-small">
           <H2 type="sub-heading">
             {title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
           </H2>
           <P className="break-words">{content}</P>
         </div>
-        <div className="flex gap-small">
+        <div className="flex gap-small dark:text-primary1">
           <div className="flex gap-extra-small">
             <Icon path={mdiCommentOutline} size={1.4}></Icon>
             <P>
@@ -72,7 +72,7 @@ export default function PostBar({
                 : `${comments?.length} comment`}
             </P>
           </div>
-          <div className="flex gap-extra-small">
+          <div className="flex gap-extra-small dark:text-primary1">
             <Icon path={mdiShareOutline} size={1.4}></Icon>
             <P>Share</P>
           </div>
@@ -82,7 +82,7 @@ export default function PostBar({
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col gap-sub-large">
+    <div className="relative flex h-full w-full flex-col gap-sub-large ">
       {isPagePost && (
         <div className="absolute -left-large flex h-full flex-col items-center">
           <Avatar
@@ -95,9 +95,9 @@ export default function PostBar({
           ) : null}
         </div>
       )}
-      <section className="relative flex h-fit w-full">
-        <div className="brutalism-border primary-hover flex h-fit w-full  rounded-small border-primary80">
-          <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
+      <section className="relative flex h-fit w-full dark:text-primary1">
+        <div className="brutalism-border primary-hover flex h-fit w-full  rounded-small border-primary80 dark:border-primary20">
+          <div className="flex flex-col items-center  gap-extra-small rounded-l-small bg-primary10 p-small dark:bg-primary90">
             <VoteButton
               userId={userId}
               id={post_id}
@@ -115,12 +115,12 @@ export default function PostBar({
                   "_",
                 )}`,
               }}
-              className="flex w-[92%] flex-col gap-small p-small "
+              className=" flex w-[92%] flex-col gap-small rounded-r-small p-small dark:bg-primary80"
             >
               {postContent()}
             </Link>
           ) : (
-            <div className="flex w-[92%] flex-col gap-small p-small ">
+            <div className="flex w-[92%] flex-col gap-small rounded-r-small p-small  dark:bg-primary80">
               {postContent()}
             </div>
           )}

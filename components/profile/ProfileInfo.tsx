@@ -34,7 +34,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
           u/{name}
         </P>
       </div>
-      <hr className=" border border-primary80 opacity-20"></hr>
+      <hr className=" border border-primary80 opacity-20 dark:border-primary10"></hr>
 
       <div className="flex flex-col gap-extra-small">
         <P className="font-medium">Cake day</P>
@@ -52,7 +52,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
           </P>
         </div>
       </div>
-      <hr className=" border border-primary80 opacity-20"></hr>
+      <hr className=" border border-primary80 opacity-20 dark:border-primary10"></hr>
       <Link
         href="/post/create"
         // className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"

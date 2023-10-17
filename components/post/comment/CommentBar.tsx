@@ -14,6 +14,7 @@ import { CommentForm } from "./CommentForm";
 import { getSession } from "next-auth/react";
 import { Session } from "next-auth";
 import VoteButton from "../VoteButton";
+import useSibling from "@/components/hooks/useIsSibling";
 
 export default function CommentBar({
   comment_id,
@@ -32,8 +33,8 @@ export default function CommentBar({
   userId: string;
 }) {
   const [comment, setComment] = useState<CommentDetail | null>(null);
-  const [isReplying, setIsReplying] = useState(false);
-  const [isSibling, setIsSibling] = useState<boolean>(false);
+  const [isReplying, setIsReplying] = useState<boolean>(false);
+  const { isSibling } = useSibling(comment_id);
 
   useEffect(() => {
     const fetchComment = async () => {
@@ -48,25 +49,8 @@ export default function CommentBar({
       }
     };
 
-    const divElement = document.getElementById(comment_id);
-
-    const parentElement = divElement?.parentElement;
-
-    if (!parentElement) return;
-    const descendants = Array.from(parentElement.children);
-
-    const index = descendants.indexOf(divElement);
-
-    if (index !== -1 && index < descendants.length - 1) {
-      setIsSibling(true);
-    } else {
-      setIsSibling(false);
-    }
-
     fetchComment();
   }, [content]);
-
-  useEffect(() => {}, [comment?.votes]);
 
   const addNewComment = (newComment: Comment) => {
     if (!comment) return;
@@ -90,14 +74,14 @@ export default function CommentBar({
         <>
           <div
             className={cn(
-              "absolute -left-large z-0 flex  h-full flex-col items-center",
+              "absolute -left-large z-0 flex  h-full flex-col items-center dark:text-primary1",
               className,
             )}
           >
             <Avatar
               src={comment?.author.image}
               size={5}
-              className="relative z-10 rounded-small"
+              className="relative z-10 rounded-small "
             ></Avatar>
             {isSibling ? (
               <div
@@ -107,10 +91,10 @@ export default function CommentBar({
           </div>
           <div
             className={cn(
-              "brutalism-border primary-hover relative flex  h-full w-full rounded-small border-primary80",
+              "brutalism-border primary-hover relative flex  h-full w-full rounded-small border-primary80 dark:border-primary20 dark:bg-primary80",
             )}
           >
-            <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small">
+            <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small dark:bg-primary90 dark:text-primary1">
               <VoteButton
                 votes={comment.votes}
                 upvotes={comment.votes?.filter(
@@ -124,7 +108,7 @@ export default function CommentBar({
                 userId={userId}
               ></VoteButton>
             </div>
-            <div className="flex h-full flex-col justify-between gap-small p-small">
+            <div className="flex h-full flex-col justify-between gap-small p-small  dark:text-primary1">
               <div className="caption flex items-center gap-extra-small">
                 <P type="caption">{`Posted by u/${
                   comment?.author.name ? comment?.author.name : "deleted"

@@ -75,7 +75,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
             Profile
           </Link>
         </li>
-        <hr className="w-full border border-primary80 opacity-20"></hr>
+        <hr className="w-full border border-primary80 opacity-20 dark:border-primary10"></hr>
         <li onClick={() => signOut()} className="group w-full ">
           <button
             className={`${
@@ -86,7 +86,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
           </button>
         </li>
 
-        <hr className="w-full border border-primary80 opacity-20"></hr>
+        <hr className="w-full border border-primary80 opacity-20 dark:border-primary10"></hr>
         <li className="group w-full ">
           <Link
             onClick={() => setIsShown(false)}
@@ -98,7 +98,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
             New Post
           </Link>
         </li>
-        <hr className="w-full border border-primary80 opacity-20"></hr>
+        <hr className="w-full border border-primary80 opacity-20 dark:border-primary10"></hr>
         <li className="group w-full ">
           <Link
             onClick={() => setIsShown(false)}
@@ -120,7 +120,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
         onClick={(e) => {
           isLaptopScreen ? laptopShowMenu(e) : router.push("/profile");
         }}
-        className="brutalism-border relative z-20 flex h-[50px] w-[50px] items-center justify-center rounded-full border-primary80 bg-white px-extra-small text-body font-medium laptop:h-auto laptop:w-auto laptop:gap-small laptop:px-sub-medium laptop:py-1"
+        className="brutalism-border relative z-20 flex h-[50px] w-[50px] items-center justify-center rounded-full border-primary80 bg-white px-extra-small text-body font-medium dark:border-primary20 dark:bg-primary90 dark:text-primary1 laptop:h-auto laptop:w-auto laptop:gap-small laptop:px-sub-medium laptop:py-1"
       >
         <div className="flex min-w-full items-center ">
           <Avatar
@@ -145,7 +145,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
             laptopShowMenu(e);
           }}
         >
-          <Icon path={mdiMenu} size={2}></Icon>
+          <Icon className="dark:text-primary1" path={mdiMenu} size={2}></Icon>
         </button>
       )}
 
@@ -159,7 +159,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
           <ul
             ref={modalRef}
             onClick={() => setIsShown(false)}
-            className="fade-enter-done brutalism-border absolute top-12 z-10 flex w-full cursor-pointer flex-col items-center justify-center gap-small rounded-b-sub-large border-primary80  bg-white pb-small pt-sub-large text-body font-medium text-primary90"
+            className="fade-enter-done brutalism-border absolute top-12 z-10 flex w-full cursor-pointer flex-col items-center justify-center gap-small rounded-b-sub-large border-primary80 bg-white  pb-small pt-sub-large text-body font-medium text-primary90 dark:border-primary20 dark:bg-primary90 dark:text-primary1 "
           >
             {navLink(false)}
           </ul>
@@ -167,13 +167,13 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
       ) : (
         <div
           className={cn(
-            "brutalism-border absolute top-[100px]  -z-10  h-fit w-fit rounded-bl-large border-primary80 bg-white pb-medium pl-medium pr-extra-small pt-extra-small duration-700",
+            "brutalism-border absolute top-[100px]  -z-10  h-fit w-fit rounded-bl-large border-primary80 bg-white pb-medium pl-medium pr-extra-small pt-extra-small duration-700 dark:border-primary20 dark:bg-primary90",
             isShown ? "-right-2" : "-right-[200px] ",
           )}
         >
           <ul
             ref={modalRef}
-            className={`flex flex-col justify-center gap-small  text-body font-medium text-primary90`}
+            className={`flex flex-col justify-center gap-small  text-body font-medium text-primary90 dark:text-primary1`}
           >
             {navLink(true)}
           </ul>

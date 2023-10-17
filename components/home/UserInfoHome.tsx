@@ -14,7 +14,7 @@ const UserInfo: FC = () => {
         Your personal Roddat frontpage. Come here to check in with your favorite
         communities.
       </P>
-      <hr className=" border border-primary80 opacity-20"></hr>
+      <hr className=" border border-primary80 opacity-20 dark:border-primary10"></hr>
       <Link
         href="/post/create"
         // className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"

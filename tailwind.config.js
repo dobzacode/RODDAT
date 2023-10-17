@@ -9,10 +9,13 @@ const CAPTION_SIZE = "1.2rem";
 const LIGHTNESS_FACTOR = "20%";
 const SATURATION_FACTOR = 30;
 
-const PRIMARY_COLOR_HSL = "38, 55%";
+const PRIMARY_COLOR_HSL = "259, 55%";
 const PRIMARY_COLOR_SHADOW = `${PRIMARY_COLOR_HSL.split(",")[0]}deg ${
   69 - SATURATION_FACTOR
 }% ${LIGHTNESS_FACTOR}`;
+const PRIMARY_COLOR_LIGHT = `${PRIMARY_COLOR_HSL.split(",")[0]}deg ${
+  69 - SATURATION_FACTOR
+}% 80`;
 
 const SECONDARY_COLOR_HSL = "200, 56%";
 const SECONDARY_COLOR_SHADOW = `${SECONDARY_COLOR_HSL.split(",")[0]}deg ${
@@ -65,6 +68,10 @@ function mediumShadow(color) {
   15.9px 11.8px 19.2px -3.5px hsl(${color} / 0.2)`;
 }
 
+function mediumLight(color) {
+  return `0px 0px 33px 7px hsl(${color} / 0.87)`;
+}
+
 function highShadow(color) {
   return `0.8px 0.6px 1px hsl(${color} / 0.35),
   2.5px 1.9px 3px -0.4px hsl(${color} / 0.32),
@@ -91,7 +98,7 @@ function clayShadow(color) {
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   mode: "jit",
-  darkMode: "class",
+  darkMode: ["class"],
 
   content: [
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -251,6 +258,7 @@ module.exports = {
       boxShadow: {
         "primary-low": lowShadow(PRIMARY_COLOR_SHADOW),
         "primary-medium": mediumShadow(PRIMARY_COLOR_SHADOW),
+        "primary-medium-light": mediumLight(PRIMARY_COLOR_LIGHT),
         "primary-high": highShadow(PRIMARY_COLOR_SHADOW),
         "primary-clay": clayShadow(PRIMARY_COLOR_HSL),
         "secondary-low": lowShadow(SECONDARY_COLOR_SHADOW),

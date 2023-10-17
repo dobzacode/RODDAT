@@ -25,7 +25,7 @@ const InputRadio: FC<RadioProps> = forwardRef<HTMLInputElement, RadioProps>(
           onChange={onChange}
         ></input>
         <Label
-          className="body font-medium text-secondary90"
+          className="body font-medium text-primary90 dark:text-primary10"
           isHidden={false}
           htmlFor={choice}
         ></Label>

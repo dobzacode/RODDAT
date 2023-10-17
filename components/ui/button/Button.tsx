@@ -12,7 +12,8 @@ const buttonVariants = cva(
         large: "py-sub-large px-large heading--sub-large",
       },
       intent: {
-        primary: "bg-primary40 text-primary1 border-primary80",
+        primary:
+          "bg-primary40 text-primary1 border-primary80 dark:border-primary1  dark:text-primary1",
         secondary: "bg-secondary40 text-secondary1 border-secondary80",
         tertiary: "bg-tertiary40 text-tertiary1 border-tertiary80",
         success: "bg-success40 text-success1 border-success80",
@@ -20,7 +21,8 @@ const buttonVariants = cva(
         warning: "bg-warning40 text-warning1 border-warning 80",
         info: "bg-info40 text-info1 border-info80",
         neutral: "bg-neutral40 text-neutral1 border-neutral80",
-        pastelPrimary: "bg-primary10 text-primary80 border-primary80",
+        pastelPrimary:
+          "bg-primary10 text-primary80 border-primary80 dark:border-primary1 dark:bg-primary30 dark:text-primary1",
         pastelSecondary: "bg-secondary10 text-secondary80 border-secondary80",
         pastelTertiary: "bg-tertiary10 text-tertiary80 border-tertiary80",
         pastelSuccess: "bg-success10 text-success80 border-success80",
@@ -48,9 +50,10 @@ const buttonVariants = cva(
 
     compoundVariants: [
       {
-        intent: "primary",
+        intent: ["primary", "pastelPrimary"],
         hover: true,
-        className: " hover:shadow-primary-medium",
+        className:
+          " hover:shadow-primary-medium dark:hover:shadow-primary-medium-light",
       },
       {
         intent: "secondary",

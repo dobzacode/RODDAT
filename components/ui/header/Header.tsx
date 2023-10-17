@@ -5,6 +5,12 @@ import H2 from "../text/H2";
 import MobileNav from "./MobileNav";
 import Link from "next/link";
 import { cn } from "@/utils/utils";
+import DarkModeButton from "@/components/darkMode/DarkModeButton";
+import SearchBar from "./SearchBar";
+import UserMenu from "@/components/user/UserMenu";
+import LoginModal from "@/components/user/LogInModal";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 interface HeaderProps {
   children?: ReactNode;
@@ -17,7 +23,7 @@ interface HeaderProps {
   mobileTextType?: string;
 }
 
-const Header: FC<HeaderProps> = ({
+async function Header({
   children,
   height,
   bgColor = "",
@@ -25,8 +31,9 @@ const Header: FC<HeaderProps> = ({
   textType = "",
   logoColor,
   logoType = "",
-  mobileTextType = "",
-}) => {
+}: HeaderProps) {
+  const session = await getServerSession(authOptions);
+
   const logo = () => {
     return (
       <Link href="/">
@@ -66,9 +73,15 @@ const Header: FC<HeaderProps> = ({
       >
         {navlink()}
       </Nav>
-      {children}
+      <SearchBar></SearchBar>
+      {session ? (
+        <UserMenu session={session}></UserMenu>
+      ) : (
+        <LoginModal></LoginModal>
+      )}
+      <DarkModeButton className="absolute right-2 top-2 " />
     </header>
   );
-};
+}
 
 export default Header;

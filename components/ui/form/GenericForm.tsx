@@ -13,6 +13,7 @@ import { getSession } from "next-auth/react";
 import { ClipLoader } from "react-spinners";
 import { redirect, useRouter } from "next/navigation";
 import NewCommunityModal from "@/components/community/NewCommunityModal";
+import { cn } from "@/utils/utils";
 
 interface FormData {
   name?: string;
@@ -32,6 +33,7 @@ interface GenericFormProps<T> {
   onSubmit: (formData: T) => Promise<void>;
   children: ReactNode;
   isSpecialCharacter?: boolean;
+  modalCSS?: string;
 }
 
 const GenericForm = <T extends FormData>({
@@ -43,6 +45,7 @@ const GenericForm = <T extends FormData>({
   onSubmit,
   children,
   isSpecialCharacter,
+  modalCSS,
 }: GenericFormProps<T>) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -81,7 +84,12 @@ const GenericForm = <T extends FormData>({
 
   return (
     <div
-      className={`flex flex-col items-center gap-medium text-${theme}80 bg-${theme}1 h-auto rounded-extra-small `}
+      className={cn(
+        `flex flex-col items-center gap-medium text-${theme}80 ${
+          title !== "Create community" ? `bg-${theme}1` : ""
+        } h-auto rounded-extra-small dark:text-${theme}1`,
+        modalCSS,
+      )}
     >
       <form
         className={`body flex flex-col gap-sub-large`}
@@ -97,7 +105,7 @@ const GenericForm = <T extends FormData>({
             type="button"
             size="small"
             modifier="brutalism"
-            intent={theme}
+            intent={`${theme}`}
             rounded="small"
             onClick={() => {
               setIsOpen ? setIsOpen() : router.push("/");

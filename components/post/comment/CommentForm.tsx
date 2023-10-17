@@ -10,6 +10,7 @@ import { getSession } from "next-auth/react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import CommentFormSkeleton from "./CommentFormSkeleton";
 import PostSkeleton from "../PostSkeleton";
+import { BarLoader } from "react-spinners";
 
 export function CommentForm({
   post_id,
@@ -34,7 +35,7 @@ export function CommentForm({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setIsSubmitting(true);
     e.preventDefault();
-    window.focus();
+
     const session: Session | null = await getSession();
 
     try {
@@ -74,13 +75,6 @@ export function CommentForm({
 
   if (isLoading) return <CommentFormSkeleton></CommentFormSkeleton>;
 
-  if (isSubmitting)
-    return (
-      <PostSkeleton
-        className={isReplying ? "ml-large w-auto" : ""}
-      ></PostSkeleton>
-    );
-
   return (
     <div>
       <form
@@ -88,7 +82,7 @@ export function CommentForm({
         className={cn(
           `brutalism-border primary-hover flex h-full ${
             !isReplying && "w-full"
-          } flex-col overflow-hidden rounded-small border-primary80`,
+          } relative flex-col overflow-hidden rounded-small border-primary80 dark:border-primary20 dark:bg-primary90`,
           className,
         )}
       >
@@ -104,9 +98,24 @@ export function CommentForm({
           rows={3}
           cols={50}
         />
-        <Button intent={"pastelPrimary"} size="small" type="submit">
+        <Button
+          className="border-primary80 bg-primary10 text-primary80 dark:border-primary10 dark:bg-primary80 dark:text-primary1"
+          size="small"
+          type="submit"
+        >
           {isReplying ? "Reply" : "Comment"}
         </Button>
+        <BarLoader
+          cssOverride={{
+            position: "absolute",
+            right: "0",
+            bottom: "0",
+            width: "100%",
+            marginTop: "2px",
+          }}
+          loading={isSubmitting}
+          color={"white"}
+        ></BarLoader>
       </form>
     </div>
   );
