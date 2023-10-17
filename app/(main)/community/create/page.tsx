@@ -4,7 +4,6 @@ import PopUp from "@/components/ui/div/PopUp";
 import PostForm from "@/components/post/PostForm";
 import H2 from "@/components/ui/text/H2";
 import { useEffect, useState } from "react";
-import NewCommunityModal from "@/components/community/NewCommunityModal";
 import CommunityForm from "@/components/community/CommunityForm";
 
 export default function CreatePost({}) {
@@ -18,8 +17,9 @@ export default function CreatePost({}) {
 
   return (
     <>
-      <section className="flex justify-center">
-        <CommunityForm
+      <section className="flex justify-center ">
+        <CommunityForm 
+          isModal={false}
           theme="primary"
           title="Create community"
           setIsSuccess={() => setIsSuccess(true)}

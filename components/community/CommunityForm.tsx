@@ -28,6 +28,7 @@ interface CommunityFormProps {
   theme: "primary" | "secondary" | "tertiary" | "neutral";
   setIsOpen?: Function;
   setIsSuccess: Function;
+  isModal: boolean;
 }
 
 const regex = /^[a-zA-Z0-9\s]+$/;
@@ -37,6 +38,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
   theme,
   setIsOpen,
   setIsSuccess,
+  isModal
 }) => {
   const [formData, setFormData] = useState<CommunityFormData>({
     name: "",
@@ -94,7 +96,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
       className={`flex flex-col text-${theme}80 h-auto items-center  gap-medium rounded-extra-small`}
     >
       <GenericForm
-        modalCSS="dark:bg-primary80"
+        modalCSS={isModal ? "dark:bg-primary80" : ""}
         theme={theme}
         setIsOpen={setIsOpen}
         setIsSuccess={setIsSuccess}

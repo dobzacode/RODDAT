@@ -49,26 +49,6 @@ export function countSections(element: HTMLElement | null): number {
   return numb;
 }
 
-export async function handleVote(
-  type: "DOWNVOTE" | "UPVOTE",
-  to: "comment" | "post",
-  id: string,
-  addVote: Function,
-  userId: string,
-) {
-  const vote = { type, user_id: userId, comment_id: id };
-  addVote(vote);
-  const session: Session | null = await getSession();
-  if (!session) return;
-  const res = await fetch(
-    `/api/votes?${to}_id=${id}&email=${session?.user?.email}&type=${type}`,
-    { method: "POST" },
-  );
-  const { data } = await res.json();
-
-  console.log(data);
-}
-
 export async function getUserInformation() {
   const session: Session | null = await getSession();
   const res = await fetch(

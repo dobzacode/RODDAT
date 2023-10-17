@@ -85,9 +85,7 @@ const GenericForm = <T extends FormData>({
   return (
     <div
       className={cn(
-        `flex flex-col items-center gap-medium text-${theme}80 ${
-          title !== "Create community" ? `bg-${theme}1` : ""
-        } h-auto rounded-extra-small dark:text-${theme}1`,
+        `flex flex-col items-center gap-medium text-${theme}80 h-auto rounded-extra-small dark:text-${theme}1`,
         modalCSS,
       )}
     >

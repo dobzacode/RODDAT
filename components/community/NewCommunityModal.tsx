@@ -40,6 +40,7 @@ const NewCommunityModal: FC = () => {
         onClose={() => setIsOpen(false)}
       >
         <CommunityForm
+        isModal={true}
           setIsSuccess={() => setIsSuccess(true)}
           setIsOpen={() => setIsOpen(false)}
           theme="primary"
