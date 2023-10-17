@@ -91,7 +91,7 @@ export function CommentForm({
           required
           type="textarea"
           hiddenLabel={true}
-          intent="neutral"
+          intent="pastelPrimary"
           id="content"
           value={content}
           onChange={handleContentChange}
@@ -99,7 +99,7 @@ export function CommentForm({
           cols={50}
         />
         <Button
-          className="border-primary80 bg-primary10 text-primary80 dark:border-primary10 dark:bg-primary80 dark:text-primary1"
+          className="border-primary80 bg-primary10 text-primary80 dark:border-primary10 dark:bg-primary90 dark:text-primary1"
           size="small"
           type="submit"
         >
