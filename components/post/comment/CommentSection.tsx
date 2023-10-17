@@ -30,6 +30,8 @@ export default function CommentSection({
     getId();
   });
 
+  console.log(postDetails?.comments.length)
+
   return (
     <section className="flex w-full flex-col gap-sub-large laptop:w-[600px]">
       <PostBar
@@ -48,7 +50,7 @@ export default function CommentSection({
         <CommentForm
           addNewComment={addNewComment}
           post_id={postDetails?.post_id}
-          isLoading={postDetails?.comments.length ? isLoading : 0}
+          isLoading={0}
         ></CommentForm>
       </PostBar>
 

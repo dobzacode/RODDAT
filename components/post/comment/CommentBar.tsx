@@ -20,21 +20,22 @@ export default function CommentBar({
   comment_id,
   content,
   className,
-
-  setIsLoading,
   userId,
+
 }: {
   comment_id: string;
   content: string;
   className?: string;
   children?: ReactNode;
-
-  setIsLoading: Function;
   userId: string;
+
+
 }) {
   const [comment, setComment] = useState<CommentDetail | null>(null);
   const [isReplying, setIsReplying] = useState<boolean>(false);
   const { isSibling } = useSibling(comment_id);
+
+
 
   useEffect(() => {
     const fetchComment = async () => {
@@ -43,11 +44,11 @@ export default function CommentBar({
       const { comment: data }: { comment: CommentDetail } = await res.json();
 
       setComment(data);
-
-      if (data.child_comments.length === 0) {
-        setIsLoading();
-      }
+      
+      
     };
+    
+    
 
     fetchComment();
   }, [content]);
@@ -62,6 +63,7 @@ export default function CommentBar({
     }
   };
 
+  
   return (
     <section
       className={cn(
@@ -143,7 +145,7 @@ export default function CommentBar({
               return (
                 <CommentBar
                   userId={userId}
-                  setIsLoading={setIsLoading}
+              
                   className="z-0 pl-large"
                   comment_id={comment.comment_id}
                   content={comment.content}

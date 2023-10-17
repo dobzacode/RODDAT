@@ -16,6 +16,8 @@ export default function Comments({
   setIsLoading: Function;
   userId: string | null;
 }) {
+  
+
   return (
     <Suspense fallback={<PostSkeleton></PostSkeleton>}>
       {comments.map((comment) => {
@@ -24,11 +26,9 @@ export default function Comments({
         return (
           <CommentBar
             userId={userId ? userId : ""}
-            setIsLoading={() => setIsLoading()}
+      
             key={comment.comment_id}
-            sibling={
-              comments.filter((comment) => !comment.parent_comment_id).length
-            }
+            
             content={comment.content}
             comment_id={comment.comment_id}
           ></CommentBar>

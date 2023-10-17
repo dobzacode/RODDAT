@@ -91,7 +91,7 @@ export function CommentForm({
           required
           type="textarea"
           hiddenLabel={true}
-          intent="pastelPrimary"
+          className="dark:bg-primary80 dark:text-primary1 dark:placeholder:text-primary10/[.4] dark:border-primary10/[.2] dark:outline-primary10/[.2]"
           id="content"
           value={content}
           onChange={handleContentChange}
