@@ -44,20 +44,6 @@ async function Header({
     );
   };
 
-  const navlink = () => {
-    const hover =
-      "hover:bg-neutral80 hover:text-primary1 duration-fast ease-in";
-    const currentNavStyle = "bg-neutral80 text-primary1";
-
-    return (
-      <>
-        {/* <NavLink hover={hover} currentNavStyle={currentNavStyle} href="/color">
-          Color
-        </NavLink> */}
-      </>
-    );
-  };
-
   return (
     <header
       className={cn(
@@ -70,9 +56,7 @@ async function Header({
         navStyle="flex gap-large items-center justify-between"
         navLinkStyle={`flex laptopL:gap-large laptop:gap-sub-large tablet:gap-small justify-center ${textType} ${textColor}`}
         logo={logo()}
-      >
-        {navlink()}
-      </Nav>
+      ></Nav>
       <SearchBar></SearchBar>
       {session ? (
         <UserMenu session={session}></UserMenu>

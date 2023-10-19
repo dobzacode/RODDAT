@@ -8,8 +8,9 @@ import H2 from "../ui/text/H2";
 
 import PopUp from "../ui/div/PopUp";
 import CommunityForm from "./CommunityForm";
+import { Session } from "next-auth";
 
-const NewCommunityModal: FC = () => {
+const NewCommunityModal = ({ session }: { session: Session | null }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -19,6 +20,7 @@ const NewCommunityModal: FC = () => {
       setIsSuccess(false);
     }, 4000);
   }, [isSuccess]);
+
   return (
     <>
       <Button
@@ -33,20 +35,32 @@ const NewCommunityModal: FC = () => {
         Create a community
       </Button>
 
-      <Modal
-        title="New community"
-        titleCSS="text-secondary80 dark:text-secondary1"
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      >
-        <CommunityForm
-        isModal={true}
-          setIsSuccess={() => setIsSuccess(true)}
-          setIsOpen={() => setIsOpen(false)}
-          theme="primary"
-          title="Create Community"
-        ></CommunityForm>
-      </Modal>
+      {session ? (
+        <Modal
+          title="New community"
+          titleCSS="text-primary80 dark:text-primary1"
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+        >
+          <CommunityForm
+            isModal={true}
+            setIsSuccess={() => setIsSuccess(true)}
+            setIsOpen={() => setIsOpen(false)}
+            theme="primary"
+            title="Create Community"
+          ></CommunityForm>
+        </Modal>
+      ) : (
+        <Modal title="Login" isOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <Button
+            onClick={() => signIn("google")}
+            hover={true}
+            className="sub-heading brutalism-border flex items-center justify-center gap-extra-small rounded-small border-secondary80 bg-secondary20  px-sub-medium py-small font-medium text-secondary80"
+          >
+            Sign in with Google
+          </Button>
+        </Modal>
+      )}
       <PopUp isSuccess={isSuccess}>
         <H2 type="sub-heading" textColor="text-success90">
           Your community was successfully created

@@ -2,7 +2,7 @@
 import React, { FC, HTMLProps } from "react";
 
 interface NavProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   logo?: JSX.Element;
   navStyle?: string;
   navLinkStyle?: string;

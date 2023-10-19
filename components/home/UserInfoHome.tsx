@@ -5,8 +5,12 @@ import H2 from "../ui/text/H1";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button/Button";
 import { FC } from "react";
+import { Session, getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import NewPost from "../post/NewPost";
 
-const UserInfo: FC = () => {
+async function UserInfo() {
+  const session: Session | null = await getServerSession(authOptions);
   return (
     <>
       <H2 type="heading">Home</H2>
@@ -15,22 +19,10 @@ const UserInfo: FC = () => {
         communities.
       </P>
       <hr className=" border border-primary80 opacity-20 dark:border-primary10"></hr>
-      <Link
-        href="/post/create"
-        // className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"
-        className={buttonVariants({
-          intent: "pastelPrimary",
-          size: "small",
-          modifier: "brutalism",
-          rounded: "small",
-          hover: true,
-        })}
-      >
-        Create a post
-      </Link>
-      <NewCommunityModal></NewCommunityModal>
+      <NewPost session={session}></NewPost>
+      <NewCommunityModal session={session}></NewCommunityModal>
     </>
   );
-};
+}
 
 export default UserInfo;

@@ -22,6 +22,8 @@ export default async function Posts({ userid }: { userid?: string }) {
 
   const { posts }: { posts: PostDetailProps[] } = await res.json();
 
+  if (!posts) return null;
+
   return (
     <>
       {posts.map((post) => {
