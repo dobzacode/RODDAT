@@ -38,6 +38,7 @@ export default function CommentSection({
       <PostBar
         isPagePost={true}
         post_id={postDetails?.post_id}
+        author_id={postDetails.author_id}
         createdAt={postDetails?.createdAt}
         author={postDetails?.author}
         community={postDetails?.community}

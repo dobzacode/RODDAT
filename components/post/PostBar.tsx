@@ -1,6 +1,7 @@
 import {
   mdiArrowDown,
   mdiArrowUp,
+  mdiClose,
   mdiCommentOutline,
   mdiShareOutline,
 } from "@mdi/js";
@@ -17,6 +18,8 @@ import { PostDetailProps } from "@/interface/interface";
 import Link from "next/link";
 import { JsxElement } from "typescript";
 import VoteButton from "./VoteButton";
+import Button from "../ui/button/Button";
+import DeleteButton from "./DeleteButton";
 
 export default function PostBar({
   createdAt,
@@ -31,11 +34,13 @@ export default function PostBar({
   children,
   isLoading,
   userId,
+  author_id,
 }: PostDetailProps & {
   isPagePost?: boolean;
   children?: ReactNode;
   isLoading?: boolean;
   userId: string | null;
+  author_id: string;
 }) {
   const upvotes = votes?.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes?.filter((vote) => vote.type === "DOWNVOTE");
@@ -96,7 +101,7 @@ export default function PostBar({
         </div>
       )}
       <section className="relative flex h-fit w-full dark:text-primary1">
-        <div className="brutalism-border primary-hover dark:primary-hover-dark flex h-fit  w-full rounded-small border-primary80 dark:border-primary20">
+        <div className="brutalism-border primary-hover dark:primary-hover-dark peer flex h-fit  w-full rounded-small border-primary80 dark:border-primary20">
           <div className="flex flex-col items-center  gap-extra-small rounded-l-small bg-primary10 p-small dark:bg-primary90">
             <VoteButton
               userId={userId}
@@ -125,6 +130,12 @@ export default function PostBar({
             </div>
           )}
         </div>
+        {author_id === userId && (
+          <DeleteButton
+            className="heading body absolute right-4 top-4 duration-fast peer-hover:translate-x-2  peer-hover:scale-[110%] "
+            post_id={post_id}
+          ></DeleteButton>
+        )}
       </section>
       {children}
     </div>

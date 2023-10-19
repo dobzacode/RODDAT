@@ -1,5 +1,8 @@
+"use client";
+
 import NewCommunityModal from "@/components/community/NewCommunityModal";
 import P from "../ui/text/P";
+
 import H2 from "../ui/text/H1";
 
 import Link from "next/link";

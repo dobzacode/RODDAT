@@ -28,7 +28,7 @@ export default async function Home() {
               </>
             }
           >
-            <Posts></Posts>
+            <Posts session={session}></Posts>
           </Suspense>
         </div>
       </section>

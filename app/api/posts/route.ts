@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import { getServerSession } from "next-auth";
+import { Session, getServerSession } from "next-auth";
 
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
@@ -116,5 +116,79 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     const message = "The post can't be added";
     return NextResponse.json({ message: message, status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const session: Session | null = await getServerSession(authOptions);
+
+    if (!session)
+      return NextResponse.json(
+        {
+          message: "You must be logged in to delete a post",
+        },
+        { status: 403 },
+      );
+
+    const user = session?.user?.email
+      ? await prisma.user.findUnique({ where: { email: session?.user?.email } })
+      : "";
+
+    if (!user) {
+      const message = "User not found";
+      return NextResponse.json({ message: message, status: 404 });
+    }
+
+    const post_id = req.nextUrl.searchParams.get("post_id");
+    const post = post_id
+      ? await prisma.post.findUnique({ where: { post_id } })
+      : "";
+
+    if (!post) {
+      const message = "Post not found";
+      return NextResponse.json({ message: message, status: 404 });
+    }
+
+    if (post.author_id !== user.id) {
+      const message = `${session?.user?.email} is not the author of ${post.title}`;
+      return NextResponse.json({ message: message, status: 403 });
+    }
+
+    const commentsToDelete = await prisma.comment.findMany({
+      where: { post_id: post.post_id },
+    });
+
+    const votesToDelete = await prisma.vote.findMany({
+      where: { post_id: post.post_id },
+    });
+
+    await prisma.$transaction(
+      async (prisma) => {
+        for (const comment of commentsToDelete) {
+          await prisma.comment.delete({
+            where: { comment_id: comment.comment_id },
+          });
+        }
+
+        for (const vote of votesToDelete) {
+          await prisma.vote.delete({
+            where: { vote_id: vote.vote_id },
+          });
+        }
+
+        await prisma.post.delete({
+          where: { post_id: post.post_id },
+        });
+      },
+      { timeout: 20000 },
+    );
+
+    const message = `${post.title} is successfully deleted`;
+    return NextResponse.json({ message });
+  } catch (e) {
+    const message = "The post can't be deleted";
+    console.log(e);
+    return NextResponse.json({ message: message, status: 500, error: e });
   }
 }

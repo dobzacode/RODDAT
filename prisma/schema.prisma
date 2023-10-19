@@ -97,7 +97,7 @@ model Post {
   community       Community? @relation(fields: [community_id], references: [community_id])
   community_id    String?
   
-  comments        Comment[]
+  comments        Comment[] 
   votes           Vote[]
 }
 
