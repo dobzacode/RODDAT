@@ -1,6 +1,8 @@
 import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
 
 import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET(request: NextRequest) {
   try {
@@ -27,6 +29,16 @@ export async function GET(request: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session)
+      return NextResponse.json(
+        {
+          message: "You must be logged in to create a post",
+        },
+        { status: 403 },
+      );
+
     const email = req.nextUrl.searchParams.get("email");
     const user = email
       ? await prisma.user.findUnique({ where: { email: email } })

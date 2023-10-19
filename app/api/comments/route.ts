@@ -1,8 +1,20 @@
 import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session)
+      return NextResponse.json(
+        {
+          message: "You must be logged in to post a comment",
+        },
+        { status: 403 },
+      );
+
     const { post_id, content, email, parent_comment_id } = await request.json();
 
     const user = await prisma.user.findUnique({ where: { email: email } });
