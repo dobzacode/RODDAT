@@ -25,12 +25,13 @@ export default function CommentSection({
   useEffect(() => {
     const getId = async () => {
       const user = await getUserInformation();
+      if (!user) return;
       setUserId(user.id);
     };
     getId();
   });
 
-  console.log(postDetails?.comments.length)
+  console.log(postDetails?.comments.length);
 
   return (
     <section className="flex w-full flex-col gap-sub-large laptop:w-[600px]">
@@ -45,9 +46,10 @@ export default function CommentSection({
         votes={postDetails?.votes}
         comments={comments}
         isLoading={isLoading}
-        userId={userId ? userId : ""}
+        userId={userId ? userId : null}
       >
         <CommentForm
+          userId={userId ? userId : null}
           addNewComment={addNewComment}
           post_id={postDetails?.post_id}
           isLoading={0}
@@ -57,7 +59,7 @@ export default function CommentSection({
       <Comments
         setIsLoading={() => setIsLoading(false)}
         comments={comments}
-        userId={userId ? userId : ""}
+        userId={userId ? userId : null}
       ></Comments>
     </section>
   );

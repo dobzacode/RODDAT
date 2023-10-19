@@ -9,8 +9,7 @@ import { Session, getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import NewPost from "../post/NewPost";
 
-async function UserInfo() {
-  const session: Session | null = await getServerSession(authOptions);
+function UserInfo({ session }: { session: Session | null }) {
   return (
     <>
       <H2 type="heading">Home</H2>

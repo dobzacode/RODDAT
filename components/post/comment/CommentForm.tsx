@@ -11,6 +11,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import CommentFormSkeleton from "./CommentFormSkeleton";
 import PostSkeleton from "../PostSkeleton";
 import { BarLoader } from "react-spinners";
+import LoginModal from "@/components/user/LoginModal";
 
 export function CommentForm({
   post_id,
@@ -20,6 +21,7 @@ export function CommentForm({
   addNewComment,
   setIsReplying,
   isLoading,
+  userId,
 }: {
   post_id: string;
   isReplying?: boolean;
@@ -28,7 +30,9 @@ export function CommentForm({
   addNewComment: (newComment: CommentDetail) => void;
   setIsReplying?: (isReplying: boolean) => void;
   isLoading?: boolean | 0;
+  userId?: string | null;
 }) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [content, setContent] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -76,47 +80,52 @@ export function CommentForm({
   if (isLoading) return <CommentFormSkeleton></CommentFormSkeleton>;
 
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit}
-        className={cn(
-          `brutalism-border primary-hover flex h-full ${
-            !isReplying && "w-full"
-          } relative flex-col overflow-hidden rounded-small border-primary80 dark:border-primary20 dark:bg-primary90`,
-          className,
-        )}
-      >
-        <Input
-          placeholder="What are your throughts ? "
-          required
-          type="textarea"
-          hiddenLabel={true}
-          className="dark:bg-primary80 dark:text-primary1 dark:placeholder:text-primary10/[.4] dark:border-primary10/[.2] dark:outline-primary10/[.2]"
-          id="content"
-          value={content}
-          onChange={handleContentChange}
-          rows={3}
-          cols={50}
-        />
-        <Button
-          className="border-primary80 bg-primary10 text-primary80 dark:border-primary10 dark:bg-primary90 dark:text-primary1"
-          size="small"
-          type="submit"
+    <>
+      <div onClick={() => (!userId ? setIsOpen(true) : "")}>
+        <form
+          onSubmit={handleSubmit}
+          className={cn(
+            `brutalism-border primary-hover flex h-full ${
+              !isReplying && "w-full"
+            } relative flex-col overflow-hidden rounded-small border-primary80 dark:border-primary20 dark:bg-primary90`,
+            className,
+          )}
         >
-          {isReplying ? "Reply" : "Comment"}
-        </Button>
-        <BarLoader
-          cssOverride={{
-            position: "absolute",
-            right: "0",
-            bottom: "0",
-            width: "100%",
-            marginTop: "2px",
-          }}
-          loading={isSubmitting}
-          color={"white"}
-        ></BarLoader>
-      </form>
-    </div>
+          <Input
+            placeholder="What are your throughts ? "
+            required
+            type="textarea"
+            hiddenLabel={true}
+            className="dark:border-primary10/[.2] dark:bg-primary80 dark:text-primary1 dark:outline-primary10/[.2] dark:placeholder:text-primary10/[.4]"
+            id="content"
+            value={content}
+            onChange={handleContentChange}
+            rows={3}
+            cols={50}
+          />
+          <Button
+            className="border-primary80 bg-primary10 text-primary80 dark:border-primary10 dark:bg-primary90 dark:text-primary1"
+            size="small"
+            type={userId ? "submit" : "button"}
+          >
+            {isReplying ? "Reply" : "Comment"}
+          </Button>
+          <BarLoader
+            cssOverride={{
+              position: "absolute",
+              right: "0",
+              bottom: "0",
+              width: "100%",
+              marginTop: "2px",
+            }}
+            loading={isSubmitting}
+            color={"white"}
+          ></BarLoader>
+        </form>
+      </div>
+      {!userId && (
+        <LoginModal isOpen={isOpen} setIsOpen={setIsOpen}></LoginModal>
+      )}
+    </>
   );
 }

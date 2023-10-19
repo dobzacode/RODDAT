@@ -8,7 +8,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import UserMenu from "@/components/user/UserMenu";
 
-import LoginModal from "@/components/user/LogInModal";
+import LoginModal from "@/components/user/Login";
 
 const inter = Inter({ subsets: ["latin"] });
 

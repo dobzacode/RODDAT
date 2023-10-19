@@ -35,7 +35,7 @@ export default function PostBar({
   isPagePost?: boolean;
   children?: ReactNode;
   isLoading?: boolean;
-  userId: string;
+  userId: string | null;
 }) {
   const upvotes = votes?.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes?.filter((vote) => vote.type === "DOWNVOTE");

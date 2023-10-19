@@ -6,6 +6,7 @@ import Button, { buttonVariants } from "../ui/button/Button";
 import { useState } from "react";
 import Modal from "../ui/div/Modal";
 import { signIn } from "next-auth/react";
+import LoginModal from "../user/LoginModal";
 
 export default function NewPost({ session }: { session: Session | null }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -38,15 +39,7 @@ export default function NewPost({ session }: { session: Session | null }) {
           >
             Create a post
           </Button>
-          <Modal title="Login" isOpen={isOpen} onClose={() => setIsOpen(false)}>
-            <Button
-              onClick={() => signIn("google")}
-              hover={true}
-              className="sub-heading brutalism-border flex items-center justify-center gap-extra-small rounded-small border-secondary80 bg-secondary20  px-sub-medium py-small font-medium text-secondary80"
-            >
-              Sign in with Google
-            </Button>
-          </Modal>
+          <LoginModal isOpen={isOpen} setIsOpen={setIsOpen}></LoginModal>
         </>
       )}
     </>

@@ -21,7 +21,7 @@ export default function VoteButton({
   downvotes: Vote[] | [];
   votes: Vote[] | [];
   id: string;
-  userId: string;
+  userId: string | null;
   to: "post" | "comment";
 }) {
   const [upvotes, setUpvotes] = useState<Vote[] | []>(up);
@@ -90,6 +90,7 @@ export default function VoteButton({
             ? deleteVote("UPVOTE")
             : handleVote("UPVOTE");
         }}
+        disabled={userId ? false : true}
       >
         <Icon
           path={mdiArrowUp}
@@ -103,6 +104,7 @@ export default function VoteButton({
       </Button>
       <P>{votes ? upvotes.length - downvotes.length : 0}</P>
       <Button
+        disabled={userId ? false : true}
         onClick={() => {
           downvotes.some((vote) => vote.user_id === userId)
             ? deleteVote("DOWNVOTE")

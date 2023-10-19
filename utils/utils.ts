@@ -51,6 +51,7 @@ export function countSections(element: HTMLElement | null): number {
 
 export async function getUserInformation() {
   const session: Session | null = await getSession();
+  if (!session) return null;
   const res = await fetch(
     `/api/user/getuserinformation?email=${session?.user?.email}`,
   );
