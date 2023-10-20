@@ -4,6 +4,9 @@ import { format } from "date-fns";
 import { getSession } from "next-auth/react";
 import { Session } from "next-auth";
 import { User, Vote } from "@prisma/client";
+import { HfInference } from "@huggingface/inference";
+
+const hf = new HfInference(process.env.HF_TOKEN);
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -57,4 +60,12 @@ export async function getUserInformation() {
   );
   const { user }: { user: User } = await res.json();
   return user;
+}
+
+export async function zeroShotClassify(input: string[], parameters: string[]) {
+  return await hf.zeroShotClassification({
+    model: "facebook/bart-large-mnli",
+    inputs: input,
+    parameters: { candidate_labels: parameters },
+  });
 }
