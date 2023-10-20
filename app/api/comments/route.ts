@@ -150,11 +150,18 @@ async function deleteCommentAndChildren(commentId: string) {
   // Récupérez le commentaire et ses commentaires enfants
   const comment = await prisma.comment.findUnique({
     where: { comment_id: commentId },
-    include: { child_comments: true },
+    include: { child_comments: true, votes: true }, // Inclure les votes
   });
 
   if (!comment) {
     throw new Error("Comment not found");
+  }
+
+  // Supprimez les votes associés au commentaire
+  for (const vote of comment.votes) {
+    await prisma.vote.delete({
+      where: { vote_id: vote.vote_id },
+    });
   }
 
   // Supprimez les commentaires enfants récursivement

@@ -130,17 +130,18 @@ export async function DELETE(req: NextRequest) {
   try {
     const session: Session | null = await getServerSession(authOptions);
 
-    if (!session)
+    if (!session) {
       return NextResponse.json(
         {
           message: "You must be logged in to delete a post",
         },
         { status: 403 },
       );
+    }
 
     const user = session?.user?.email
       ? await prisma.user.findUnique({ where: { email: session?.user?.email } })
-      : "";
+      : null; // Utilisez null au lieu de chaîne vide
 
     if (!user) {
       const message = "User not found";
@@ -148,9 +149,12 @@ export async function DELETE(req: NextRequest) {
     }
 
     const post_id = req.nextUrl.searchParams.get("post_id");
-    const post = post_id
-      ? await prisma.post.findUnique({ where: { post_id } })
-      : "";
+    if (!post_id) {
+      const message = "Post ID not provided";
+      return NextResponse.json({ message: message, status: 400 });
+    }
+
+    const post = await prisma.post.findUnique({ where: { post_id } });
 
     if (!post) {
       const message = "Post not found";
@@ -158,44 +162,53 @@ export async function DELETE(req: NextRequest) {
     }
 
     if (post.author_id !== user.id) {
-      const message = `${session?.user?.email} is not the author of ${post.title}`;
+      const message = `${user.email} is not the author of ${post.title}`;
       return NextResponse.json({ message: message, status: 403 });
     }
 
-    const commentsToDelete = await prisma.comment.findMany({
-      where: { post_id: post.post_id },
-    });
+    await prisma.$transaction(async (prisma) => {
+      // Supprimez tous les commentaires associés au post
+      const commentsToDelete = await prisma.comment.findMany({
+        where: { post_id: post.post_id },
+        include: { votes: true }, // Inclure les votes des commentaires
+      });
 
-    const votesToDelete = await prisma.vote.findMany({
-      where: { post_id: post.post_id },
-    });
-
-    await prisma.$transaction(
-      async (prisma) => {
-        for (const comment of commentsToDelete) {
-          await prisma.comment.delete({
-            where: { comment_id: comment.comment_id },
-          });
-        }
-
-        for (const vote of votesToDelete) {
+      for (const commentToDelete of commentsToDelete) {
+        // Supprimez les votes des commentaires
+        for (const vote of commentToDelete.votes) {
           await prisma.vote.delete({
             where: { vote_id: vote.vote_id },
           });
         }
 
-        await prisma.post.delete({
-          where: { post_id: post.post_id },
+        // Supprimez le commentaire
+        await prisma.comment.delete({
+          where: { comment_id: commentToDelete.comment_id },
         });
-      },
-      { timeout: 20000 },
-    );
+      }
 
-    const message = `${post.title} is successfully deleted`;
+      // Supprimez les votes liés au post
+      const postVotesToDelete = await prisma.vote.findMany({
+        where: { post_id: post.post_id },
+      });
+
+      for (const vote of postVotesToDelete) {
+        await prisma.vote.delete({
+          where: { vote_id: vote.vote_id },
+        });
+      }
+
+      // Supprimez le post lui-même
+      await prisma.post.delete({
+        where: { post_id: post.post_id },
+      });
+    });
+
+    const message = `${post.title} and associated comments are successfully deleted`;
     return NextResponse.json({ message });
   } catch (e) {
-    const message = "The post can't be deleted";
-    console.log(e);
+    const message = "The post and associated comments can't be deleted";
+    console.error(e);
     return NextResponse.json({ message: message, status: 500, error: e });
   }
 }

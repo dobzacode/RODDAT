@@ -123,6 +123,13 @@ export default function CommentBar({
                   <P>Reply</P>
                 </Button>
               </div>
+              {comment.author_id === userId && (
+                <DeleteButton
+                  to="comment"
+                  className="heading body absolute right-4 top-4 duration-fast peer-hover:translate-x-2  peer-hover:scale-[110%] "
+                  comment_id={comment_id}
+                ></DeleteButton>
+              )}
             </div>
 
             {isReplying && userId ? (
@@ -148,13 +155,6 @@ export default function CommentBar({
                   ></CommentBar>
                 );
               })}
-            {comment.author_id === userId && (
-              <DeleteButton
-                to="comment"
-                className="heading body absolute right-4 top-4 duration-fast peer-hover:translate-x-2  peer-hover:scale-[110%] "
-                comment_id={comment_id}
-              ></DeleteButton>
-            )}
           </>
         ) : (
           <PostSkeleton></PostSkeleton>
