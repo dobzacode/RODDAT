@@ -2,6 +2,7 @@ import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { zeroShotClassify } from "@/utils/utils";
 
 export async function POST(request: NextRequest) {
   try {
@@ -31,11 +32,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const zsc = await zeroShotClassify([content], ["positivity"]);
+    const { scores } = zsc[0];
+    const positivity = scores[0];
+
     if (parent_comment_id) {
       const createdComment = await prisma.comment.create({
         data: {
           post_id,
           content,
+          positivity,
           author_id: user.id,
           parent_comment_id,
         },
@@ -56,6 +62,7 @@ export async function POST(request: NextRequest) {
       data: {
         post_id,
         content,
+        positivity,
         author_id: user.id,
       },
     });

@@ -89,6 +89,7 @@ model Post {
   post_id         String       @id @default(uuid())
   title           String  @unique
   content         String
+  positivity      Float
   createdAt       DateTime  @default(now())
 
   author          User      @relation(fields: [author_id], references: [id])
@@ -105,6 +106,7 @@ model Post {
 model Comment {
   comment_id      String       @id @default(uuid())
   content         String
+  positivity      Float
   createdAt       DateTime     @default(now())
 
   author          User         @relation(fields: [author_id], references: [id])

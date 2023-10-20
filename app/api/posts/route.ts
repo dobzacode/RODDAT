@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { zeroShotClassify } from "@/utils/utils";
 
 export async function GET(request: NextRequest) {
   try {
@@ -52,14 +53,20 @@ export async function POST(req: NextRequest) {
 
     const post = await req.json();
 
+    const zsc = await zeroShotClassify([post.content], ["positivity"]);
+    const { scores } = zsc[0];
+    const positivity = scores[0];
+
     const data: {
       title: string;
       content: string;
       author_id: string;
+      positivity: number;
       community_id?: string;
     } = {
       title: post.title.toLowerCase(),
       content: post.content,
+      positivity,
       author_id: user.id,
     };
 
