@@ -41,7 +41,8 @@ export default async function Posts({
       {posts.map((post) => {
         return (
           <PostBar
-            userId={userid ? userid : userInfo.id}
+            userId={userid ? userid : userInfo?.id}
+            positivity={post.positivity}
             post_id={post.post_id}
             createdAt={post.createdAt}
             author_id={post.author_id}

@@ -10,6 +10,7 @@ import { CSSTransition } from "react-transition-group";
 import GenericForm from "../ui/form/GenericForm";
 import Input from "../ui/form/Input";
 import H3 from "../ui/text/H3";
+import { useRouter } from "next/navigation";
 
 interface PostFormData {
   title: string;
@@ -53,6 +54,8 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   const [isSpecialCharacter, setIsSpecialCharacter] = useState<boolean>(false);
 
   const communityResearchInputRef = useRef(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -230,6 +233,8 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
     }
 
     setIsNotFound(null);
+
+    router.refresh();
 
     return data;
   };

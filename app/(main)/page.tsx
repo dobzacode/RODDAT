@@ -8,6 +8,8 @@ import Posts from "@/components/post/Posts";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
+export const revalidate = 20;
+
 export default async function Home() {
   const session: Session | null = await getServerSession(authOptions);
 

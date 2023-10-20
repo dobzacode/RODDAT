@@ -3,6 +3,7 @@
 import { mdiClose } from "@mdi/js";
 import Icon from "@mdi/react";
 import Button from "../ui/button/Button";
+import { useRouter } from "next/navigation";
 
 export default function DeleteButton({
   post_id,
@@ -11,13 +12,15 @@ export default function DeleteButton({
   post_id: string;
   className: string;
 }) {
+  const router = useRouter();
+
   const handleDelete = async () => {
     try {
       const res = await fetch(`/api/posts?post_id=${post_id}`, {
         method: "DELETE",
       });
       const data = await res.json();
-      console.log(data);
+      router.refresh();
     } catch (e) {
       console.log(e);
     }

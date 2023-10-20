@@ -1,26 +1,21 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useState } from "react";
 import Avatar from "../ui/Avatar";
 import Button from "../ui/button/Button";
-import { useState } from "react";
 import LoginModal from "../user/LoginModal";
-import useIsLoggedIn from "../hooks/useIsLoggedIn";
 
 export default function NewPostBar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { isLoggedIn, session, isFetching } = useIsLoggedIn();
+  const { data: session, status } = useSession();
 
   console.log(session);
 
-  if (isFetching)
-    return (
-      <div className="brutalism-border primary-hover flex h-[6rem] w-[31rem] animate-pulse cursor-pointer gap-extra-small rounded-small border-primary80 bg-primary10 p-extra-small dark:border-primary20 dark:bg-primary80 laptop:w-full"></div>
-    );
-
   return (
     <>
-      {isLoggedIn ? (
+      {status === "authenticated" ? (
         <Link
           href="/post/create"
           className="brutalism-border primary-hover flex w-full cursor-pointer gap-extra-small rounded-small border-primary80 bg-primary10 p-extra-small dark:border-primary20 dark:bg-primary80"
