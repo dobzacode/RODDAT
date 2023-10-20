@@ -121,6 +121,7 @@ export default function PostBar({
         </div>
         {author_id === userId && (
           <DeleteButton
+            to="post"
             className="heading body absolute right-4 top-4 duration-fast peer-hover:translate-x-2  peer-hover:scale-[110%] "
             post_id={post_id}
           ></DeleteButton>

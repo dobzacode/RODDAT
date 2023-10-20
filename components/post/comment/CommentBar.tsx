@@ -14,6 +14,7 @@ import { ReactNode, useEffect, useState } from "react";
 import PostSkeleton from "../PostSkeleton";
 import VoteButton from "../VoteButton";
 import { CommentForm } from "./CommentForm";
+import DeleteButton from "../DeleteButton";
 
 export default function CommentBar({
   comment_id,
@@ -58,7 +59,7 @@ export default function CommentBar({
     <>
       <section
         className={cn(
-          `relative z-50 flex h-full w-full flex-col gap-sub-large `,
+          `relative z-50 flex h-full w-full flex-col gap-sub-large`,
           className,
         )}
         id={comment_id}
@@ -84,7 +85,7 @@ export default function CommentBar({
             </div>
             <div
               className={cn(
-                "brutalism-border primary-hover relative flex  h-full w-full rounded-small border-primary80 dark:border-primary20 dark:bg-primary80",
+                "brutalism-border primary-hover peer relative  flex h-full w-full rounded-small border-primary80 dark:border-primary20 dark:bg-primary80 ",
               )}
             >
               <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small dark:bg-primary90 dark:text-primary1">
@@ -132,6 +133,7 @@ export default function CommentBar({
                 isReplying={isReplying}
                 setIsReplying={setIsReplying}
                 addNewComment={addNewComment}
+                userId={userId}
               />
             ) : null}
             {comment.child_comments &&
@@ -146,6 +148,13 @@ export default function CommentBar({
                   ></CommentBar>
                 );
               })}
+            {comment.author_id === userId && (
+              <DeleteButton
+                to="comment"
+                className="heading body absolute right-4 top-4 duration-fast peer-hover:translate-x-2  peer-hover:scale-[110%] "
+                comment_id={comment_id}
+              ></DeleteButton>
+            )}
           </>
         ) : (
           <PostSkeleton></PostSkeleton>

@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import { getServerSession } from "next-auth";
+import { Session, getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { zeroShotClassify } from "@/utils/utils";
@@ -143,5 +143,83 @@ export async function GET(request: NextRequest) {
       },
       { status: 500 },
     );
+  }
+}
+
+async function deleteCommentAndChildren(commentId: string) {
+  // Récupérez le commentaire et ses commentaires enfants
+  const comment = await prisma.comment.findUnique({
+    where: { comment_id: commentId },
+    include: { child_comments: true },
+  });
+
+  if (!comment) {
+    throw new Error("Comment not found");
+  }
+
+  // Supprimez les commentaires enfants récursivement
+  for (const childComment of comment.child_comments) {
+    await deleteCommentAndChildren(childComment.comment_id);
+  }
+
+  // Supprimez le commentaire lui-même
+  await prisma.comment.delete({
+    where: { comment_id: comment.comment_id },
+  });
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const session: Session | null = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          message: "You must be logged in to delete a comment",
+        },
+        { status: 403 },
+      );
+    }
+
+    const user = session?.user?.email
+      ? await prisma.user.findUnique({ where: { email: session?.user?.email } })
+      : null;
+
+    if (!user) {
+      const message = "User not found";
+      return NextResponse.json({ message: message, status: 404 });
+    }
+
+    const commentId = req.nextUrl.searchParams.get("comment_id");
+    if (!commentId) {
+      const message = "Comment ID not provided";
+      return NextResponse.json({ message: message, status: 400 });
+    }
+
+    const comment = await prisma.comment.findUnique({
+      where: { comment_id: commentId },
+    });
+
+    if (!comment) {
+      const message = "Comment not found";
+      return NextResponse.json({ message: message, status: 404 });
+    }
+
+    if (comment.author_id !== user.id) {
+      const message = `${user.email} is not the author of the comment`;
+      return NextResponse.json({ message: message, status: 403 });
+    }
+
+    await prisma.$transaction(async (prisma) => {
+      // Supprimez récursivement le commentaire et ses commentaires enfants
+      await deleteCommentAndChildren(comment.comment_id);
+    });
+
+    const message = `Comment and its children are successfully deleted`;
+    return NextResponse.json({ message });
+  } catch (e) {
+    const message = "The comment can't be deleted";
+    console.error(e);
+    return NextResponse.json({ message: message, status: 500, error: e });
   }
 }
