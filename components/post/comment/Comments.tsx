@@ -1,11 +1,9 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
-import CommentBar from "./CommentBar";
-import { v4 as uuid } from "uuid";
 import { Comment } from "@prisma/client";
-import { CommentForm } from "./CommentForm";
+import { Suspense } from "react";
 import PostSkeleton from "../PostSkeleton";
+import CommentBar from "./CommentBar";
 
 export default function Comments({
   comments,
@@ -16,8 +14,6 @@ export default function Comments({
   setIsLoading: Function;
   userId: string | null;
 }) {
-  
-
   return (
     <Suspense fallback={<PostSkeleton></PostSkeleton>}>
       {comments.map((comment) => {
@@ -26,9 +22,7 @@ export default function Comments({
         return (
           <CommentBar
             userId={userId ? userId : ""}
-      
             key={comment.comment_id}
-            
             content={comment.content}
             comment_id={comment.comment_id}
           ></CommentBar>

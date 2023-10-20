@@ -1,21 +1,14 @@
 "use client";
 
-import { ChangeEvent, FC, FormEvent, HTMLProps, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import Input from "../ui/form/Input";
-import Label from "../ui/form/Label";
 
-import H1 from "../ui/text/H1";
-
-import Button from "../ui/button/Button";
-import H2 from "../ui/text/H2";
-import H3 from "../ui/text/H3";
-import ColorDiv from "../ui/div/colorDiv";
-import P from "../ui/text/P";
-import { getSession } from "next-auth/react";
-import { ClipLoader } from "react-spinners";
-import { CSSTransition } from "react-transition-group";
-import GenericForm from "../ui/form/GenericForm";
 import { handleInputChange } from "@/utils/formUtils/handleInputChange";
+import { useSession } from "next-auth/react";
+import ColorDiv from "../ui/div/colorDiv";
+import GenericForm from "../ui/form/GenericForm";
+import H3 from "../ui/text/H3";
+import P from "../ui/text/P";
 
 interface CommunityFormData {
   name: string;
@@ -38,7 +31,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
   theme,
   setIsOpen,
   setIsSuccess,
-  isModal
+  isModal,
 }) => {
   const [formData, setFormData] = useState<CommunityFormData>({
     name: "",
@@ -47,8 +40,10 @@ const CommunityForm: FC<CommunityFormProps> = ({
   });
 
   const [isSpecialCharacter, setIsSpecialCharacter] = useState<boolean>(false);
-
+  const { data: session } = useSession();
   const [isAlreadyTaken, setIsAlreadyTaken] = useState<string | null>(null);
+
+  console.log(session);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -72,7 +67,6 @@ const CommunityForm: FC<CommunityFormProps> = ({
       return;
     }
 
-    const session = await getSession();
     const res = await fetch(`/api/communities?email=${session?.user?.email}`, {
       method: "POST",
       headers: {

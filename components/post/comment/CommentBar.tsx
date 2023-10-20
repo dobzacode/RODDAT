@@ -1,21 +1,19 @@
 "use client";
 
-import Avatar from "@/components/ui/Avatar";
-import P from "@/components/ui/text/P";
-import { CommentDetail } from "@/interface/interface";
-import { cn, countSections, getDateDifference } from "@/utils/utils";
-import { mdiArrowDown, mdiArrowUp, mdiCommentOutline } from "@mdi/js";
-import Icon from "@mdi/react";
-import { Comment, Post, User, Vote } from "@prisma/client";
-import { ReactNode, Suspense, useEffect, useState } from "react";
-import PostSkeleton from "../PostSkeleton";
-import Button from "@/components/ui/button/Button";
-import { CommentForm } from "./CommentForm";
-import { getSession } from "next-auth/react";
-import { Session } from "next-auth";
-import VoteButton from "../VoteButton";
 import useSibling from "@/components/hooks/useIsSibling";
+import Avatar from "@/components/ui/Avatar";
+import Button from "@/components/ui/button/Button";
+import P from "@/components/ui/text/P";
 import LoginModal from "@/components/user/LoginModal";
+import { CommentDetail } from "@/interface/interface";
+import { cn, getDateDifference } from "@/utils/utils";
+import { mdiCommentOutline } from "@mdi/js";
+import Icon from "@mdi/react";
+import { Comment, Vote } from "@prisma/client";
+import { ReactNode, useEffect, useState } from "react";
+import PostSkeleton from "../PostSkeleton";
+import VoteButton from "../VoteButton";
+import { CommentForm } from "./CommentForm";
 
 export default function CommentBar({
   comment_id,

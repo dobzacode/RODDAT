@@ -1,13 +1,11 @@
 import NewCommunityModal from "@/components/community/NewCommunityModal";
 import P from "../ui/text/P";
-import H2 from "../ui/text/H1";
 
+import { formatDateConverter } from "@/utils/utils";
 import Link from "next/link";
 import { FC } from "react";
-import { buttonVariants } from "../ui/button/Button";
-import { Session } from "next-auth";
 import Avatar from "../ui/Avatar";
-import { formatDateConverter } from "@/utils/utils";
+import { buttonVariants } from "../ui/button/Button";
 
 interface ProfileInfoProps {
   email: string | null | undefined;

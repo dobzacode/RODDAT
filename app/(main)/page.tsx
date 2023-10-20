@@ -10,7 +10,6 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function Home() {
   const session: Session | null = await getServerSession(authOptions);
-  console.log(session);
 
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">

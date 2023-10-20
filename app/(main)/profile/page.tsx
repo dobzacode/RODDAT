@@ -2,16 +2,12 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { getServerSession } from "next-auth";
 
-import UserInfoProfile from "@/components/profile/ProfileInfo";
 import { Suspense } from "react";
 
 import PostSkeleton from "@/components/post/PostSkeleton";
 import Posts from "@/components/post/Posts";
-import { v4 as uuidv4 } from "uuid";
-import prisma from "@/prisma/client";
-import PostBar from "@/components/post/PostBar";
-import { Post, User } from "@prisma/client";
 import ProfileInfo from "@/components/profile/ProfileInfo";
+import { User } from "@prisma/client";
 
 export const revalidate = 0;
 

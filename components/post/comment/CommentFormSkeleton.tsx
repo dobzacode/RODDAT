@@ -1,11 +1,10 @@
 import { cn } from "@/utils/utils";
-import { FC, HTMLProps } from "react";
 
 const CommentFormSkeleton = ({ className }: { className?: string }) => {
   return (
     <div
       className={cn(
-        "brutalism-border dark:bg-primary80 flex h-[14rem] animate-pulse flex-col-reverse rounded-small border-primary80 dark:border-primary20",
+        "brutalism-border flex h-[14rem] animate-pulse flex-col-reverse rounded-small border-primary80 dark:border-primary20 dark:bg-primary80",
         className,
       )}
     >

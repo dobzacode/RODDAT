@@ -1,14 +1,7 @@
-import Header from "@/components/ui/header/Header";
 import "@/app/globals.css";
+import Header from "@/components/ui/header/Header";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import SearchBar from "@/components/ui/header/SearchBar";
-import Button from "@/components/ui/button/Button";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
-import UserMenu from "@/components/user/UserMenu";
-
-import LoginModal from "@/components/user/Login";
 
 const inter = Inter({ subsets: ["latin"] });
 

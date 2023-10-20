@@ -1,10 +1,9 @@
 "use client";
 
+import CommunityForm from "@/components/community/CommunityForm";
 import PopUp from "@/components/ui/div/PopUp";
-import PostForm from "@/components/post/PostForm";
 import H2 from "@/components/ui/text/H2";
 import { useEffect, useState } from "react";
-import CommunityForm from "@/components/community/CommunityForm";
 
 export default function CreatePost({}) {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -18,7 +17,7 @@ export default function CreatePost({}) {
   return (
     <>
       <section className="flex justify-center ">
-        <CommunityForm 
+        <CommunityForm
           isModal={false}
           theme="primary"
           title="Create community"

@@ -1,10 +1,7 @@
 import { mdiAccount } from "@mdi/js";
 import Icon from "@mdi/react";
-import { getSession } from "next-auth/react";
-import Image, { ImageProps } from "next/image";
+import Image from "next/image";
 import { FC } from "react";
-import { IconProps } from "@mdi/react/dist/IconProps";
-import { cn } from "@/utils/utils";
 
 interface AvatarProps {
   className?: string;

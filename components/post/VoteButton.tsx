@@ -1,13 +1,12 @@
 "use client";
 
-import Icon from "@mdi/react";
-import Button from "../ui/button/Button";
-import { Vote } from "@prisma/client";
 import { mdiArrowDown, mdiArrowUp } from "@mdi/js";
-import P from "../ui/text/P";
-import { getSession } from "next-auth/react";
-import { Session } from "next-auth";
+import Icon from "@mdi/react";
+import { Vote } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
+import Button from "../ui/button/Button";
+import P from "../ui/text/P";
 
 export default function VoteButton({
   upvotes: up,
@@ -26,6 +25,8 @@ export default function VoteButton({
 }) {
   const [upvotes, setUpvotes] = useState<Vote[] | []>(up);
   const [downvotes, setDownvotes] = useState<Vote[] | []>(down);
+
+  const { data: session } = useSession();
 
   const handleVote = async (type: "UPVOTE" | "DOWNVOTE") => {
     const vote = { type, user_id: userId, post_id: id };
@@ -53,7 +54,7 @@ export default function VoteButton({
         setUpvotes(updatedUpvotes);
       }
     }
-    const session: Session | null = await getSession();
+
     if (!session) return;
 
     const res = await fetch(
@@ -73,7 +74,6 @@ export default function VoteButton({
       setDownvotes(updatedDownvotes);
     }
 
-    const session: Session | null = await getSession();
     if (!session) return;
 
     const res = await fetch(

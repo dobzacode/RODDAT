@@ -2,10 +2,8 @@
 
 import { Session } from "next-auth";
 import Link from "next/link";
-import Button, { buttonVariants } from "../ui/button/Button";
 import { useState } from "react";
-import Modal from "../ui/div/Modal";
-import { signIn } from "next-auth/react";
+import Button, { buttonVariants } from "../ui/button/Button";
 import LoginModal from "../user/LoginModal";
 
 export default function NewPost({ session }: { session: Session | null }) {

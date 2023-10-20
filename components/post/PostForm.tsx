@@ -1,24 +1,15 @@
 "use client";
 
-import {
-  ChangeEvent,
-  FC,
-  FormEvent,
-  HTMLProps,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import Input from "../ui/form/Input";
-import H3 from "../ui/text/H3";
-import { getSession } from "next-auth/react";
+import getUserCommunities from "@/utils/utils";
+import { handleInputChange } from "@/utils/formUtils/handleInputChange";
+import { Community } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
 import { CSSTransition } from "react-transition-group";
 import GenericForm from "../ui/form/GenericForm";
-import { handleInputChange } from "@/utils/formUtils/handleInputChange";
-import { Community } from "@prisma/client";
-import { Session } from "next-auth";
-import getUserCommunities from "@/utils/communityUtils/getUserCommunities";
+import Input from "../ui/form/Input";
+import H3 from "../ui/text/H3";
 
 interface PostFormData {
   title: string;
@@ -36,6 +27,8 @@ const regex = /^[a-zA-Z0-9\s]+$/;
 
 const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   const [communities, setCommunities] = useState<string[]>([""]);
+
+  const { data: session } = useSession();
 
   const [searchValue, setSearchValue] = useState<string>("");
 
@@ -99,7 +92,6 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
 
   const handleSearch = async () => {
     try {
-      const session: Session | null = await getSession();
       const email = session?.user?.email;
 
       const queryParams = new URLSearchParams();
@@ -216,7 +208,6 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
       return setNoCommunity(true);
     }
 
-    const session: Session | null = await getSession();
     const res = await fetch(`/api/posts?email=${session?.user?.email}`, {
       method: "POST",
       headers: {

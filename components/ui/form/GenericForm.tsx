@@ -1,19 +1,9 @@
 // GenericForm.tsx
-import React, {
-  ChangeEvent,
-  FormEvent,
-  FormHTMLAttributes,
-  ReactNode,
-  useState,
-} from "react";
-import Input from "./Input";
-import H3 from "../text/H3";
-import Button from "../button/Button";
-import { getSession } from "next-auth/react";
-import { ClipLoader } from "react-spinners";
-import { redirect, useRouter } from "next/navigation";
-import NewCommunityModal from "@/components/community/NewCommunityModal";
 import { cn } from "@/utils/utils";
+import { useRouter } from "next/navigation";
+import { FormEvent, ReactNode, useState } from "react";
+import { ClipLoader } from "react-spinners";
+import Button from "../button/Button";
 
 interface FormData {
   name?: string;

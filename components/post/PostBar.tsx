@@ -1,25 +1,14 @@
-import {
-  mdiArrowDown,
-  mdiArrowUp,
-  mdiClose,
-  mdiCommentOutline,
-  mdiShareOutline,
-} from "@mdi/js";
+import { PostDetailProps } from "@/interface/interface";
+import { getDateDifference } from "@/utils/utils";
+import { mdiCommentOutline, mdiShareOutline } from "@mdi/js";
 import Icon from "@mdi/react";
+import Link from "next/link";
+import { ReactNode } from "react";
 import Avatar from "../ui/Avatar";
 import H2 from "../ui/text/H2";
 import P from "../ui/text/P";
-import prisma from "@/prisma/client";
-import { Post, Vote } from "@prisma/client";
-import { cn, getDateDifference } from "@/utils/utils";
-import getPostInformation from "@/utils/postUtils/getPostInformation";
-import React, { FC, HTMLProps, ReactNode } from "react";
-import { PostDetailProps } from "@/interface/interface";
-import Link from "next/link";
-import { JsxElement } from "typescript";
-import VoteButton from "./VoteButton";
-import Button from "../ui/button/Button";
 import DeleteButton from "./DeleteButton";
+import VoteButton from "./VoteButton";
 
 export default function PostBar({
   createdAt,

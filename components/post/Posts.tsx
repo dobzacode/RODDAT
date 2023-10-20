@@ -1,13 +1,8 @@
-import PostBar from "./PostBar";
-import prisma from "@/prisma/client";
-import { Comment, Post, Vote } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
-import PostSkeleton from "./PostSkeleton";
-import postMock from "@/mocks/POST_MOCK.json";
+import PostBar from "./PostBar";
 
-import getUserPosts from "@/utils/postUtils/getUserPosts";
-import { Session, User } from "next-auth";
 import { PostDetailProps } from "@/interface/interface";
+import { Session, User } from "next-auth";
 
 export const revalidate = 0;
 

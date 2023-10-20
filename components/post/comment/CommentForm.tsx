@@ -1,17 +1,14 @@
 "use client";
 
 import Button from "@/components/ui/button/Button";
-import PopUp from "@/components/ui/div/PopUp";
 import Input from "@/components/ui/form/Input";
+import LoginModal from "@/components/user/LoginModal";
 import { CommentDetail } from "@/interface/interface";
 import { cn } from "@/utils/utils";
-import { Session } from "next-auth";
-import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { ChangeEvent, FormEvent, useState } from "react";
-import CommentFormSkeleton from "./CommentFormSkeleton";
-import PostSkeleton from "../PostSkeleton";
 import { BarLoader } from "react-spinners";
-import LoginModal from "@/components/user/LoginModal";
+import CommentFormSkeleton from "./CommentFormSkeleton";
 
 export function CommentForm({
   post_id,
@@ -35,12 +32,11 @@ export function CommentForm({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [content, setContent] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const { data: session } = useSession();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setIsSubmitting(true);
     e.preventDefault();
-
-    const session: Session | null = await getSession();
 
     try {
       if (content.trim() === "") {

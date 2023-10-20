@@ -1,17 +1,8 @@
-import PostBar from "@/components/post/PostBar";
-import PostInfo from "@/components/community/CommunityInfo";
-import PostSkeleton from "@/components/post/PostSkeleton";
+import CommunityInfo from "@/components/community/CommunityInfo";
+import CommentSection from "@/components/post/comment/CommentSection";
 import { PostDetailProps } from "@/interface/interface";
 import prisma from "@/prisma/client";
-import { Comment, Post, User } from "@prisma/client";
-import { Suspense } from "react";
-import CommunityInfo from "@/components/community/CommunityInfo";
-import { CommentForm } from "@/components/post/comment/CommentForm";
-import CommentFormSkeleton from "@/components/post/comment/CommentFormSkeleton";
-import CommentBar from "@/components/post/comment/CommentBar";
-import { v4 as uuid } from "uuid";
-import Comments from "@/components/post/comment/Comments";
-import CommentSection from "@/components/post/comment/CommentSection";
+import { Post } from "@prisma/client";
 
 export const revalidate = 0;
 

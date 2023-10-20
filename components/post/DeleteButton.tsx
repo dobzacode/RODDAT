@@ -1,8 +1,8 @@
 "use client";
 
 import { mdiClose } from "@mdi/js";
-import Button from "../ui/button/Button";
 import Icon from "@mdi/react";
+import Button from "../ui/button/Button";
 
 export default function DeleteButton({
   post_id,

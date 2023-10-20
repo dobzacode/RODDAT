@@ -1,9 +1,7 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import Button from "../ui/button/Button";
-import { signIn } from "next-auth/react";
-import Modal from "../ui/div/Modal";
 import LoginModal from "./LoginModal";
 
 const Login: FC = () => {

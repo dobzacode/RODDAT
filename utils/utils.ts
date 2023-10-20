@@ -1,10 +1,10 @@
-import { ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import { format } from "date-fns";
-import { getSession } from "next-auth/react";
-import { Session } from "next-auth";
-import { User, Vote } from "@prisma/client";
 import { HfInference } from "@huggingface/inference";
+import { Community, User } from "@prisma/client";
+import { ClassValue, clsx } from "clsx";
+import { format } from "date-fns";
+import { Session } from "next-auth";
+import { getSession } from "next-auth/react";
+import { twMerge } from "tailwind-merge";
 
 const hf = new HfInference(process.env.HF_TOKEN);
 
@@ -60,6 +60,18 @@ export async function getUserInformation() {
   );
   const { user }: { user: User } = await res.json();
   return user;
+}
+
+export default async function getUserCommunities() {
+  const session: Session | null = await getSession();
+  const data = await fetch(`/api/communities?email=${session?.user?.email}`);
+  const userCommunities: { communities: Community[] } = await data.json();
+
+  const communityNames: string[] = userCommunities.communities.map(
+    (community) => community.name,
+  );
+
+  return communityNames;
 }
 
 export async function zeroShotClassify(input: string[], parameters: string[]) {

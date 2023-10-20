@@ -1,13 +1,12 @@
 "use client";
 
 import { PostDetailProps } from "@/interface/interface";
+import { getUserInformation } from "@/utils/utils";
+import { Comment } from "@prisma/client";
+import { useEffect, useState } from "react";
 import PostBar from "../PostBar";
 import { CommentForm } from "./CommentForm";
 import Comments from "./Comments";
-import { Suspense, useEffect, useState } from "react";
-import { Comment, Session } from "@prisma/client";
-import { getSession } from "next-auth/react";
-import { getUserInformation } from "@/utils/utils";
 
 export default function CommentSection({
   postDetails,

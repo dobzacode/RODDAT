@@ -1,5 +1,3 @@
-import { FC, HTMLProps } from "react";
-import Avatar from "../ui/Avatar";
 import { cn } from "@/utils/utils";
 
 const PostSkeleton = ({ className }: { className?: string }) => {
