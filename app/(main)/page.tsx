@@ -10,10 +10,12 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function Home() {
   const session: Session | null = await getServerSession(authOptions);
+  console.log(session);
+
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
       <section className="flex flex-col gap-sub-large laptop:w-[600px] ">
-        <NewPostBar session={session}></NewPostBar>
+        <NewPostBar></NewPostBar>
 
         <div className="flex w-full flex-col items-center justify-center gap-sub-large">
           <Suspense

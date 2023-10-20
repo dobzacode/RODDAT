@@ -2,27 +2,34 @@
 
 import Link from "next/link";
 import Avatar from "../ui/Avatar";
-import { Session, getServerSession } from "next-auth";
-import { getSession } from "next-auth/react";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Button from "../ui/button/Button";
 import { useState } from "react";
 import LoginModal from "../user/LoginModal";
+import useIsLoggedIn from "../hooks/useIsLoggedIn";
 
-export default function NewPostBar({ session }: { session: Session | null }) {
+export default function NewPostBar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { isLoggedIn, session, isFetching } = useIsLoggedIn();
+
+  console.log(session);
+
+  if (isFetching)
+    return (
+      <div className="brutalism-border primary-hover flex h-[6rem] w-[31rem] animate-pulse cursor-pointer gap-extra-small rounded-small border-primary80 bg-primary10 p-extra-small dark:border-primary20 dark:bg-primary80 laptop:w-full"></div>
+    );
 
   return (
     <>
-      {session ? (
+      {isLoggedIn ? (
         <Link
           href="/post/create"
           className="brutalism-border primary-hover flex w-full cursor-pointer gap-extra-small rounded-small border-primary80 bg-primary10 p-extra-small dark:border-primary20 dark:bg-primary80"
         >
-          <div className="rounded-small bg-white p-extra-small dark:bg-primary90">
+          <div className="rounded-small bg-white p-[1.3rem] dark:bg-primary90">
             <Avatar
-              className="rounded-small dark:text-primary1"
+              className="rounded-[1.2rem]  dark:text-primary1"
               src={session?.user?.image}
+              size={4}
             ></Avatar>
           </div>
           <input
