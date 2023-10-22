@@ -91,7 +91,7 @@ export default function PostBar({
             className="rounded-small"
           ></Avatar>
           <ThreadLine
-            post_id={post_id}
+            id={post_id}
             comments_length={comments.length}
             isLoading={isLoading}
           ></ThreadLine>

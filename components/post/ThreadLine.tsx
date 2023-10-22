@@ -3,16 +3,16 @@
 import useSibling from "../hooks/useIsSibling";
 
 export default function ThreadLine({
-  post_id,
+  id,
   comments_length,
   isLoading,
 }: {
-  post_id: string;
+  id: string;
   comments_length: number;
   isLoading?: Boolean;
 }) {
-  const { isSibling } = useSibling(post_id);
-  console.log(isSibling);
+  const { isSibling } = useSibling(id);
+
   {
     return (
       <>
