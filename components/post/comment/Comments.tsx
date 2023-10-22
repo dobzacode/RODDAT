@@ -1,7 +1,7 @@
 "use client";
 
 import { Comment } from "@prisma/client";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import PostSkeleton from "../PostSkeleton";
 import CommentBar from "./CommentBar";
 
@@ -14,6 +14,10 @@ export default function Comments({
   setIsLoading: Function;
   userId: string | null;
 }) {
+  useEffect(() => {
+    setIsLoading();
+  });
+
   return (
     <Suspense fallback={<PostSkeleton></PostSkeleton>}>
       {comments.map((comment) => {

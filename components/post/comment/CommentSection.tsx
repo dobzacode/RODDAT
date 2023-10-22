@@ -30,12 +30,11 @@ export default function CommentSection({
     getId();
   });
 
-  console.log(postDetails?.comments.length);
-
   return (
     <section className="flex w-full flex-col gap-sub-large laptop:w-[600px]">
       <PostBar
         isPagePost={true}
+        positivity={postDetails?.positivity}
         post_id={postDetails?.post_id}
         author_id={postDetails.author_id}
         createdAt={postDetails?.createdAt}

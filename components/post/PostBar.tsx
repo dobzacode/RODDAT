@@ -34,6 +34,8 @@ export default function PostBar({
   const upvotes = votes?.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes?.filter((vote) => vote.type === "DOWNVOTE");
 
+  console.log(isLoading);
+
   const postContent = () => {
     return (
       <>
