@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-export default function useSibling(comment_id: string) {
+export default function useSibling(id: string) {
   const [isSibling, setIsSibling] = useState<boolean>(false);
 
   useEffect(() => {
-    const divElement = document.getElementById(comment_id);
+    const divElement = document.getElementById(id);
 
     const parentElement = divElement?.parentElement;
 

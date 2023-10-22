@@ -3,6 +3,7 @@ import { Session, getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { zeroShotClassify } from "@/utils/utils";
+import { redirect } from "next/navigation";
 
 export async function POST(request: NextRequest) {
   try {
@@ -204,7 +205,12 @@ export async function DELETE(req: NextRequest) {
     }
 
     const comment = await prisma.comment.findUnique({
-      where: { comment_id: commentId },
+      where: {
+        comment_id: commentId,
+      },
+      include: {
+        post: { include: { community: true } },
+      },
     });
 
     if (!comment) {
@@ -222,7 +228,8 @@ export async function DELETE(req: NextRequest) {
       await deleteCommentAndChildren(comment.comment_id);
     });
 
-    const message = `Comment and its children are successfully deleted`;
+    const message =
+      "The comments and his children has been successfully deleted";
     return NextResponse.json({ message });
   } catch (e) {
     const message = "The comment can't be deleted";

@@ -9,6 +9,7 @@ import H2 from "../ui/text/H2";
 import P from "../ui/text/P";
 import DeleteButton from "./DeleteButton";
 import VoteButton from "./VoteButton";
+import ThreadLine from "./ThreadLine";
 
 export default function PostBar({
   createdAt,
@@ -78,7 +79,10 @@ export default function PostBar({
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col gap-sub-large ">
+    <div
+      id={post_id}
+      className="relative flex h-full w-full flex-col gap-sub-large "
+    >
       {isPagePost && (
         <div className="absolute -left-large flex h-full flex-col items-center">
           <Avatar
@@ -86,9 +90,11 @@ export default function PostBar({
             size={5}
             className="rounded-small"
           ></Avatar>
-          {comments.length && !isLoading ? (
-            <div className="-mb-12 h-full w-[1px] border border-primary20"></div>
-          ) : null}
+          <ThreadLine
+            post_id={post_id}
+            comments_length={comments.length}
+            isLoading={isLoading}
+          ></ThreadLine>
         </div>
       )}
       <section className="relative flex h-fit w-full dark:text-primary1">
