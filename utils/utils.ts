@@ -81,3 +81,8 @@ export async function zeroShotClassify(input: string[], parameters: string[]) {
     parameters: { candidate_labels: parameters },
   });
 }
+
+export const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? process.env.API_URL
+    : "http://localhost:3000";

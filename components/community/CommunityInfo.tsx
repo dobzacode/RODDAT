@@ -1,5 +1,6 @@
 import { formatDateConverter } from "@/utils/utils";
 import P from "../ui/text/P";
+import Link from "next/link";
 
 export default async function CommunityInfo({ id }: { id?: string | null }) {
   const res = await fetch(
@@ -11,9 +12,12 @@ export default async function CommunityInfo({ id }: { id?: string | null }) {
   return (
     <>
       <div className="flex items-end gap-small">
-        <P className="w-full whitespace-nowrap font-medium laptop:block">
+        <Link
+          href={`/community/${community.name}`}
+          className="body w-full whitespace-nowrap font-medium laptop:block"
+        >
           r/{community.name}
-        </P>
+        </Link>
       </div>
       <hr className=" border border-primary80 opacity-20"></hr>
 

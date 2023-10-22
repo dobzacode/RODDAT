@@ -3,6 +3,7 @@ import PostSection from "@/components/community/PostSection";
 import NewPostBar from "@/components/home/NewPostBar";
 import { PostDetailProps } from "@/interface/interface";
 import prisma from "@/prisma/client";
+import { BASE_URL } from "@/utils/utils";
 import { Community } from "@prisma/client";
 
 export async function generateStaticParams() {
@@ -20,7 +21,7 @@ export default async function CommunityPage({
   params: { communityname: string };
 }) {
   const res = await fetch(
-    `http://localhost:3000/api/posts/details?community=${params.communityname}`,
+    `${BASE_URL}/api/posts/details?community=${params.communityname}`,
     {
       cache: "no-store",
     },

@@ -2,6 +2,7 @@ import CommunityInfo from "@/components/community/CommunityInfo";
 import CommentSection from "@/components/post/comment/CommentSection";
 import { PostDetailProps } from "@/interface/interface";
 import prisma from "@/prisma/client";
+import { BASE_URL } from "@/utils/utils";
 import { Post } from "@prisma/client";
 
 export const revalidate = 0;
@@ -19,7 +20,7 @@ export default async function PostPage({
   params: { postname: string; communityname: string };
 }) {
   const res = await fetch(
-    `http://localhost:3000/api/posts/details?post=${params.postname.replace(
+    `${BASE_URL}/api/posts/details?post=${params.postname.replace(
       /_/g,
       " ",
     )}&community=${params.communityname}`,

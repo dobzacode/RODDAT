@@ -8,6 +8,7 @@ import PostSkeleton from "@/components/post/PostSkeleton";
 import Posts from "@/components/post/Posts";
 import ProfileInfo from "@/components/profile/ProfileInfo";
 import { User } from "@prisma/client";
+import { BASE_URL } from "@/utils/utils";
 
 export const revalidate = 0;
 
@@ -15,7 +16,7 @@ export default async function ProfilePage({}) {
   const session = await getServerSession(authOptions);
 
   const res = await fetch(
-    `http://localhost:3000/api/user?email=${session?.user?.email}`,
+    `${BASE_URL}/api/user?email=${session?.user?.email}`,
     {
       cache: "no-store",
     },

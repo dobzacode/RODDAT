@@ -135,8 +135,9 @@ export async function GET(req: NextRequest) {
         communities: userCommunities,
       });
     } else {
-      const message = "Both email and name parameters are missing";
-      return NextResponse.json({ message: message, status: 400 });
+      const communities = await prisma.community.findMany();
+      const message = "All communities are returned";
+      return NextResponse.json({ message: message, communities });
     }
   } catch (e) {
     const message = "An error occurred during the research";
