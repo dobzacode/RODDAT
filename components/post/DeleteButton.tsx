@@ -2,7 +2,7 @@
 
 import { mdiClose } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import Button from "../ui/button/Button";
 import Modal from "../ui/div/Modal";
@@ -24,6 +24,7 @@ export default function DeleteButton({
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleDelete = async () => {
     try {
@@ -35,7 +36,7 @@ export default function DeleteButton({
         method: "DELETE",
       });
       to === "comment" && setStatus ? setStatus("deleted") : "";
-      router.refresh();
+      router.push(`${pathname}?deleted=true`);
     } catch (e) {
       console.log(e);
     }

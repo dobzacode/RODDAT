@@ -10,7 +10,7 @@ import { CSSTransition } from "react-transition-group";
 import GenericForm from "../ui/form/GenericForm";
 import Input from "../ui/form/Input";
 import H3 from "../ui/text/H3";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface PostFormData {
   title: string;
@@ -57,6 +57,8 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
 
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (showCommunity) {
@@ -91,6 +93,12 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
       }
     };
     fetchUserCommunities();
+
+    const community = searchParams.get("community");
+    if (community) {
+      setSearchValue(community);
+      setFormData({ ...formData, community });
+    }
   }, []);
 
   const handleSearch = async () => {

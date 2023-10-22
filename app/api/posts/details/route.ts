@@ -130,6 +130,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       message,
       posts: postDetailsArray,
+      community: communityInfo ? communityInfo : null,
     });
   } catch (e) {
     const message = "Can't return all the detailed publications";

@@ -7,17 +7,22 @@ import Avatar from "../ui/Avatar";
 import Button from "../ui/button/Button";
 import LoginModal from "../user/LoginModal";
 
-export default function NewPostBar() {
+export default function NewPostBar({
+  communityname,
+}: {
+  communityname?: string;
+}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { data: session, status } = useSession();
-
-  console.log(session);
+  const url = communityname
+    ? `/post/create?community=${communityname}`
+    : "/post/create";
 
   return (
     <>
       {status === "authenticated" ? (
         <Link
-          href="/post/create"
+          href={url}
           className="brutalism-border primary-hover flex w-full cursor-pointer gap-extra-small rounded-small border-primary80 bg-primary10 p-extra-small dark:border-primary20 dark:bg-primary80"
         >
           <div className="rounded-small bg-white p-[1.3rem] dark:bg-primary90">

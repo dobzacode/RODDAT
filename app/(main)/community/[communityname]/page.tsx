@@ -27,12 +27,15 @@ export default async function CommunityPage({
       cache: "no-store",
     },
   );
-  const { posts }: { posts: PostDetailProps[] } = await res.json();
+  const {
+    posts,
+    community,
+  }: { posts: PostDetailProps[]; community: Community } = await res.json();
 
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
       <section className="flex flex-col gap-sub-large laptop:w-[600px] ">
-        <NewPostBar></NewPostBar>
+        <NewPostBar communityname={community.name}></NewPostBar>
 
         <div className="flex w-full flex-col items-center justify-center gap-sub-large">
           <Suspense
@@ -52,7 +55,7 @@ export default async function CommunityPage({
         </div>
       </section>
       <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary20 dark:bg-primary80 dark:text-primary1 laptop:flex">
-        <CommunityInfo id={posts[0].community_id}></CommunityInfo>
+        <CommunityInfo id={community.community_id}></CommunityInfo>
       </aside>
     </main>
   );
