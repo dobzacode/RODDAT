@@ -5,15 +5,26 @@ import { mdiMagnify } from "@mdi/js";
 import Icon from "@mdi/react";
 import { FC, useState } from "react";
 import Button from "../button/Button";
+import { usePathname, useRouter } from "next/navigation";
 
 const SearchBar: FC = () => {
   const [query, setQuery] = useState("");
+  const router = useRouter();
+  const pathName = usePathname();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    router.push(`${pathName}?name=${query}`);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   return (
     <div className="heading brutalism-border l left-0 right-0 flex  h-fit gap-extra-small rounded-large border-primary80 bg-neutral1 p-extra-small dark:border-primary20 dark:bg-primary90 laptop:absolute laptop:m-auto laptop:w-fit">
@@ -26,6 +37,7 @@ const SearchBar: FC = () => {
         placeholder=""
         value={query}
         onChange={handleInputChange}
+        onKeyUp={handleKeyPress}
       />
     </div>
   );

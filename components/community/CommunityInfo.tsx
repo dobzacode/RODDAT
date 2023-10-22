@@ -1,11 +1,9 @@
-import { formatDateConverter } from "@/utils/utils";
+import { BASE_URL, formatDateConverter } from "@/utils/utils";
 import P from "../ui/text/P";
 import Link from "next/link";
 
 export default async function CommunityInfo({ id }: { id?: string | null }) {
-  const res = await fetch(
-    `http://localhost:3000/api/communities/details?id=${id}`,
-  );
+  const res = await fetch(`${BASE_URL}/api/communities/details?id=${id}`);
 
   const { community, postAmount, userAmount } = await res.json();
 
