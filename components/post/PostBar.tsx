@@ -11,6 +11,14 @@ import DeleteButton from "./DeleteButton";
 import VoteButton from "./VoteButton";
 import ThreadLine from "./ThreadLine";
 
+interface PostBarProps extends Omit<PostDetailProps, "community_id"> {
+  isPagePost?: boolean;
+  children?: ReactNode;
+  isLoading?: boolean;
+  userId: string | null;
+  author_id: string;
+}
+
 export default function PostBar({
   createdAt,
   author,
@@ -25,13 +33,7 @@ export default function PostBar({
   isLoading,
   userId,
   author_id,
-}: PostDetailProps & {
-  isPagePost?: boolean;
-  children?: ReactNode;
-  isLoading?: boolean;
-  userId: string | null;
-  author_id: string;
-}) {
+}: PostBarProps & {}) {
   const upvotes = votes?.filter((vote) => vote.type === "UPVOTE");
   const downvotes = votes?.filter((vote) => vote.type === "DOWNVOTE");
 
@@ -48,7 +50,9 @@ export default function PostBar({
               className="rounded-full"
             ></Avatar>
           )}
-          <P type="caption">r/{community?.name}</P>
+          <Link className="caption" href={`/community/${community?.name}`}>
+            r/{community?.name}
+          </Link>
           <P type="caption">{`Posted by u/${
             author.name ? author.name : "deleted"
           }`}</P>

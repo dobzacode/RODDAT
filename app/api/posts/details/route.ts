@@ -91,7 +91,15 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const posts = await prisma.post.findMany();
+    const communityInfo = community
+      ? await prisma.community.findUnique({ where: { name: community } })
+      : "";
+
+    const posts = !communityInfo
+      ? await prisma.post.findMany()
+      : await prisma.post.findMany({
+          where: { community_id: communityInfo.community_id },
+        });
 
     await Promise.all(
       posts.map(async (post) => {

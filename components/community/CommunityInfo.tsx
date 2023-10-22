@@ -1,7 +1,7 @@
 import { formatDateConverter } from "@/utils/utils";
 import P from "../ui/text/P";
 
-export default async function CommunityInfo({ id }: { id?: string }) {
+export default async function CommunityInfo({ id }: { id?: string | null }) {
   const res = await fetch(
     `http://localhost:3000/api/communities/details?id=${id}`,
   );
@@ -12,7 +12,7 @@ export default async function CommunityInfo({ id }: { id?: string }) {
     <>
       <div className="flex items-end gap-small">
         <P className="w-full whitespace-nowrap font-medium laptop:block">
-          u/{community.name}
+          r/{community.name}
         </P>
       </div>
       <hr className=" border border-primary80 opacity-20"></hr>
