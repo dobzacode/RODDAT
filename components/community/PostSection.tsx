@@ -1,22 +1,25 @@
-"use client";
-
 import { PostDetailProps } from "@/interface/interface";
 import PostBar from "../post/PostBar";
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState } from "react";
-import { getUserInformation } from "@/utils/utils";
 
-export default function PostSection({ posts }: { posts: PostDetailProps[] }) {
-  const [userId, setUserId] = useState<string | null>();
+import { Session, User, getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import prisma from "@/prisma/client";
 
-  useEffect(() => {
-    const getId = async () => {
-      const user = await getUserInformation();
-      if (!user) return;
-      setUserId(user.id);
-    };
-    getId();
-  });
+export default async function PostSection({
+  posts,
+}: {
+  posts: PostDetailProps[];
+}) {
+  const session: Session | null = await getServerSession(authOptions);
+
+  const user: User | null = session
+    ? await prisma.user.findUnique({
+        where: {
+          email: session?.user?.email || undefined,
+        },
+      })
+    : null;
 
   return (
     <>
@@ -34,7 +37,7 @@ export default function PostSection({ posts }: { posts: PostDetailProps[] }) {
             content={post.content}
             votes={post.votes}
             comments={post.comments}
-            userId={userId ? userId : null}
+            userId={user?.id ? user.id : null}
           ></PostBar>
         );
       })}

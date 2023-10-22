@@ -50,9 +50,7 @@ export default function PostBar({
               className="rounded-full"
             ></Avatar>
           )}
-          <Link className="caption" href={`/community/${community?.name}`}>
-            r/{community?.name}
-          </Link>
+          <P type="caption">r/{community?.name}</P>
           <P type="caption">{`Posted by u/${
             author.name ? author.name : "deleted"
           }`}</P>

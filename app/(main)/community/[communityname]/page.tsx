@@ -1,11 +1,9 @@
 import CommunityInfo from "@/components/community/CommunityInfo";
-import NewPostBar from "@/components/home/NewPostBar";
 import PostSection from "@/components/community/PostSection";
-import PostSkeleton from "@/components/post/PostSkeleton";
+import NewPostBar from "@/components/home/NewPostBar";
 import { PostDetailProps } from "@/interface/interface";
 import prisma from "@/prisma/client";
 import { Community } from "@prisma/client";
-import { Suspense } from "react";
 
 export async function generateStaticParams() {
   const communities: Community[] = await prisma.community.findMany();
@@ -38,20 +36,7 @@ export default async function CommunityPage({
         <NewPostBar communityname={community.name}></NewPostBar>
 
         <div className="flex w-full flex-col items-center justify-center gap-sub-large">
-          <Suspense
-            fallback={
-              <>
-                <PostSkeleton />
-                <PostSkeleton />
-                <PostSkeleton />
-                <PostSkeleton />
-                <PostSkeleton />
-                <PostSkeleton />
-              </>
-            }
-          >
-            <PostSection posts={posts}></PostSection>
-          </Suspense>
+          <PostSection posts={posts}></PostSection>
         </div>
       </section>
       <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary20 dark:bg-primary80 dark:text-primary1 laptop:flex">
