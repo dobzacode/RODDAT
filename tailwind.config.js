@@ -36,6 +36,9 @@ const ERROR_COLOR_HSL = "0, 80%";
 const ERROR_COLOR_SHADOW = `0deg ${
   80 - SATURATION_FACTOR
 }% ${LIGHTNESS_FACTOR} `;
+const ERROR_COLOR_LIGHT = `${ERROR_COLOR_HSL.split(",")[0]}deg ${
+  69 - SATURATION_FACTOR
+}% 80%`;
 
 const INFO_COLOR_HSL = "210.54, 69%";
 const INFO_COLOR_SHADOW = `218.54deg ${
@@ -275,6 +278,7 @@ module.exports = {
         "success-high": highShadow(SUCCESS_COLOR_SHADOW),
         "error-low": lowShadow(ERROR_COLOR_SHADOW),
         "error-medium": mediumShadow(ERROR_COLOR_SHADOW),
+        "error-medium-light": mediumShadow(ERROR_COLOR_LIGHT),
         "error-high": highShadow(ERROR_COLOR_SHADOW),
         "warning-low": lowShadow(WARNING_COLOR_SHADOW),
         "warning-medium": mediumShadow(WARNING_COLOR_SHADOW),

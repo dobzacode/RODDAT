@@ -17,7 +17,8 @@ const buttonVariants = cva(
         secondary: "bg-secondary40 text-secondary1 border-secondary80",
         tertiary: "bg-tertiary40 text-tertiary1 border-tertiary80",
         success: "bg-success40 text-success1 border-success80",
-        error: "bg-error40 text-error1 border-error80",
+        error:
+          "bg-error40 text-error1 border-error80 dark:border-error1  dark:text-error1",
         warning: "bg-warning40 text-warning1 border-warning 80",
         info: "bg-info40 text-info1 border-info80",
         neutral: "bg-neutral40 text-neutral1 border-neutral80",
@@ -78,7 +79,8 @@ const buttonVariants = cva(
       {
         intent: "error",
         hover: true,
-        className: "hover:shadow-error-medium",
+        className:
+          "hover:shadow-error-medium dark:hover:shadow-error-medium-light",
       },
       {
         intent: "warning",

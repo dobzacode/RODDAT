@@ -2,10 +2,10 @@
 
 import { mdiClose } from "@mdi/js";
 import Icon from "@mdi/react";
-import Button from "../ui/button/Button";
 import { useRouter } from "next/navigation";
-import Modal from "../ui/div/Modal";
 import { useState } from "react";
+import Button from "../ui/button/Button";
+import Modal from "../ui/div/Modal";
 import P from "../ui/text/P";
 
 export default function DeleteButton({
@@ -49,12 +49,12 @@ export default function DeleteButton({
             <Icon path={mdiClose} size={1.5} />
           </Button>
           <Modal
-            titleCSS="text-primary80"
+            titleCSS="text-primary80 dark:text-primary1"
             title="Are you sure ?"
             isOpen={isOpen}
             onClose={() => setIsOpen(false)}
           >
-            <div className="body flex flex-col gap-sub-large text-primary80">
+            <div className="body flex flex-col gap-sub-large text-primary80 dark:text-primary1">
               <P>{`Once your post is deleted you cannot recover it !`}</P>
               <div className="mt-small flex items-center gap-small">
                 <Button
