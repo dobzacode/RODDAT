@@ -47,6 +47,7 @@ model User {
   posts        Post[]
   comments     Comment[]
   votes        Vote[]
+  photos    Photo[]
 }
 
 model VerificationToken {
@@ -148,4 +149,16 @@ model Vote {
 
   comment Comment?  @relation(fields: [comment_id], references: [comment_id])
   comment_id String?
+}
+
+model Photo {
+  photo_id        String     @id @default(uuid())
+  fileSize  Int
+  fileName  String
+  mimeType  String
+  author    User     @relation(fields: [user_id], references: [id])
+  user_id  String
+  authorName String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

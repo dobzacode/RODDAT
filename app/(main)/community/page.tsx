@@ -1,5 +1,6 @@
 "use client";
 
+import Uploader from "@/components/Uploader";
 import CommunityBar from "@/components/community/CommunityBar";
 import CommunitySkeleton from "@/components/community/CommunitySkeleton";
 import { Community } from "@prisma/client";
@@ -17,7 +18,7 @@ export default function CommunityPage({}) {
   useEffect(() => {
     setIsFetching(true);
     const fetchCommunities = async () => {
-      const name = searchParams.get("name");
+      const name = searchParams ? searchParams.get("name") : null;
       const res = await fetch(`/api/communities${name ? `?name=${name}` : ""}`);
 
       const { communities }: { communities: Community[] } = await res.json();
@@ -51,6 +52,7 @@ export default function CommunityPage({}) {
           </ul>
         )}
       </section>
+      <Uploader></Uploader>
     </main>
   );
 }

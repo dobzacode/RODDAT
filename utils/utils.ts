@@ -82,6 +82,35 @@ export async function zeroShotClassify(input: string[], parameters: string[]) {
   });
 }
 
+export async function uploadMedia(file: File) {
+  try {
+    const res = await fetch(`${BASE_URL}/api/media`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fileName: file.name,
+        fileType: file.type,
+        fileSize: file.size,
+      }),
+    });
+
+    const { putUrl, getUrl } = await res.json();
+
+    console.log(putUrl);
+
+    const uploadResponse = await fetch(putUrl, {
+      body: file,
+      method: "PUT",
+      headers: { "Content-Type": file.type },
+    });
+
+    return { status: uploadResponse.ok, uploadedUrl: getUrl };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export const BASE_URL =
   process.env.NODE_ENV === "production"
     ? process.env.API_URL

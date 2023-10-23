@@ -13,13 +13,11 @@ export default function ThreadLine({
 }) {
   const { isSibling } = useSibling(id);
 
-  {
-    return (
-      <>
-        {isSibling && !isLoading ? (
-          <div className="-mb-20 h-full w-[1px] border border-primary20"></div>
-        ) : null}
-      </>
-    );
-  }
+  return (
+    <>
+      {isSibling && !isLoading ? (
+        <div className="-mb-20 h-full w-[1px] border border-primary20"></div>
+      ) : null}
+    </>
+  );
 }
