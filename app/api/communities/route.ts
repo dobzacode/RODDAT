@@ -28,14 +28,13 @@ export async function POST(req: NextRequest) {
 
     const community = await req.json();
 
-    community;
-
     try {
       const newCommunity = await prisma.community.create({
         data: {
           name: community.name.toLowerCase(),
           isNsfw: community.isNsfw,
           visibility: community.visibility.toUpperCase(),
+          description: community.description.toLowerCase(),
           admin: {
             create: {
               role: "ADMIN",

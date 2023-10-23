@@ -2,7 +2,7 @@
 
 import React, { FC, useEffect, useState } from "react";
 import Button from "../ui/button/Button";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Modal from "../ui/div/Modal";
 import H2 from "../ui/text/H2";
 
@@ -10,10 +10,10 @@ import PopUp from "../ui/div/PopUp";
 import CommunityForm from "./CommunityForm";
 import { Session } from "next-auth";
 
-const NewCommunityModal = ({ session }: { session: Session | null }) => {
+const NewCommunityModal = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     setTimeout(() => {

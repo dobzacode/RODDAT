@@ -9,11 +9,13 @@ import ColorDiv from "../ui/div/colorDiv";
 import GenericForm from "../ui/form/GenericForm";
 import H3 from "../ui/text/H3";
 import P from "../ui/text/P";
+import Uploader from "../Uploader";
 
 interface CommunityFormData {
   name: string;
   visibility: "Public" | "Restricted" | "Private";
   isNsfw: boolean;
+  description: string;
 }
 
 interface CommunityFormProps {
@@ -37,6 +39,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
     name: "",
     visibility: "Public",
     isNsfw: false,
+    description: "",
   });
 
   const [isSpecialCharacter, setIsSpecialCharacter] = useState<boolean>(false);
@@ -110,6 +113,17 @@ const CommunityForm: FC<CommunityFormProps> = ({
             className="flex flex-col gap-small"
             id="name"
             value={formData.name}
+            onChange={handleChange}
+          ></Input>{" "}
+          <H3 type="sub-heading">Description</H3>
+          <Input
+            hiddenLabel={true}
+            intent={theme}
+            type="textarea"
+            rows={4}
+            className="flex flex-col gap-small"
+            id="description"
+            value={formData.description}
             onChange={handleChange}
           ></Input>
           {isAlreadyTaken && (

@@ -17,9 +17,11 @@ const Uploader = () => {
 
   return (
     <>
-      <h2>Upload Media</h2>
       {uploadedUrl && <img src={uploadedUrl} alt="Preview" />}
+      <label className="hidden" htmlFor="picture"></label>
       <input
+        name="picture"
+        id="picture"
         type="file"
         onChange={handleChange}
         accept="image/png, image/jpeg"
