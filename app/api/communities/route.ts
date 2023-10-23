@@ -75,6 +75,24 @@ export async function GET(req: NextRequest) {
   try {
     const email = req.nextUrl.searchParams.get("email");
     const nameParam = req.nextUrl.searchParams.get("name");
+    const communityParam = req.nextUrl.searchParams.get("community");
+
+    if (communityParam) {
+      const community = await prisma.community.findUnique({
+        where: {
+          name: communityParam,
+        },
+        include: {
+          admin: true,
+        },
+      });
+      if (community) {
+        const message = `${communityParam} informations are successfully returned`;
+        return NextResponse.json({ message, community });
+      }
+      const message = `${communityParam} don't exist`;
+      return NextResponse.json({ message }, { status: 404 });
+    }
 
     let communities;
 

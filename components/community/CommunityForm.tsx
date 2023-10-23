@@ -11,6 +11,7 @@ import H3 from "../ui/text/H3";
 import P from "../ui/text/P";
 import Uploader from "../Uploader";
 import { uploadMedia } from "@/utils/utils";
+import { Community } from "@prisma/client";
 
 interface CommunityFormData {
   name: string;
@@ -23,8 +24,8 @@ interface CommunityFormProps {
   title: string;
   theme: "primary" | "secondary" | "tertiary" | "neutral";
   setIsOpen?: Function;
-  setIsSuccess: Function;
-  isModal: boolean;
+  setIsSuccess?: Function;
+  community?: Community;
 }
 
 const regex = /^[a-zA-Z0-9\s]+$/;
@@ -33,8 +34,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
   title,
   theme,
   setIsOpen,
-  setIsSuccess,
-  isModal,
+  setIsSuccess = () => {},
 }) => {
   const [formData, setFormData] = useState<CommunityFormData>({
     name: "",
