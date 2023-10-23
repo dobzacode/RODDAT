@@ -52,7 +52,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
       </div>
       <hr className=" border border-primary80 opacity-20 dark:border-primary10"></hr>
       <Link
-        href="/post/create"
+        href="/create/post"
         // className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"
         className={buttonVariants({
           intent: "pastelPrimary",

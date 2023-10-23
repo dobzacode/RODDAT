@@ -90,7 +90,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
         <li className="group w-full ">
           <Link
             onClick={() => setIsShown(false)}
-            href="/post/create"
+            href="/create/post"
             className={`${
               !isMobile && LAPTOPLINK_CENTER
             } ${MOBILELINK_STYLING}`}
@@ -102,7 +102,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
         <li className="group w-full ">
           <Link
             onClick={() => setIsShown(false)}
-            href="/community/create"
+            href="/create/community"
             className={`${
               !isMobile && LAPTOPLINK_CENTER
             } ${MOBILELINK_STYLING}`}

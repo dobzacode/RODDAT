@@ -15,8 +15,8 @@ export default function NewPostBar({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { data: session, status } = useSession();
   const url = communityname
-    ? `/post/create?community=${communityname}`
-    : "/post/create";
+    ? `/create/post?community=${communityname}`
+    : "/create/post";
 
   return (
     <>

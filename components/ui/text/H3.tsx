@@ -20,7 +20,7 @@ const H3: FC<H3Props> = ({
   ...props
 }) => {
   return (
-    <h3 className={cn(type, textColor, bgColor, padding, rounded)} {...props}>
+    <h3 {...props} className={cn(textColor, bgColor, padding, rounded, type)}>
       {children}
     </h3>
   );

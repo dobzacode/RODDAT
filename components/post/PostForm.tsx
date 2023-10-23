@@ -258,7 +258,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
         isSpecialCharacter={isSpecialCharacter}
       >
         <div className="flex flex-col gap-sub-medium">
-          <H3 className="dark:text-primary1" type="sub-heading">
+          <H3 type="sub-heading" className="dark:text-primary1">
             Community
           </H3>
           <div className="relative flex flex-col justify-between">

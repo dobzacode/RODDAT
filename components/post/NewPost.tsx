@@ -13,7 +13,7 @@ export default function NewPost({ session }: { session: Session | null }) {
     <>
       {session ? (
         <Link
-          href="/post/create"
+          href="/create/post"
           // className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"
           className={buttonVariants({
             intent: "pastelPrimary",
