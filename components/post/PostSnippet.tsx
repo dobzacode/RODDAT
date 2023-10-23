@@ -1,37 +1,35 @@
 import { PostDetailProps } from "@/interface/interface";
-import VoteButton from "./VoteButton";
-import Image from "next/image";
-import DeleteButton from "./DeleteButton";
-import P from "../ui/text/P";
 import { getDateDifference } from "@/utils/utils";
-import H2 from "../ui/text/H2";
 import Link from "next/link";
+import H2 from "../ui/text/H2";
+import P from "../ui/text/P";
+import VoteButton from "./VoteButton";
+import { Vote } from "@prisma/client";
 
-interface PostSnippetProps extends Omit<PostDetailProps, "community_id"> {
-  userId: string;
+interface PostSnippetProps {
+  post_id: string;
+  createdAt: Date;
+  communityname: string;
+  title: string;
+  votes: Vote[];
+  commentamount: number;
 }
 
 export default function PostSnippet({
-  picture,
-  positivity,
   post_id,
   createdAt,
-  author_id,
-  author,
-  community,
+  communityname,
   title,
-  content,
   votes,
-  comments,
-  userId,
+  commentamount,
 }: PostSnippetProps) {
-  const upvotes = votes?.filter((vote) => vote.type === "UPVOTE");
-  const downvotes = votes?.filter((vote) => vote.type === "DOWNVOTE");
+  const upvotes = votes?.filter((vote: Vote) => vote.type === "UPVOTE");
+  const downvotes = votes?.filter((vote: Vote) => vote.type === "DOWNVOTE");
 
   return (
     <li className="w-full">
       <Link
-        href={`/community/${community.name}/${title}`}
+        href={`/community/${communityname}/${title}`}
         className="brutalism-border primary-hover dark:primary-hover-dark peer relative flex h-fit w-full  rounded-small border-primary80 dark:border-primary20"
       >
         <div className="flex flex-col items-center  gap-extra-small rounded-l-small bg-primary10 p-small dark:bg-primary90">
@@ -47,11 +45,11 @@ export default function PostSnippet({
 
         <div className=" my-small ml-small flex flex-col gap-extra-small dark:text-primary1">
           <P type="caption">
-            Posted {getDateDifference(createdAt)} on r/{community?.name}
+            Posted {getDateDifference(createdAt)} on r/{communityname}
           </P>
           <H2 type="sub-heading">{title}</H2>
           <P type="caption">
-            {comments.length} {comments.length > 1 ? "Comments" : "Comment"}
+            {commentamount} {commentamount > 1 ? "Comments" : "Comment"}
           </P>
         </div>
       </Link>
