@@ -19,7 +19,6 @@ export default function ThreadLine({
         {isSibling && !isLoading ? (
           <div className="-mb-20 h-full w-[1px] border border-primary20"></div>
         ) : null}
-        ;
       </>
     );
   }
