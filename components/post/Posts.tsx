@@ -3,27 +3,16 @@ import PostBar from "./PostBar";
 
 import { PostDetailProps } from "@/interface/interface";
 import { Session, User } from "next-auth";
+import { BASE_URL } from "@/utils/utils";
 
 export const revalidate = 0;
 
-export default async function Posts({
-  userid,
-  session,
-}: {
-  userid?: string;
-  session?: Session | null;
-}) {
-  const url: string = userid
-    ? `http://localhost:3000/api/posts/details?user=${userid}`
-    : "http://localhost:3000/api/posts/details";
-
-  const res = await fetch(url, {
+export default async function Posts({ session }: { session?: Session | null }) {
+  const res = await fetch(`${BASE_URL}/api/posts/details`, {
     cache: "no-store",
   });
 
   const { posts }: { posts: PostDetailProps[] } = await res.json();
-
-  console.log(posts);
 
   if (!posts) return null;
 
@@ -41,7 +30,8 @@ export default async function Posts({
       {posts.map((post) => {
         return (
           <PostBar
-            userId={userid ? userid : userInfo?.id}
+            picture={post.picture}
+            userId={userInfo?.id}
             positivity={post.positivity}
             post_id={post.post_id}
             createdAt={post.createdAt}
