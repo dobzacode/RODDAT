@@ -54,9 +54,9 @@ const GenericForm = <T extends FormData>({
       setIsOpen ? setIsOpen() : "";
       if (data.post) {
         router.push("/");
-        return setIsSuccess();
+        return setIsSuccess(true);
       } else {
-        setIsSuccess();
+        setIsSuccess(true);
       }
     } catch (error: any) {
       switch (error.message) {

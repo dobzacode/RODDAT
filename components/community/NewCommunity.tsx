@@ -31,8 +31,9 @@ const NewCommunity = () => {
         <>
           <Button
             size="small"
-            intent="pastelPrimary"
+            intent="primary"
             modifier="brutalism"
+            transparent={true}
             hover={true}
             rounded="small"
             onClick={() => setIsOpen(true)}

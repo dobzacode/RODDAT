@@ -161,3 +161,93 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: message, status: 500 });
   }
 }
+
+export async function PUT(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session)
+      return NextResponse.json(
+        {
+          message: "You must be logged in to update a community",
+        },
+        { status: 403 },
+      );
+
+    const user = session?.user?.email
+      ? await prisma.user.findUnique({
+          where: {
+            email: session?.user?.email,
+          },
+        })
+      : null;
+
+    if (!user) {
+      const message = `No user was found with the following email ${session?.user?.email}`;
+      return NextResponse.json({ message }, { status: 404 });
+    }
+
+    const community_id = req.nextUrl.searchParams.get("community");
+
+    if (!community_id) {
+      const message = "You need to specify a community id";
+      return NextResponse.json({ message }, { status: 403 });
+    }
+
+    const community = await prisma.community.findUnique({
+      where: { community_id },
+      include: {
+        admin: true,
+      },
+    });
+
+    if (!community) {
+      const message = `No community was found with the following ID ${community_id}`;
+      return NextResponse.json({ message }, { status: 404 });
+    }
+
+    if (!community.admin.some((admin) => admin.user_id === user.id)) {
+      const message = `User ${user.id} is not an admin of ${community.name}`;
+      return NextResponse.json({ message }, { status: 401 });
+    }
+
+    const updatedCommunityData = await req.json();
+
+    try {
+      const updatedCommunity = await prisma.community.update({
+        where: { community_id },
+        data: {
+          name: updatedCommunityData.name.toLowerCase(),
+          isNsfw: updatedCommunityData.isNsfw,
+          visibility: updatedCommunityData.visibility.toUpperCase(),
+          description: updatedCommunityData.description.toLowerCase(),
+        },
+      });
+
+      const message = "The community is updated";
+      return NextResponse.json({
+        message: message,
+        status: 200,
+        community: updatedCommunity,
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        const message = "Community name is already taken";
+        return NextResponse.json({
+          message: message,
+          communityName: updatedCommunityData.name,
+          status: 400,
+        });
+      }
+      console.error(error);
+      const message = "An error occurred during the update";
+      return NextResponse.json({ message: message, status: 500 });
+    }
+  } catch (e) {
+    const message = "The community can't be updated";
+    return NextResponse.json({ message: message, status: 500 });
+  }
+}

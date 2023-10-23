@@ -6,9 +6,11 @@ import { mdiImagePlusOutline } from "@mdi/js";
 const Uploader = ({
   selectedFile,
   setSelectedFile,
+  communityPicture,
 }: {
   selectedFile: File | null;
   setSelectedFile: Function;
+  communityPicture?: string | null;
 }) => {
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]!;
@@ -19,7 +21,7 @@ const Uploader = ({
 
   return (
     <div style={{ position: "relative" }}>
-      {!selectedFile && (
+      {!selectedFile && !communityPicture ? (
         <>
           <div className="h-[200px] w-[200px] rounded-small border border-primary90/[.2] bg-primary5 dark:border-primary10/[.2] dark:bg-primary90"></div>
           <Icon
@@ -28,7 +30,7 @@ const Uploader = ({
             size={5}
           />
         </>
-      )}
+      ) : null}
       {selectedFile && (
         <Image
           src={URL.createObjectURL(selectedFile)}
@@ -38,6 +40,15 @@ const Uploader = ({
           height={200}
         />
       )}
+      {!selectedFile && communityPicture ? (
+        <Image
+          src={communityPicture}
+          alt="Preview"
+          className="rounded-small"
+          width={200}
+          height={200}
+        />
+      ) : null}
 
       <label
         className="hidden"

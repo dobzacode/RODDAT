@@ -36,6 +36,10 @@ export default async function ModifyCommunity({
   const { community }: { community: ModifyCommunityRes } =
     await communityRes.json();
 
+  if (!community) {
+    return redirect("/");
+  }
+
   const session: Session | null = await getServerSession(authOptions);
 
   const userRes = await fetch(
@@ -54,7 +58,11 @@ export default async function ModifyCommunity({
   return (
     <>
       <section className="flex w-full justify-center p-sub-large">
-        <CommunityForm theme="primary" title="Create community"></CommunityForm>
+        <CommunityForm
+          community={community}
+          theme="primary"
+          title="Create community"
+        ></CommunityForm>
       </section>
     </>
   );
