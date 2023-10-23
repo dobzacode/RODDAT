@@ -52,7 +52,6 @@ export default function CommunityPage({}) {
           </ul>
         )}
       </section>
-      <Uploader></Uploader>
     </main>
   );
 }

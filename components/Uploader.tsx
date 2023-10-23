@@ -6,7 +6,11 @@ const Uploader = () => {
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]!;
-    const res = await uploadMedia(file);
+    const res = await uploadMedia(
+      file,
+      "post",
+      "153507ad-43c9-41e5-9cf8-06d6b5634eba",
+    );
     console.log(res.status);
     setUploadedUrl(res.uploadedUrl);
   };

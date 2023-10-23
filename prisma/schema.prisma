@@ -47,7 +47,7 @@ model User {
   posts        Post[]
   comments     Comment[]
   votes        Vote[]
-  photos    Photo[]
+
 }
 
 model VerificationToken {
@@ -68,6 +68,7 @@ model Community {
   community_id   String       @id @default(uuid())
   name            String @unique
   description    String? 
+  picture String?
   isNsfw Boolean @default(true)
   visibility Visiblity @default(PUBLIC)
   createdAt DateTime  @default(now())
@@ -98,6 +99,7 @@ model Post {
   title           String  @unique
   content         String
   positivity      Float
+  picture String?
   createdAt       DateTime  @default(now())
 
   author          User      @relation(fields: [author_id], references: [id])
@@ -151,14 +153,3 @@ model Vote {
   comment_id String?
 }
 
-model Photo {
-  photo_id        String     @id @default(uuid())
-  fileSize  Int
-  fileName  String
-  mimeType  String
-  author    User     @relation(fields: [user_id], references: [id])
-  user_id  String
-  authorName String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}

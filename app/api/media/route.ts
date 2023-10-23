@@ -9,13 +9,14 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { v4 as uuidv4 } from "uuid";
 
 // Initialize S3Client instance
 const client = new S3Client({
-  region: "eu-central-1",
+  region: process.env.AWS_REGION as string,
   credentials: {
-    accessKeyId: "AKIAYDAREFP2BQMXKU7R",
-    secretAccessKey: "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",
+    accessKeyId: process.env.AWS_ACCESS_KEY as string,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
   },
 });
 
@@ -35,26 +36,11 @@ export async function POST(req: NextRequest) {
       throw new Error("There was a problem with the file!");
     }
 
-    // Create a new media entry in database.
-    // The uploaded media file will be stored in the S3 bucket
-    // with a name (Key) matching the id (PK) of the newMedia/photo.
-    const newMedia = await prisma.photo.create({
-      data: {
-        fileSize: fileSize,
-        fileName: fileName,
-        mimeType: fileType,
-        user_id: user.id,
-        authorName: `${user.email}`,
-      },
-    });
-
-    if (!newMedia) {
-      throw new Error("Something went wrong!");
-    }
+    const newId = uuidv4();
 
     // PutObjectCommand: used to generate a pre-signed URL for uploading
     const putCommand = new PutObjectCommand({
-      Key: newMedia.photo_id,
+      Key: newId,
       ContentType: fileType,
       Bucket: process.env.BUCKET_NAME,
     });
@@ -64,13 +50,54 @@ export async function POST(req: NextRequest) {
 
     // GetObjectCommand: used to generate a pre-signed URL for viewing.
     const getCommand = new GetObjectCommand({
-      Key: newMedia.photo_id,
+      Key: newId,
       Bucket: process.env.BUCKET_NAME,
     });
     // Generate pre-signed URL for GET request
     const getUrl = await getSignedUrl(client, getCommand, { expiresIn: 600 });
 
-    return NextResponse.json({ putUrl, getUrl }, { status: 200 });
+    const to = req.nextUrl.searchParams.get("to");
+    const id = req.nextUrl.searchParams.get("id");
+
+    if (!id) {
+      const message = "No id was provided";
+      return NextResponse.json(message, { status: 400 });
+    }
+
+    if (!to) {
+      const message = "No to query was provided";
+      return NextResponse.json(message, { status: 400 });
+    }
+
+    if (to === "community") {
+      const community = await prisma.community.update({
+        where: { community_id: id },
+        data: {
+          picture: getUrl,
+        },
+      });
+      if (!community) {
+        const message = `No community was found with the following ID : ${id}`;
+        return NextResponse.json(message, { status: 404 });
+      }
+      const message = `The url picture was successfully added on ${community.name}`;
+      return NextResponse.json({ putUrl, getUrl, message }, { status: 200 });
+    }
+
+    if (to === "post") {
+      const post = await prisma.post.update({
+        where: { post_id: id },
+        data: {
+          picture: getUrl,
+        },
+      });
+      if (!post) {
+        const message = `No post was found with the following ID : ${id}`;
+        return NextResponse.json(message, { status: 404 });
+      }
+      const message = `The url picture was successfully added on ${post.title}`;
+      return NextResponse.json({ putUrl, getUrl, message }, { status: 200 });
+    }
   } catch (error) {
     console.log(error);
     throw error;
