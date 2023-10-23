@@ -1,13 +1,13 @@
 "use client";
 
-import { Session } from "next-auth";
-import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import Button, { buttonVariants } from "../ui/button/Button";
-import LoginModal from "../user/LoginModal";
-import { useSession } from "next-auth/react";
 
-export default function NewPost() {
+import Link from "next/link";
+import LoginModal from "../user/LoginModal";
+
+const NewCommunity = () => {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -15,17 +15,17 @@ export default function NewPost() {
     <>
       {session ? (
         <Link
-          href="/create/post"
-          // className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"
+          href="/create/community"
           className={buttonVariants({
-            intent: "pastelPrimary",
             size: "small",
+            intent: "primary",
             modifier: "brutalism",
-            rounded: "small",
+            transparent: true,
             hover: true,
+            rounded: "small",
           })}
         >
-          Create a post
+          Create a community
         </Link>
       ) : (
         <>
@@ -37,11 +37,13 @@ export default function NewPost() {
             rounded="small"
             onClick={() => setIsOpen(true)}
           >
-            Create a post
+            Create a community
           </Button>
           <LoginModal isOpen={isOpen} setIsOpen={setIsOpen}></LoginModal>
         </>
       )}
     </>
   );
-}
+};
+
+export default NewCommunity;

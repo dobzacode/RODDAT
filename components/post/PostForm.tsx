@@ -94,7 +94,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
     };
     fetchUserCommunities();
 
-    const community = searchParams.get("community");
+    const community = searchParams ? searchParams.get("community") : "";
     if (community) {
       setSearchValue(community);
       setFormData({ ...formData, community });

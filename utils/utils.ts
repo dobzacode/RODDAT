@@ -96,13 +96,13 @@ export async function uploadMedia(file: File, to: string, id: string) {
 
     const { putUrl, getUrl } = await res.json();
 
-    console.log(putUrl);
-
     const uploadResponse = await fetch(putUrl, {
       body: file,
       method: "PUT",
       headers: { "Content-Type": file.type },
     });
+
+    console.log(uploadResponse);
 
     return { status: uploadResponse.ok, uploadedUrl: getUrl };
   } catch (error) {

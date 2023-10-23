@@ -16,7 +16,7 @@ export default function CreatePost({}) {
 
   return (
     <>
-      <section className="flex justify-center p-sub-large">
+      <section className="flex w-full justify-center p-sub-large">
         <CommunityForm
           isModal={false}
           theme="primary"

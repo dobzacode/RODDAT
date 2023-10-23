@@ -1,6 +1,5 @@
 "use client";
 
-import NewCommunityModal from "@/components/community/NewCommunityModal";
 import P from "../ui/text/P";
 
 import H2 from "../ui/text/H1";
@@ -11,8 +10,9 @@ import { FC } from "react";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import NewPost from "../post/NewPost";
+import NewCommunity from "../community/NewCommunity";
 
-function UserInfo({ session }: { session: Session | null }) {
+function UserInfo() {
   return (
     <>
       <H2 type="heading">Home</H2>
@@ -21,8 +21,8 @@ function UserInfo({ session }: { session: Session | null }) {
         communities.
       </P>
       <hr className=" border border-primary80 opacity-20 dark:border-primary10"></hr>
-      <NewPost session={session}></NewPost>
-      <NewCommunityModal session={session}></NewCommunityModal>
+      <NewPost></NewPost>
+      <NewCommunity></NewCommunity>
     </>
   );
 }

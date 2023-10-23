@@ -23,7 +23,7 @@ interface GenericFormProps<T> {
   onSubmit: (formData: T) => Promise<void>;
   children: ReactNode;
   isSpecialCharacter?: boolean;
-  modalCSS?: string;
+  className?: string;
 }
 
 const GenericForm = <T extends FormData>({
@@ -35,7 +35,7 @@ const GenericForm = <T extends FormData>({
   onSubmit,
   children,
   isSpecialCharacter,
-  modalCSS,
+  className,
 }: GenericFormProps<T>) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -76,11 +76,11 @@ const GenericForm = <T extends FormData>({
     <div
       className={cn(
         `flex flex-col items-center gap-medium text-${theme}80 h-auto rounded-extra-small dark:text-${theme}1`,
-        modalCSS,
+        className,
       )}
     >
       <form
-        className={`body flex flex-col gap-sub-large`}
+        className={cn(`body flex flex-col gap-sub-large`, className)}
         onSubmit={handleSubmit}
       >
         {children}

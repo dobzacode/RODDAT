@@ -1,14 +1,38 @@
 import { BASE_URL, formatDateConverter } from "@/utils/utils";
 import P from "../ui/text/P";
 import Link from "next/link";
+import Image from "next/image";
+import { Community } from "@prisma/client";
 
 export default async function CommunityInfo({ id }: { id?: string | null }) {
   const res = await fetch(`${BASE_URL}/api/communities/details?id=${id}`);
 
-  const { community, postAmount, userAmount } = await res.json();
+  const {
+    community,
+    postAmount,
+    userAmount,
+  }: { community: Community; postAmount: number; userAmount: number } =
+    await res.json();
+
+  console.log(community.picture);
 
   return (
     <>
+      {community.picture && (
+        <div className="relative h-[300px] w-full rounded-small">
+          <Image
+            quality={100}
+            fill
+            sizes="100vw"
+            className="rounded-small"
+            style={{
+              objectFit: "cover",
+            }}
+            alt={`${community.name} image`}
+            src={community.picture}
+          ></Image>
+        </div>
+      )}
       <div className="flex items-end gap-small">
         <Link
           href={`/community/${community.name}`}

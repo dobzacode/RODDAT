@@ -92,6 +92,7 @@ const buttonVariants = cva(
         hover: true,
         className: "hover:shadow-neutral-medium",
       },
+      { intent: "primary", transparent: true, className: "text-primary80" },
     ],
   },
 );

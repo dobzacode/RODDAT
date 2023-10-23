@@ -10,6 +10,7 @@ import GenericForm from "../ui/form/GenericForm";
 import H3 from "../ui/text/H3";
 import P from "../ui/text/P";
 import Uploader from "../Uploader";
+import { uploadMedia } from "@/utils/utils";
 
 interface CommunityFormData {
   name: string;
@@ -45,8 +46,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
   const [isSpecialCharacter, setIsSpecialCharacter] = useState<boolean>(false);
   const { data: session } = useSession();
   const [isAlreadyTaken, setIsAlreadyTaken] = useState<string | null>(null);
-
-  console.log(session);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -84,16 +84,25 @@ const CommunityForm: FC<CommunityFormProps> = ({
       throw new Error("400");
     }
 
+    if (selectedFile) {
+      const uploadRes = await uploadMedia(
+        selectedFile,
+        "community",
+        data.community.community_id,
+      );
+      console.log(uploadRes);
+    }
+
     setIsAlreadyTaken(null);
     return data;
   };
 
   return (
     <div
-      className={`flex flex-col text-${theme}80 h-auto items-center  gap-medium rounded-extra-small`}
+      className={`flex flex-col text-${theme}80 h-auto w-full  items-center gap-medium rounded-extra-small`}
     >
       <GenericForm
-        modalCSS={isModal ? "dark:bg-primary80" : ""}
+        className=""
         theme={theme}
         setIsOpen={setIsOpen}
         setIsSuccess={setIsSuccess}
@@ -102,19 +111,33 @@ const CommunityForm: FC<CommunityFormProps> = ({
         onSubmit={handleSubmit}
         isSpecialCharacter={isSpecialCharacter}
       >
+        <div className="flex gap-sub-medium">
+          <div className="flex flex-col gap-sub-medium  ">
+            <H3 type="sub-heading">Picture</H3>
+            <Uploader
+              selectedFile={selectedFile}
+              setSelectedFile={setSelectedFile}
+            ></Uploader>
+          </div>
+          <div className="flex flex-col gap-sub-medium  ">
+            <H3 type="sub-heading">Name</H3>
+            <Input
+              required
+              hiddenLabel={true}
+              placeholder="r/"
+              intent={theme}
+              type="text"
+              className="flex flex-col gap-small"
+              id="name"
+              value={formData.name}
+              onChange={handleChange}
+            ></Input>
+            {isAlreadyTaken && (
+              <p className="text-error40">{`r/${isAlreadyTaken} is already taken`}</p>
+            )}
+          </div>
+        </div>
         <div className="flex flex-col gap-sub-medium  ">
-          <H3 type="sub-heading">Name</H3>
-          <Input
-            required
-            hiddenLabel={true}
-            placeholder="r/"
-            intent={theme}
-            type="text"
-            className="flex flex-col gap-small"
-            id="name"
-            value={formData.name}
-            onChange={handleChange}
-          ></Input>{" "}
           <H3 type="sub-heading">Description</H3>
           <Input
             hiddenLabel={true}
@@ -126,9 +149,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
             value={formData.description}
             onChange={handleChange}
           ></Input>
-          {isAlreadyTaken && (
-            <p className="text-error40">{`r/${isAlreadyTaken} is already taken`}</p>
-          )}
+
           {isSpecialCharacter && (
             <p className="text-error40">
               Special characters are not allowed in post title

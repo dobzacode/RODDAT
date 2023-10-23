@@ -1,4 +1,3 @@
-import NewCommunityModal from "@/components/community/NewCommunityModal";
 import P from "../ui/text/P";
 
 import { formatDateConverter } from "@/utils/utils";
@@ -64,7 +63,20 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
       >
         Create a post
       </Link>
-      <NewCommunityModal></NewCommunityModal>
+      <Link
+        href="/create/community"
+        // className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"
+        className={buttonVariants({
+          size: "small",
+          intent: "primary",
+          modifier: "brutalism",
+          transparent: true,
+          hover: true,
+          rounded: "small",
+        })}
+      >
+        Create a community
+      </Link>
     </>
   );
 };

@@ -36,11 +36,16 @@ export async function POST(req: NextRequest) {
       throw new Error("There was a problem with the file!");
     }
 
-    const newId = uuidv4();
+    const id = req.nextUrl.searchParams.get("id");
+
+    if (!id) {
+      const message = "No id was provided";
+      return NextResponse.json(message, { status: 400 });
+    }
 
     // PutObjectCommand: used to generate a pre-signed URL for uploading
     const putCommand = new PutObjectCommand({
-      Key: newId,
+      Key: id,
       ContentType: fileType,
       Bucket: process.env.BUCKET_NAME,
     });
@@ -50,19 +55,13 @@ export async function POST(req: NextRequest) {
 
     // GetObjectCommand: used to generate a pre-signed URL for viewing.
     const getCommand = new GetObjectCommand({
-      Key: newId,
+      Key: id,
       Bucket: process.env.BUCKET_NAME,
     });
     // Generate pre-signed URL for GET request
     const getUrl = await getSignedUrl(client, getCommand, { expiresIn: 600 });
 
     const to = req.nextUrl.searchParams.get("to");
-    const id = req.nextUrl.searchParams.get("id");
-
-    if (!id) {
-      const message = "No id was provided";
-      return NextResponse.json(message, { status: 400 });
-    }
 
     if (!to) {
       const message = "No to query was provided";
@@ -73,7 +72,7 @@ export async function POST(req: NextRequest) {
       const community = await prisma.community.update({
         where: { community_id: id },
         data: {
-          picture: getUrl,
+          picture: "http://d8129lgm8xiaf.cloudfront.net/" + id,
         },
       });
       if (!community) {
@@ -88,7 +87,7 @@ export async function POST(req: NextRequest) {
       const post = await prisma.post.update({
         where: { post_id: id },
         data: {
-          picture: getUrl,
+          picture: "http://d8129lgm8xiaf.cloudfront.net/" + id,
         },
       });
       if (!post) {
