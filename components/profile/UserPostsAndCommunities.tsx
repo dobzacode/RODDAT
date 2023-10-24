@@ -123,7 +123,7 @@ export default function UserPostAndCommunities({
               <li className="h-full w-full">
                 <Button
                   onClick={() => setSortBy("upvote")}
-                  className="h-full w-full pl-sub-large pr-small duration-fast hover:bg-primary10 dark:bg-primary90"
+                  className="h-full w-full pl-sub-large pr-small duration-fast hover:bg-primary10 dark:hover:bg-primary30"
                   intent={"pastelPrimary"}
                   transparent={sortBy !== "upvote"}
                 >
@@ -134,7 +134,7 @@ export default function UserPostAndCommunities({
               <li className="h-full w-full">
                 <Button
                   onClick={() => setSortBy("downvote")}
-                  className="h-full w-full px-medium duration-fast hover:bg-primary10 dark:bg-primary90"
+                  className="h-full w-full px-medium duration-fast hover:bg-primary10 dark:hover:bg-primary30"
                   intent={"pastelPrimary"}
                   transparent={sortBy !== "downvote"}
                 >
@@ -145,7 +145,7 @@ export default function UserPostAndCommunities({
               <li className="h-full w-full">
                 <Button
                   onClick={() => setSortBy("comment")}
-                  className="h-full w-full px-medium duration-fast hover:bg-primary10 dark:bg-primary90"
+                  className="h-full w-full px-medium duration-fast hover:bg-primary10 dark:hover:bg-primary30"
                   intent={"pastelPrimary"}
                   transparent={sortBy !== "comment"}
                 >
@@ -156,7 +156,7 @@ export default function UserPostAndCommunities({
               <li className="h-full w-full">
                 <Button
                   onClick={() => setSortBy("date")}
-                  className="h-full w-full  px-medium duration-fast hover:bg-primary10 dark:bg-primary90"
+                  className="h-full w-full  px-medium duration-fast hover:bg-primary10 dark:hover:bg-primary30"
                   intent={"pastelPrimary"}
                   transparent={sortBy !== "date"}
                 >

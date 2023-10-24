@@ -96,7 +96,7 @@ const buttonVariants = cva(
       {
         intent: "pastelPrimary",
         transparent: true,
-        className: "dark:bg-primary99",
+        className: "dark:bg-primary90",
       },
     ],
   },
