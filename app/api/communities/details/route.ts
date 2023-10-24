@@ -11,7 +11,9 @@ export async function GET(request: NextRequest) {
       const user = await prisma.user.findUnique({
         where: { id: userid },
         include: {
-          communities: { include: { community: true } },
+          communities: {
+            include: { community: { include: { communityUsers: true } } },
+          },
         },
       });
       if (!user) {

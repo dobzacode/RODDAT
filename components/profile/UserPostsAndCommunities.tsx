@@ -46,7 +46,7 @@ export default function UserPostAndCommunities({
       const {
         communitiesDetails,
       }: { communitiesDetails: CommunityDetailsProps[] } = await res.json();
-      console.log(communitiesDetails);
+
       setCommunities(communitiesDetails);
       setIsLoading(false);
     };
@@ -104,6 +104,10 @@ export default function UserPostAndCommunities({
           communities?.map((community) => {
             return (
               <CommunitySnippet
+                admin={community.community.communityUsers.filter((user) => {
+                  return user.role === "ADMIN";
+                })}
+                userId={userInfo.id}
                 name={community.community.name}
                 visibility={community.community.visibility}
                 isNsfw={community.community.isNsfw}

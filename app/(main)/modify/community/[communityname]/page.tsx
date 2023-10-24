@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface ModifyCommunityRes extends Community {
-  admin: CommunityUser[];
+  communityUsers: CommunityUser[];
 }
 
 export async function generateStaticParams() {
@@ -51,7 +51,15 @@ export default async function ModifyCommunity({
 
   const { user }: { user: User } = await userRes.json();
 
-  if (!community.admin.some((admin) => admin.user_id === user.id)) {
+  console.log(community.communityUsers);
+
+  if (
+    !community.communityUsers.some((communityUser) => {
+      return (
+        communityUser.user_id === user.id && communityUser.role === "ADMIN"
+      );
+    })
+  ) {
     return redirect("/");
   }
 

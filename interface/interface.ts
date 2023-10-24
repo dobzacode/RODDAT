@@ -1,4 +1,11 @@
-import { Comment, Community, Post, User, Vote } from "@prisma/client";
+import {
+  Comment,
+  Community,
+  CommunityUser,
+  Post,
+  User,
+  Vote,
+} from "@prisma/client";
 
 export interface PostDetailProps extends Omit<Post, "post_id" | "picture"> {
   votes: Vote[];
@@ -10,7 +17,7 @@ export interface PostDetailProps extends Omit<Post, "post_id" | "picture"> {
 }
 
 export interface CommunityDetailsProps {
-  community: Community;
+  community: Community & { communityUsers: CommunityUser[] };
   userAmount: number;
   postAmount: number;
 }

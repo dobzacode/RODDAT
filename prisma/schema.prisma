@@ -72,7 +72,7 @@ model Community {
   isNsfw Boolean @default(true)
   visibility Visiblity @default(PUBLIC)
   createdAt DateTime  @default(now())
-  admin    CommunityUser[]
+  communityUsers    CommunityUser[]
   posts          Post[]
 }
 

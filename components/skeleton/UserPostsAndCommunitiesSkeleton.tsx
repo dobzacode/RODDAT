@@ -1,5 +1,6 @@
 import Button from "../ui/button/Button";
 import SnippetSkeleton from "./SnippetSkeleton";
+import { v4 as uuidv4 } from "uuid";
 
 export default function UserPostsAndCommunitiesSkeleton({
   postAmount,
@@ -13,7 +14,7 @@ export default function UserPostsAndCommunitiesSkeleton({
   const PostSnippetSkeletons = () => {
     const skeletonElements = [];
     for (let i = 0; i < postAmount; i++) {
-      skeletonElements.push(<SnippetSkeleton />);
+      skeletonElements.push(<SnippetSkeleton key={uuidv4()} />);
     }
     return skeletonElements;
   };
@@ -21,7 +22,7 @@ export default function UserPostsAndCommunitiesSkeleton({
   const CommunitySnippetSkeletons = () => {
     const skeletonElements = [];
     for (let i = 0; i < postAmount; i++) {
-      skeletonElements.push(<SnippetSkeleton />);
+      skeletonElements.push(<SnippetSkeleton key={uuidv4()} />);
     }
     return skeletonElements;
   };

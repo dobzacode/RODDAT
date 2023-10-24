@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
           isNsfw: community.isNsfw,
           visibility: community.visibility.toUpperCase(),
           description: community.description.toLowerCase(),
-          admin: {
+          communityUsers: {
             create: {
               role: "ADMIN",
               user_id: user.id,
@@ -83,7 +83,7 @@ export async function GET(req: NextRequest) {
           name: communityParam,
         },
         include: {
-          admin: true,
+          communityUsers: true,
         },
       });
       if (community) {
@@ -197,7 +197,7 @@ export async function PUT(req: NextRequest) {
     const community = await prisma.community.findUnique({
       where: { community_id },
       include: {
-        admin: true,
+        communityUsers: true,
       },
     });
 
@@ -206,7 +206,12 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ message }, { status: 404 });
     }
 
-    if (!community.admin.some((admin) => admin.user_id === user.id)) {
+    if (
+      !community.communityUsers.some(
+        (communityUsers) =>
+          communityUsers.role === "ADMIN" && communityUsers.user_id === user.id,
+      )
+    ) {
       const message = `User ${user.id} is not an admin of ${community.name}`;
       return NextResponse.json({ message }, { status: 401 });
     }

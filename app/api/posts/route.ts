@@ -87,6 +87,23 @@ export async function POST(req: NextRequest) {
 
       data.community_id = community.community_id;
 
+      const existingCommunityUser = await prisma.communityUser.findFirst({
+        where: {
+          user_id: user.id,
+          community_id: community.community_id,
+        },
+      });
+
+      if (!existingCommunityUser) {
+        const newCommunityUser = await prisma.communityUser.create({
+          data: {
+            user_id: user.id,
+            community_id: community.community_id,
+            role: "GUEST",
+          },
+        });
+      }
+
       const existingPost = await prisma.post.findFirst({
         where: {
           title: post.title.toLowerCase(),
@@ -108,7 +125,8 @@ export async function POST(req: NextRequest) {
       const newPost = await prisma.post.create({
         data: data,
       });
-      const message = "The post is created";
+
+      const message = `The post is created`;
       return NextResponse.json({
         message: message,
         status: 200,
