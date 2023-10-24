@@ -1,3 +1,4 @@
+import { PostDetailProps } from "@/interface/interface";
 import { HfInference } from "@huggingface/inference";
 import { Community, User } from "@prisma/client";
 import { ClassValue, clsx } from "clsx";
@@ -108,6 +109,63 @@ export async function uploadMedia(file: File, to: string, id: string) {
   } catch (error) {
     console.log(error);
     throw error;
+  }
+}
+
+export function sortPosts(
+  posts: PostDetailProps[],
+  sortBy: string | null,
+): PostDetailProps[] {
+  switch (sortBy) {
+    case "upvote":
+      return posts.slice().sort((a, b) => {
+        const upvotesA = a.votes.filter(
+          (vote) => vote.type === "UPVOTE",
+        ).length;
+        const downvotesA = a.votes.filter(
+          (vote) => vote.type === "DOWNVOTE",
+        ).length;
+        const upvotesB = b.votes.filter(
+          (vote) => vote.type === "UPVOTE",
+        ).length;
+        const downvotesB = b.votes.filter(
+          (vote) => vote.type === "DOWNVOTE",
+        ).length;
+        const scoreA = upvotesA - downvotesA;
+        const scoreB = upvotesB - downvotesB;
+        return scoreB - scoreA;
+      });
+    case "downvote":
+      return posts.slice().sort((a, b) => {
+        const upvotesA = a.votes.filter(
+          (vote) => vote.type === "UPVOTE",
+        ).length;
+        const downvotesA = a.votes.filter(
+          (vote) => vote.type === "DOWNVOTE",
+        ).length;
+        const upvotesB = b.votes.filter(
+          (vote) => vote.type === "UPVOTE",
+        ).length;
+        const downvotesB = b.votes.filter(
+          (vote) => vote.type === "DOWNVOTE",
+        ).length;
+        const scoreA = upvotesA - downvotesA;
+        const scoreB = upvotesB - downvotesB;
+        return scoreA - scoreB;
+      });
+    case "comment":
+      return posts
+        .slice()
+        .sort((a, b) => b.comments.length - a.comments.length);
+    case "date":
+      return posts
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        );
+    default:
+      return posts;
   }
 }
 

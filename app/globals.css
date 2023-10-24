@@ -167,6 +167,28 @@ input[type="search"]:focus {
   top: 2px;
 }
 
+.fade-horizontally-enter {
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.fade-horizontally-enter-active {
+  transform-origin: left;
+  transform: scaleX(1);
+  transition: transform 400ms;
+}
+
+.fade-horizontally-exit {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.fade-horizontally-exit-active {
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 400ms;
+}
+
 .fade-enter {
   transform-origin: top;
   transform: scaleY(0);
