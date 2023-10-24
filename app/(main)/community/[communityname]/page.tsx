@@ -40,7 +40,7 @@ export default async function CommunityPage({
           <PostSection posts={posts}></PostSection>
         </div>
       </section>
-      <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary20 dark:bg-primary80 dark:text-primary1 laptop:flex">
+      <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1 laptop:flex">
         <CommunityInfo id={community.community_id}></CommunityInfo>
       </aside>
     </main>

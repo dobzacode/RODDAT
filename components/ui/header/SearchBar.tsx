@@ -27,12 +27,12 @@ const SearchBar: FC = () => {
   };
 
   return (
-    <div className="heading brutalism-border  left-0 right-0 flex  h-fit gap-extra-small rounded-large border-primary80 bg-neutral1  p-extra-small dark:border-primary20 dark:bg-primary90 laptop:absolute laptop:m-auto laptop:w-fit">
+    <div className="heading brutalism-border  left-0 right-0 flex  h-fit gap-extra-small rounded-large border-primary80 bg-neutral1  p-extra-small dark:border-primary1 dark:bg-primary80 laptop:absolute laptop:m-auto laptop:w-fit">
       <Button className="dark:text-primary1" onClick={handleSearch}>
         <Icon path={mdiMagnify} size={2}></Icon>
       </Button>
       <input
-        className="body w-full bg-neutral1 focus:outline-none dark:bg-primary90 dark:text-primary1 laptop:w-auto"
+        className="body w-full bg-neutral1 focus:outline-none dark:bg-primary80 dark:text-primary1 laptop:w-auto"
         type="text"
         placeholder=""
         value={query}

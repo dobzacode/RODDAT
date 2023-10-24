@@ -8,7 +8,7 @@ import { cn } from "@/utils/utils";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { BarLoader } from "react-spinners";
-import CommentFormSkeleton from "./CommentFormSkeleton";
+import CommentFormSkeleton from "../../skeleton/CommentFormSkeleton";
 
 export function CommentForm({
   post_id,
@@ -83,7 +83,7 @@ export function CommentForm({
           className={cn(
             `brutalism-border primary-hover flex h-full ${
               !isReplying && "w-full"
-            } relative flex-col overflow-hidden rounded-small border-primary80 dark:border-primary20 dark:bg-primary90`,
+            } relative flex-col overflow-hidden rounded-small border-primary80 dark:border-primary1 dark:bg-primary90`,
             className,
           )}
         >

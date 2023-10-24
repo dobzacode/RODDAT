@@ -93,6 +93,11 @@ const buttonVariants = cva(
         className: "hover:shadow-neutral-medium",
       },
       { intent: "primary", transparent: true, className: "text-primary80" },
+      {
+        intent: "pastelPrimary",
+        transparent: true,
+        className: "dark:bg-primary99",
+      },
     ],
   },
 );
@@ -100,7 +105,7 @@ const buttonVariants = cva(
 interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Button: FC<ButtonProps> = forwardRef<HTMLButtonElement, ButtonProps>(

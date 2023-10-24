@@ -3,7 +3,7 @@ import NewPostBar from "@/components/home/NewPostBar";
 import UserInfo from "@/components/home/UserInfoHome";
 
 import { Suspense } from "react";
-import PostSkeleton from "@/components/post/PostSkeleton";
+import PostSkeleton from "@/components/skeleton/PostSkeleton";
 import Posts from "@/components/post/Posts";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
@@ -35,8 +35,8 @@ export default async function Home() {
           </Suspense>
         </div>
       </section>
-      <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary20 dark:bg-primary80 dark:text-primary1 laptop:flex">
-        <UserInfo session={session}></UserInfo>
+      <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1 laptop:flex">
+        <UserInfo></UserInfo>
       </aside>
     </main>
   );

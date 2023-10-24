@@ -2,7 +2,7 @@
 
 import { Comment } from "@prisma/client";
 import { Suspense, useEffect } from "react";
-import PostSkeleton from "../PostSkeleton";
+import PostSkeleton from "../../skeleton/PostSkeleton";
 import CommentBar from "./CommentBar";
 
 export default function Comments({

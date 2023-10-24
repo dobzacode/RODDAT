@@ -23,7 +23,7 @@ export default function NewPostBar({
       {status === "authenticated" ? (
         <Link
           href={url}
-          className="brutalism-border primary-hover flex w-full cursor-pointer gap-extra-small rounded-small border-primary80 bg-primary10 p-extra-small dark:border-primary20 dark:bg-primary80"
+          className="brutalism-border primary-hover flex w-full cursor-pointer gap-extra-small rounded-small border-primary80 bg-primary10 p-extra-small dark:border-primary1 dark:bg-primary80"
         >
           <div className="rounded-small bg-white p-[1.3rem] dark:bg-primary90">
             <Avatar
@@ -42,7 +42,7 @@ export default function NewPostBar({
         <>
           <Button
             onClick={() => setIsOpen(true)}
-            className="brutalism-border primary-hover flex w-full cursor-pointer gap-extra-small rounded-small border-primary80 bg-primary10 p-extra-small dark:border-primary20 dark:bg-primary80"
+            className="brutalism-border primary-hover flex w-full cursor-pointer gap-extra-small rounded-small border-primary80 bg-primary10 p-extra-small dark:border-primary1 dark:bg-primary80"
           >
             <div className="rounded-small bg-white p-extra-small dark:bg-primary90">
               <Avatar className="rounded-small dark:text-primary1"></Avatar>

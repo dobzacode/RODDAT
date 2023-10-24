@@ -11,7 +11,7 @@ import { mdiCommentOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Comment, Vote } from "@prisma/client";
 import { ReactNode, useEffect, useState } from "react";
-import PostSkeleton from "../PostSkeleton";
+import PostSkeleton from "../../skeleton/PostSkeleton";
 import VoteButton from "../VoteButton";
 import { CommentForm } from "./CommentForm";
 import DeleteButton from "../DeleteButton";
@@ -94,7 +94,7 @@ export default function CommentBar({
               </div>
               <div
                 className={cn(
-                  "brutalism-border primary-hover peer relative  flex h-full w-full rounded-small border-primary80 dark:border-primary20 dark:bg-primary80 ",
+                  "brutalism-border primary-hover peer relative  flex h-full w-full rounded-small border-primary80 dark:border-primary1 dark:bg-primary80 ",
                 )}
               >
                 <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small dark:bg-primary90 dark:text-primary1">

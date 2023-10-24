@@ -30,7 +30,7 @@ export default function PostSnippet({
     <li className="w-full">
       <Link
         href={`/community/${communityname}/${title}`}
-        className="brutalism-border primary-hover dark:primary-hover-dark peer relative flex h-fit w-full  rounded-small border-primary80 dark:border-primary20"
+        className="brutalism-border primary-hover dark:primary-hover-dark peer relative flex h-fit w-full  rounded-small border-primary80 dark:border-primary1 dark:bg-primary80"
       >
         <div className="flex flex-col items-center  gap-extra-small rounded-l-small bg-primary10 p-small dark:bg-primary90">
           <VoteButton

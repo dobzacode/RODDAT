@@ -7,11 +7,18 @@ import { User } from "@prisma/client";
 import { CommunityDetailsProps, PostDetailProps } from "@/interface/interface";
 import { v4 as uuidv4 } from "uuid";
 import Button from "../ui/button/Button";
+import PostSnippetSkeleton from "../skeleton/SnippetSkeleton";
+import UserPostsAndCommunitiesSkeleton from "../skeleton/UserPostsAndCommunitiesSkeleton";
+import CommunitySnippet from "../community/CommunitySnippet";
 
 export default function UserPostAndCommunities({
   userInfo,
+  postAmount,
+  communityAmount,
 }: {
   userInfo: User;
+  postAmount: number;
+  communityAmount: number;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [posts, setPosts] = useState<null | PostDetailProps[]>(null);
@@ -41,24 +48,29 @@ export default function UserPostAndCommunities({
       }: { communitiesDetails: CommunityDetailsProps[] } = await res.json();
       console.log(communitiesDetails);
       setCommunities(communitiesDetails);
+      setIsLoading(false);
     };
     fetchPost();
     fetchCommunities();
-    setIsLoading(false);
   }, []);
 
-  if (isLoading) return;
-
-  if (!posts && !communities) return;
+  if (isLoading)
+    return (
+      <UserPostsAndCommunitiesSkeleton
+        communityAmount={communityAmount}
+        showContent={showContent}
+        postAmount={postAmount}
+      ></UserPostsAndCommunitiesSkeleton>
+    );
 
   return (
     <section className="flex w-full flex-col gap-sub-large laptop:w-[600px]">
-      <div className="brutalism-border flex h-full w-full justify-between overflow-hidden rounded-medium  border-primary80 text-primary80 dark:border-primary20 dark:bg-primary80 dark:text-primary1">
+      <div className="brutalism-border flex h-[60px] w-full justify-between overflow-hidden rounded-medium border-primary80   text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1">
         <Button
           intent="pastelPrimary"
           size="small"
           transparent={showContent === "posts" ? false : true}
-          className="shadow-in h-full w-1/2 rounded-l-small border-r"
+          className="h-full w-1/2 rounded-l-small border-r dark:border-primary1 "
           onClick={() => setShowContent("posts")}
         >
           Posts
@@ -67,13 +79,13 @@ export default function UserPostAndCommunities({
           intent="pastelPrimary"
           size="small"
           transparent={showContent === "communities" ? false : true}
-          className="h-full w-1/2 rounded-r-small border-l"
+          className="h-full w-1/2 rounded-r-small border-l dark:border-primary1"
           onClick={() => setShowContent("communities")}
         >
           Community
         </Button>
       </div>
-      <ul className="flex w-full flex-col items-center justify-center gap-sub-large">
+      <ul className="flex w-full flex-col  justify-center gap-sub-large">
         {showContent === "posts" &&
           posts?.map((post) => {
             return (
@@ -90,7 +102,19 @@ export default function UserPostAndCommunities({
           })}
         {showContent === "communities" &&
           communities?.map((community) => {
-            return <h1 key={uuidv4()}>{community.community.name}</h1>;
+            return (
+              <CommunitySnippet
+                name={community.community.name}
+                visibility={community.community.visibility}
+                isNsfw={community.community.isNsfw}
+                picture={community.community.picture}
+                description={community.community.description}
+                postAmount={community.postAmount}
+                createdAt={community.community.createdAt}
+                userAmount={community.userAmount}
+                key={uuidv4()}
+              ></CommunitySnippet>
+            );
           })}
       </ul>
     </section>

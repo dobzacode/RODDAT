@@ -4,7 +4,7 @@ import P from "../ui/text/P";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Community } from "@prisma/client";
-import CommunitySkeleton from "./CommunitySkeleton";
+import CommunitySkeleton from "../skeleton/CommunitySkeleton";
 
 export default function CommunityBar({
   id,
@@ -15,7 +15,7 @@ export default function CommunityBar({
 }) {
   return (
     <Link
-      className="brutalism-border primary-hover dark:primary-hover-dark peer flex h-fit w-full  items-center justify-between rounded-small border-primary80  dark:border-primary20 dark:bg-primary90"
+      className="brutalism-border primary-hover dark:primary-hover-dark peer flex h-fit w-full  items-center justify-between rounded-small border-primary80  dark:border-primary1 dark:bg-primary90"
       href={`/community/${community?.name}`}
     >
       <div className="flex h-full w-fit  flex-col items-center gap-extra-small rounded-l-small bg-primary10 p-small dark:bg-primary90">

@@ -2,7 +2,7 @@
 
 import Uploader from "@/components/Uploader";
 import CommunityBar from "@/components/community/CommunityBar";
-import CommunitySkeleton from "@/components/community/CommunitySkeleton";
+import CommunitySkeleton from "@/components/skeleton/CommunitySkeleton";
 import { Community } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
