@@ -5,7 +5,7 @@ import { useState } from "react";
 import Button, { buttonVariants } from "../ui/button/Button";
 
 import Link from "next/link";
-import LoginModal from "../user/LoginModal";
+import LogInModal from "../user/LogInModal";
 
 const NewCommunity = () => {
   const { data: session } = useSession();
@@ -40,7 +40,7 @@ const NewCommunity = () => {
           >
             Create a community
           </Button>
-          <LoginModal isOpen={isOpen} setIsOpen={setIsOpen}></LoginModal>
+          <LogInModal isOpen={isOpen} setIsOpen={setIsOpen}></LogInModal>
         </>
       )}
     </>

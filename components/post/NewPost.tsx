@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 import Link from "next/link";
 import { useState } from "react";
 import Button, { buttonVariants } from "../ui/button/Button";
-import LoginModal from "../user/LoginModal";
+import LogInModal from "../user/LogInModal";
 import { useSession } from "next-auth/react";
 
 export default function NewPost() {
@@ -39,7 +39,7 @@ export default function NewPost() {
           >
             Create a post
           </Button>
-          <LoginModal isOpen={isOpen} setIsOpen={setIsOpen}></LoginModal>
+          <LogInModal isOpen={isOpen} setIsOpen={setIsOpen}></LogInModal>
         </>
       )}
     </>

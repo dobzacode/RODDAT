@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import Button from "../ui/button/Button";
-import LoginModal from "./LoginModal";
+import LogInModal from "./LogInModal";
 
 const Login: FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -15,7 +15,7 @@ const Login: FC = () => {
       >
         Login
       </Button>
-      <LoginModal isOpen={isOpen} setIsOpen={setIsOpen}></LoginModal>
+      <LogInModal isOpen={isOpen} setIsOpen={setIsOpen}></LogInModal>
     </>
   );
 };

@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 import Button from "../ui/button/Button";
 import Modal from "../ui/div/Modal";
 
-export default function LoginModal({
+export default function LogInModal({
   isOpen,
   setIsOpen,
 }: {

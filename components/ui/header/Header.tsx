@@ -8,7 +8,7 @@ import { cn } from "@/utils/utils";
 import DarkModeButton from "@/components/darkMode/DarkModeButton";
 import SearchBar from "./SearchBar";
 import UserMenu from "@/components/user/UserMenu";
-import LoginModal from "@/components/user/Login";
+import LogInModal from "@/components/user/Login";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
@@ -61,7 +61,7 @@ async function Header({
       {session ? (
         <UserMenu session={session}></UserMenu>
       ) : (
-        <LoginModal></LoginModal>
+        <LogInModal></LogInModal>
       )}
       <DarkModeButton className="absolute right-2 top-2 " />
     </header>

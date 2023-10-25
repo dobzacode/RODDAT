@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Avatar from "../ui/Avatar";
 import Button from "../ui/button/Button";
-import LoginModal from "../user/LoginModal";
+import LogInModal from "../user/LogInModal";
 
 export default function NewPostBar({
   communityname,
@@ -53,7 +53,7 @@ export default function NewPostBar({
               placeholder="New publication"
             />
           </Button>
-          <LoginModal isOpen={isOpen} setIsOpen={setIsOpen}></LoginModal>
+          <LogInModal isOpen={isOpen} setIsOpen={setIsOpen}></LogInModal>
         </>
       )}
     </>

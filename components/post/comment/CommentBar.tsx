@@ -4,7 +4,7 @@ import useSibling from "@/components/hooks/useIsSibling";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/button/Button";
 import P from "@/components/ui/text/P";
-import LoginModal from "@/components/user/LoginModal";
+import LogInModal from "@/components/user/LogInModal";
 import { CommentDetail } from "@/interface/interface";
 import { cn, getDateDifference } from "@/utils/utils";
 import { mdiCommentOutline } from "@mdi/js";
@@ -172,7 +172,7 @@ export default function CommentBar({
         </section>
       )}
       {!userId && (
-        <LoginModal isOpen={isOpen} setIsOpen={setIsOpen}></LoginModal>
+        <LogInModal isOpen={isOpen} setIsOpen={setIsOpen}></LogInModal>
       )}
     </>
   );

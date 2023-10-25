@@ -2,7 +2,7 @@
 
 import Button from "@/components/ui/button/Button";
 import Input from "@/components/ui/form/Input";
-import LoginModal from "@/components/user/LoginModal";
+import LogInModal from "@/components/user/LogInModal";
 import { CommentDetail } from "@/interface/interface";
 import { cn } from "@/utils/utils";
 import { useSession } from "next-auth/react";
@@ -120,7 +120,7 @@ export function CommentForm({
         </form>
       </div>
       {!userId && (
-        <LoginModal isOpen={isOpen} setIsOpen={setIsOpen}></LoginModal>
+        <LogInModal isOpen={isOpen} setIsOpen={setIsOpen}></LogInModal>
       )}
     </>
   );
