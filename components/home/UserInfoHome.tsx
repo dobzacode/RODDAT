@@ -4,13 +4,8 @@ import P from "../ui/text/P";
 
 import H2 from "../ui/text/H1";
 
-import Link from "next/link";
-import { buttonVariants } from "../ui/button/Button";
-import { FC } from "react";
-import { Session, getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import NewPost from "../post/NewPost";
 import NewCommunity from "../community/NewCommunity";
+import NewPost from "../post/NewPost";
 
 function UserInfo() {
   return (
