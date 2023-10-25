@@ -1,4 +1,4 @@
-import { PostDetailProps } from "@/interface/interface";
+import { CommunityDetailsProps, PostDetailProps } from "@/interface/interface";
 import { HfInference } from "@huggingface/inference";
 import { Community, User } from "@prisma/client";
 import { ClassValue, clsx } from "clsx";
@@ -166,6 +166,35 @@ export function sortPosts(
         );
     default:
       return posts;
+  }
+}
+
+export function sortCommunities(
+  communities: CommunityDetailsProps[],
+  sortBy: string | null,
+) {
+  switch (sortBy) {
+    case "visibility":
+      return communities.slice().sort((a, b) => {
+        if (a.community.visibility < b.community.visibility) return -1;
+        if (a.community.visibility > b.community.visibility) return 1;
+        return 0;
+      });
+    case "postAmount":
+      return communities.slice().sort((a, b) => b.postAmount - a.postAmount);
+    case "userAmount":
+    case "userAmount":
+      return communities.slice();
+    case "date":
+      return communities
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(b.community.createdAt).getTime() -
+            new Date(a.community.createdAt).getTime(),
+        );
+    default:
+      return communities;
   }
 }
 
