@@ -17,7 +17,7 @@ export default async function Posts({ session }: { session?: Session | null }) {
   if (!posts) return null;
 
   const data = await fetch(
-    `http://localhost:3000/api/user?email=${session?.user?.email}`,
+    `${BASE_URL}/api/user?email=${session?.user?.email}`,
     {
       cache: "no-store",
     },
