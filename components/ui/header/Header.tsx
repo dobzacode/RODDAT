@@ -1,16 +1,14 @@
-import { FC, HTMLProps, ReactNode } from "react";
-import Nav from "./Nav";
-import NavLink from "./NavLink";
-import H2 from "../text/H2";
-import MobileNav from "./MobileNav";
-import Link from "next/link";
-import { cn } from "@/utils/utils";
-import DarkModeButton from "@/components/darkMode/DarkModeButton";
-import SearchBar from "./SearchBar";
-import UserMenu from "@/components/user/UserMenu";
-import Login from "@/components/user/Login";
-import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import DarkModeButton from "@/components/darkMode/DarkModeButton";
+import Login from "@/components/user/Login";
+import UserMenu from "@/components/user/UserMenu";
+import { cn } from "@/utils/utils";
+import { getServerSession } from "next-auth";
+import Link from "next/link";
+import { ReactNode } from "react";
+import H2 from "../text/H2";
+import Nav from "./Nav";
+import SearchBar from "./SearchBar";
 
 interface HeaderProps {
   children?: ReactNode;

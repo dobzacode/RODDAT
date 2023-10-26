@@ -102,11 +102,11 @@ model Post {
   picture String?
   createdAt       DateTime  @default(now())
 
-  author          User      @relation(fields: [author_id], references: [id])
+  author          User      @relation(fields: [author_id], references: [id], onDelete: Cascade)
   author_id       String
 
-  community       Community? @relation(fields: [community_id], references: [community_id])
-  community_id    String?
+  community       Community @relation(fields: [community_id], references: [community_id], onDelete: Cascade)
+  community_id    String
   
   comments        Comment[] 
   votes           Vote[]
@@ -119,13 +119,13 @@ model Comment {
   positivity      Float
   createdAt       DateTime     @default(now())
 
-  author          User         @relation(fields: [author_id], references: [id])
+  author          User         @relation(fields: [author_id], references: [id], onDelete: Cascade)
   author_id       String
 
-  post            Post         @relation(fields: [post_id], references: [post_id])
+  post            Post         @relation(fields: [post_id], references: [post_id], onDelete: Cascade)
   post_id         String
 
-  parent_comment  Comment?     @relation("ReponseA", fields: [parent_comment_id], references: [comment_id])
+  parent_comment  Comment?     @relation("ReponseA", fields: [parent_comment_id], references: [comment_id], onDelete: Cascade)
   parent_comment_id String?
 
   votes           Vote[]
@@ -143,13 +143,13 @@ model Vote {
   vote_id         String       @id @default(uuid())
   type            VoteType
   date_de_creation DateTime  @default(now())
-  user          User      @relation(fields: [user_id], references: [id])
+  user          User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id String
 
-  post            Post?      @relation(fields: [post_id], references: [post_id])
+  post            Post?      @relation(fields: [post_id], references: [post_id], onDelete: Cascade)
   post_id String?
 
-  comment Comment?  @relation(fields: [comment_id], references: [comment_id])
+  comment Comment?  @relation(fields: [comment_id], references: [comment_id], onDelete: Cascade)
   comment_id String?
 }
 

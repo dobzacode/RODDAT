@@ -81,14 +81,16 @@ export default function CommentBar({
                   className,
                 )}
               >
-                <Avatar
-                  src={comment?.author.image}
-                  size={5}
-                  className="relative z-10 rounded-small "
-                ></Avatar>
+                <div>
+                  <Avatar
+                    src={comment?.author.image}
+                    size={5}
+                    className="relative z-10 h-[50px] rounded-small"
+                  ></Avatar>
+                </div>
                 {isSibling ? (
                   <div
-                    className={`pointer-events-none relative z-0 -mb-12 block h-full w-[1px] border-x border-t border-primary20`}
+                    className={`pointer-events-none relative z-0 -mb-14 block h-full w-[1px] border-x border-t border-primary20`}
                   ></div>
                 ) : null}
               </div>

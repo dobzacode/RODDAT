@@ -35,7 +35,7 @@ export default function CommunityPage({}) {
         {isFetching ? (
           <CommunitySkeleton></CommunitySkeleton>
         ) : (
-          <ul>
+          <ul className="flex w-full flex-col items-center justify-center gap-sub-large">
             {communities?.map((community) => {
               return (
                 <li

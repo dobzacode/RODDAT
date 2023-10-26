@@ -47,7 +47,7 @@ export default function PostBar({
             <Avatar
               src={author.image}
               size={2}
-              className="rounded-full"
+              className="h-[20px] rounded-full"
             ></Avatar>
           )}
           <P type="caption">r/{community?.name}</P>
@@ -83,14 +83,14 @@ export default function PostBar({
   return (
     <div
       id={post_id}
-      className="relative flex h-full w-full flex-col gap-sub-large "
+      className="relative flex h-full w-full flex-col gap-sub-large"
     >
       {isPagePost && (
         <div className="absolute -left-large flex h-full flex-col items-center">
           <Avatar
             src={author.image}
             size={5}
-            className="rounded-small"
+            className="h-[50px] rounded-small"
           ></Avatar>
           <ThreadLine
             id={post_id}

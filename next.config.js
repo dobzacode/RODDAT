@@ -7,6 +7,7 @@ const nextConfig = {
       "lh3.googleusercontent.com",
       "www.tlbx.app",
       "d8129lgm8xiaf.cloudfront.net",
+      "dummyimage.com",
     ],
     loader: "default",
     dangerouslyAllowSVG: true,

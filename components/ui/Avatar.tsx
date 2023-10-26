@@ -9,6 +9,7 @@ interface AvatarProps {
   src?: string | null;
   alt?: string;
   path?: string;
+  fill?: boolean;
 }
 
 const Avatar: FC<AvatarProps> = ({
@@ -26,6 +27,7 @@ const Avatar: FC<AvatarProps> = ({
         width={size * 10}
         height={size * 10}
         className={className}
+        {...props}
       ></Image>
     );
   }
