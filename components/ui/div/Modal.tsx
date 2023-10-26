@@ -45,13 +45,13 @@ const Modal: FC<ModalProps> = ({
   return (
     <CSSTransition
       in={isOpen as boolean}
-      timeout={300} // Durée de l'animation en millisecondes
+      timeout={300}
       classNames="modal"
-      unmountOnExit // Retirer le composant de l'arbre DOM lorsque `in` est à `false`
+      unmountOnExit
     >
       <div className="fixed inset-0 z-[60] flex items-center justify-center ">
         <div className=" modal-container absolute inset-0 bg-black opacity-50"></div>
-        <div className=" max-w-1/5 brutalism-border relative z-50 mx-auto overflow-y-auto rounded-sub-large border-primary80 bg-primary1 p-medium shadow-lg dark:border-primary10 dark:bg-primary80">
+        <div className="max-w-1/5 brutalism-border relative z-50 mx-auto my-auto overflow-y-auto rounded-sub-large border-primary80 bg-primary1 p-medium shadow-lg dark:border-primary10 dark:bg-primary80">
           <div className="flex flex-col gap-sub-large px-6 py-4 text-left">
             <div className="pb-3">
               <h2 className={`heading ${titleCSS}`}>{title}</h2>

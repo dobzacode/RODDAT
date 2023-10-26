@@ -3,9 +3,13 @@
 import { FC, useState } from "react";
 import Button from "../ui/button/Button";
 import LogInModal from "./LogInModal";
+import { useSearchParams } from "next/navigation";
 
 const Login: FC = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const [isOpen, setIsOpen] = useState<boolean>(
+    searchParams.get("modal") === "signin" ? true : false,
+  );
 
   return (
     <>

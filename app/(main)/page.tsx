@@ -7,6 +7,7 @@ import PostSkeleton from "@/components/skeleton/PostSkeleton";
 import Posts from "@/components/post/Posts";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import LogInModal from "@/components/user/LogInModal";
 
 export const revalidate = 20;
 
