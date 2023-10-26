@@ -17,7 +17,7 @@ export default function DeleteButton({
 }: {
   post_id?: string;
   comment_id?: string;
-  className: string;
+  className?: string;
   to: "post" | "comment";
   setStatus?: Function;
 }) {

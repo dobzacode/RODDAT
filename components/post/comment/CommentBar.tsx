@@ -7,15 +7,16 @@ import P from "@/components/ui/text/P";
 import LogInModal from "@/components/user/LogInModal";
 import { CommentDetail } from "@/interface/interface";
 import { cn, getDateDifference } from "@/utils/utils";
-import { mdiCommentOutline } from "@mdi/js";
+import { mdiCog, mdiCommentOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Comment, Vote } from "@prisma/client";
-import { ReactNode, useEffect, useState } from "react";
+import { ChangeEvent, ReactNode, useEffect, useState } from "react";
 import PostSkeleton from "../../skeleton/PostSkeleton";
 import VoteButton from "../VoteButton";
 import { CommentForm } from "./CommentForm";
 import DeleteButton from "../DeleteButton";
 import { useRouter } from "next/navigation";
+import Input from "@/components/ui/form/Input";
 
 export default function CommentBar({
   comment_id,
@@ -34,6 +35,8 @@ export default function CommentBar({
   const [status, setStatus] = useState<"existing" | "deleted">("existing");
   const { isSibling } = useSibling(comment_id);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editContent, setEditContent] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchComment = async () => {
@@ -45,6 +48,7 @@ export default function CommentBar({
         const { comment: data }: { comment: CommentDetail } = await res.json();
 
         setComment(data);
+        setEditContent(data.content);
       } catch (e) {
         console.log(e);
       }
@@ -61,6 +65,10 @@ export default function CommentBar({
       updatedComment.child_comments.unshift(newComment);
       setComment(updatedComment);
     }
+  };
+
+  const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setEditContent(e.target.value);
   };
 
   return (
@@ -113,7 +121,7 @@ export default function CommentBar({
                     userId={userId}
                   ></VoteButton>
                 </div>
-                <div className="flex h-full flex-col justify-between gap-small p-small  dark:text-primary1">
+                <div className="mr-medium flex h-full w-full flex-col justify-between gap-small  p-small dark:text-primary1">
                   <div className="caption flex items-center gap-extra-small">
                     <P type="caption">{`Posted by u/${
                       comment?.author.name ? comment?.author.name : "deleted"
@@ -123,7 +131,22 @@ export default function CommentBar({
                         getDateDifference(comment?.createdAt)}
                     </P>
                   </div>
-                  <P>{comment.content}</P>
+                  {!isEditing ? (
+                    <P>{comment.content}</P>
+                  ) : (
+                    <Input
+                      placeholder={comment.content}
+                      required
+                      type="textarea"
+                      hiddenLabel={true}
+                      className="dark:border-primary10/[.2] dark:bg-primary80 dark:text-primary1 dark:outline-primary10/[.2] dark:placeholder:text-primary10/[.4]"
+                      id="content"
+                      value={editContent as string}
+                      onChange={handleContentChange}
+                      rows={3}
+                      cols={50}
+                    />
+                  )}
                   <Button
                     onClick={() =>
                       userId ? setIsReplying(!isReplying) : setIsOpen(true)
@@ -135,12 +158,16 @@ export default function CommentBar({
                   </Button>
                 </div>
                 {comment.author_id === userId && (
-                  <DeleteButton
-                    setStatus={setStatus}
-                    to="comment"
-                    className="heading body absolute right-4 top-4 duration-fast peer-hover:translate-x-2  peer-hover:scale-[110%] "
-                    comment_id={comment_id}
-                  ></DeleteButton>
+                  <div className="heading body absolute right-4 top-4 flex flex-col duration-fast peer-hover:translate-x-2  peer-hover:scale-[110%] ">
+                    <DeleteButton
+                      setStatus={setStatus}
+                      to="comment"
+                      comment_id={comment_id}
+                    ></DeleteButton>
+                    <button onClick={() => setIsEditing(!isEditing)}>
+                      <Icon path={mdiCog} size={1.5}></Icon>
+                    </button>
+                  </div>
                 )}
               </div>
 

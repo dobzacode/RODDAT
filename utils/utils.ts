@@ -7,6 +7,11 @@ import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import { twMerge } from "tailwind-merge";
 
+export const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
+
 const hf = new HfInference(process.env.HF_TOKEN);
 
 export function cn(...inputs: ClassValue[]) {
@@ -197,8 +202,3 @@ export function sortCommunities(
       return communities;
   }
 }
-
-export const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
