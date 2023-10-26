@@ -68,7 +68,7 @@ export default function CommentBar({
       {status === "existing" && (
         <section
           className={cn(
-            `relative z-50 flex h-full w-full flex-col gap-sub-large`,
+            `relative z-50 flex h-full w-full flex-col gap-sub-large `,
             className,
           )}
           id={comment_id}

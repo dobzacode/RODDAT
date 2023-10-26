@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="relative flex min-h-screen flex-col gap-sub-large duration-medium dark:bg-primary99 bg-primary1 mb-sub-large">
+      <body className="relative mb-sub-large flex min-h-screen flex-col gap-sub-large overflow-x-hidden bg-primary1 duration-medium dark:bg-primary99">
         <Providers>{children}</Providers>
       </body>
     </html>

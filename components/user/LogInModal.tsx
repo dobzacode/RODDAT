@@ -16,7 +16,10 @@ export default function LogInModal({
       <Button
         onClick={() => signIn("google")}
         hover={true}
-        className="sub-heading brutalism-border flex items-center justify-center gap-extra-small rounded-small border-secondary80 bg-secondary20  px-sub-medium py-small font-medium text-secondary80"
+        intent={"pastelPrimary"}
+        size={"small"}
+        modifier={"brutalism"}
+        rounded={"medium"}
       >
         Sign in with Google
       </Button>

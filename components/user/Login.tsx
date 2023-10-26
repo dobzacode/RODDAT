@@ -11,7 +11,7 @@ const Login: FC = () => {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="sub-heading brutalism-border flex items-center justify-center gap-extra-small rounded-full border-primary80  bg-white px-sub-medium py-small font-medium"
+        className="sub-heading brutalism-border flex items-center justify-center gap-extra-small rounded-full border-primary80  bg-white px-sub-medium py-small font-medium dark:border-primary1 dark:bg-primary70"
       >
         Login
       </Button>

@@ -167,7 +167,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
       ) : (
         <div
           className={cn(
-            "brutalism-border absolute top-[100px]  -z-10  h-fit w-fit rounded-bl-large border-primary80 bg-white pb-medium pl-medium pr-extra-small pt-extra-small duration-700 dark:border-primary1 dark:bg-primary80",
+            "brutalism-border absolute top-[100px]  z-10  h-fit w-fit rounded-bl-large border-primary80 bg-white pb-medium pl-medium pr-extra-small pt-extra-small duration-700 dark:border-primary1 dark:bg-primary80",
             isShown ? "-right-2" : "-right-[200px] ",
           )}
         >
