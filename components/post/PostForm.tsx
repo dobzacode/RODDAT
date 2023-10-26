@@ -101,12 +101,12 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
     }
   }, []);
 
-  const handleSearch = async () => {
+  const handleSearch = async (value: string) => {
     try {
       const email = session?.user?.email;
 
       const queryParams = new URLSearchParams();
-      queryParams.append("name", searchValue);
+      queryParams.append("name", value);
 
       if (email) {
         queryParams.append("email", email);
@@ -116,18 +116,18 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
         `/api/communities?${queryParams.toString()}`,
       );
 
-      const communities: { communities: Community[]; status: number } =
+      const communitiesRes: { communities: Community[]; status: number } =
         await searchResult.json();
 
-      if (communities.status === 404) {
+      if (communitiesRes.status === 404) {
         setFormData((prevData) => ({
           ...prevData,
           community: "",
         }));
-        setCommunities([`No community is matching`]);
+        return setCommunities([`No community is matching`]);
       }
 
-      const filteredCommunities = communities.communities.filter(
+      const filteredCommunities = communitiesRes.communities.filter(
         (community) => {
           if (community.visibility === "PRIVATE") {
             return userCommunities?.some(
@@ -152,8 +152,6 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
 
       setCommunities(communityNames);
 
-      communityNames;
-
       setFormData((prevData) => ({
         ...prevData,
         community: communityNames[0],
@@ -166,7 +164,6 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   const handleSearchCommunityChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue);
-    searchValue;
     setCommunities([""]);
     setFormData((prevData) => ({
       ...prevData,
@@ -183,7 +180,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
     }
     setSearchTimeout(
       setTimeout(() => {
-        handleSearch();
+        handleSearch(newSearchValue);
       }, 500),
     );
   };
@@ -279,7 +276,7 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
               <p className="text-error40">{`r/${isNotFound} is not found`}</p>
             )}
             <CSSTransition
-              in={showCommunity}
+              in={showCommunity && communities.length > 0}
               timeout={500} // Durée de l'animation en millisecondes
               classNames="fade"
               unmountOnExit

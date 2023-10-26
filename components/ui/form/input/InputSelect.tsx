@@ -19,6 +19,7 @@ interface SelectProps
 
 const InputSelect: FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
   ({ className, choices, loader, placeholder, ...props }, ref) => {
+    console.log(choices);
     return (
       <>
         {!loader ? (
