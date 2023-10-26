@@ -57,68 +57,66 @@ export async function POST(req: NextRequest) {
     const { scores } = zsc[0];
     const positivity = scores[0];
 
+    const community = await prisma.community.findUnique({
+      where: { name: post.community },
+    });
+
+    if (!community) {
+      const message = "Community not found";
+      return NextResponse.json({
+        message: message,
+        status: 404,
+        community: post.community,
+      });
+    }
+
     const data: {
       title: string;
       content: string;
       author_id: string;
       positivity: number;
-      community_id?: string;
+      community_id: string;
     } = {
       title: post.title.toLowerCase(),
       content: post.content,
       positivity,
       author_id: user.id,
+      community_id: community.community_id,
     };
 
-    if (post.community) {
-      const community = await prisma.community.findUnique({
-        where: { name: post.community },
-      });
+    data.community_id = community.community_id;
 
-      if (!community) {
-        // Gérer le cas où la communauté n'a pas été trouvée
-        const message = "Community not found";
-        return NextResponse.json({
-          message: message,
-          status: 404,
-          community: post.community,
-        });
-      }
+    const existingCommunityUser = await prisma.communityUser.findFirst({
+      where: {
+        user_id: user.id,
+        community_id: community.community_id,
+      },
+    });
 
-      data.community_id = community.community_id;
-
-      const existingCommunityUser = await prisma.communityUser.findFirst({
-        where: {
+    if (!existingCommunityUser) {
+      const newCommunityUser = await prisma.communityUser.create({
+        data: {
           user_id: user.id,
           community_id: community.community_id,
+          role: "GUEST",
         },
       });
+    }
 
-      if (!existingCommunityUser) {
-        const newCommunityUser = await prisma.communityUser.create({
-          data: {
-            user_id: user.id,
-            community_id: community.community_id,
-            role: "GUEST",
-          },
-        });
-      }
+    const existingPost = await prisma.post.findFirst({
+      where: {
+        title: post.title.toLowerCase(),
+        community_id: community.community_id,
+      },
+    });
 
-      const existingPost = await prisma.post.findFirst({
-        where: {
-          title: post.title.toLowerCase(),
-          community_id: community.community_id,
-        },
+    if (existingPost) {
+      const message =
+        "A post with the same title already exists in this community";
+      return NextResponse.json({
+        message,
+        status: 409,
       });
-
-      if (existingPost) {
-        const message =
-          "A post with the same title already exists in this community";
-        return NextResponse.json({
-          message,
-          status: 409,
-        });
-      }
     }
 
     try {
