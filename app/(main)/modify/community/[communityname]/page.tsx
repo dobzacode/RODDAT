@@ -1,13 +1,10 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import CommunityForm from "@/components/community/CommunityForm";
-import PopUp from "@/components/ui/div/PopUp";
-import H2 from "@/components/ui/text/H2";
 import prisma from "@/prisma/client";
 import { BASE_URL } from "@/utils/utils";
 import { Community, CommunityUser, User } from "@prisma/client";
 import { Session, getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { useEffect, useState } from "react";
 
 interface ModifyCommunityRes extends Community {
   communityUsers: CommunityUser[];

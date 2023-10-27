@@ -1,5 +1,5 @@
 import { PostDetailProps } from "@/interface/interface";
-import { getDateDifference } from "@/utils/utils";
+import { cn, getDateDifference } from "@/utils/utils";
 import {
   mdiCheck,
   mdiCommentOutline,
@@ -99,14 +99,19 @@ export default function PostBar({
   return (
     <div
       id={post_id}
-      className="relative flex h-full w-full flex-col gap-sub-large"
+      className={cn(
+        "relative flex h-full w-full flex-col gap-sub-large",
+        isPagePost
+          ? "ml-small mt-medium pr-small tablet:ml-large tablet:mr-0 tablet:pr-large"
+          : "",
+      )}
     >
       {isPagePost && (
-        <div className="absolute -left-large flex h-full flex-col items-center">
+        <div className="absolute -left-[4rem] -top-sub-large flex h-full flex-col items-center tablet:-left-large tablet:top-auto">
           <Avatar
             src={author.image}
             size={5}
-            className="h-[50px] rounded-small"
+            className="z-[80] h-[50px] rounded-small"
           ></Avatar>
           <ThreadLine
             id={post_id}
@@ -116,8 +121,8 @@ export default function PostBar({
         </div>
       )}
       <section className="relative flex h-fit w-full dark:text-primary1">
-        <div className="brutalism-border primary-hover dark:primary-hover-dark peer flex h-fit  w-full rounded-small border-primary80 dark:border-primary1">
-          <div className="flex flex-col items-center  gap-extra-small rounded-l-small bg-primary10 p-small dark:bg-primary90">
+        <div className="brutalism-border primary-hover dark:primary-hover-dark peer flex h-fit w-full flex-col-reverse  rounded-small border-primary80 dark:border-primary1 tablet:flex-row">
+          <div className="flex items-center justify-center gap-extra-small rounded-b-small bg-primary10 p-small  dark:bg-primary90 tablet:flex-col tablet:justify-normal tablet:rounded-b-none tablet:rounded-l-small">
             <VoteButton
               userId={userId}
               id={post_id}

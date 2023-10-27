@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { BarLoader } from "react-spinners";
 import CommentFormSkeleton from "../../skeleton/CommentFormSkeleton";
+import { usePathname, useRouter } from "next/navigation";
 
 export function CommentForm({
   post_id,
@@ -33,6 +34,8 @@ export function CommentForm({
   const [content, setContent] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { data: session } = useSession();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setIsSubmitting(true);
@@ -64,6 +67,7 @@ export function CommentForm({
       setContent("");
       if (setIsReplying) setIsReplying(false);
       setIsSubmitting(false);
+      return router.push(`${pathname}?popup=true&type=created&content=comment`);
     } catch (err) {
       console.log(err);
     }

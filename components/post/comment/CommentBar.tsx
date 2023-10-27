@@ -23,6 +23,7 @@ import VoteButton from "../VoteButton";
 import { CommentForm } from "./CommentForm";
 import { useSession } from "next-auth/react";
 import { BarLoader } from "react-spinners";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function CommentBar({
   comment_id,
@@ -45,6 +46,8 @@ export default function CommentBar({
   const [edittedContent, setEdittedContent] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { data: session } = useSession();
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const fetchComment = async () => {
@@ -99,13 +102,16 @@ export default function CommentBar({
         if (prevComment) {
           return {
             ...prevComment,
-            content: updatedComment.content,
-            positivity: updatedComment.positivity,
+            content: updatedComment?.content,
+            positivity: updatedComment?.positivity,
           };
         }
         return null;
       });
       setIsEditing(false);
+      return router.push(
+        `${pathname}?popup=true&type=modified&content=comment`,
+      );
     } catch (e) {
       comment?.content ? setEdittedContent(comment.content) : "";
       console.log(e);
@@ -123,7 +129,7 @@ export default function CommentBar({
       {status === "existing" && (
         <section
           className={cn(
-            `relative z-50 flex h-full w-full flex-col gap-sub-large `,
+            `relative z-50 ml-small flex h-full flex-col gap-sub-large tablet:ml-large `,
             className,
           )}
           id={comment_id}
@@ -132,17 +138,16 @@ export default function CommentBar({
             <>
               <div
                 className={cn(
-                  "absolute -left-large z-0 flex  h-full flex-col items-center dark:text-primary1",
+                  "absolute -left-[4rem] -top-medium  flex h-full flex-col  items-center dark:text-primary1 tablet:-left-large tablet:top-auto tablet:z-0",
                   className,
                 )}
               >
-                <div>
-                  <Avatar
-                    src={comment?.author.image}
-                    size={5}
-                    className="relative z-10 h-[50px] rounded-small"
-                  ></Avatar>
-                </div>
+                <Avatar
+                  src={comment?.author.image}
+                  size={5}
+                  className="relative z-[100] h-[50px] rounded-small tablet:z-10 "
+                ></Avatar>
+
                 {isSibling ? (
                   <div
                     className={`pointer-events-none relative z-0 -mb-14 block h-full w-[1px] border-x border-t border-primary20`}
@@ -151,10 +156,10 @@ export default function CommentBar({
               </div>
               <div
                 className={cn(
-                  "brutalism-border primary-hover peer relative  flex h-full w-full rounded-small border-primary80 dark:border-primary1 dark:bg-primary80 ",
+                  "brutalism-border primary-hover peer relative flex h-full  w-full flex-col-reverse rounded-small border-primary80 dark:border-primary1 dark:bg-primary80 tablet:flex-row ",
                 )}
               >
-                <div className="flex flex-col items-center gap-extra-small  rounded-l-small bg-primary10 p-small dark:bg-primary90 dark:text-primary1">
+                <div className="flex items-center justify-center gap-extra-small rounded-b-small bg-primary10 p-small dark:bg-primary90  dark:text-primary1 tablet:flex-col tablet:justify-normal tablet:rounded-b-none tablet:rounded-l-small">
                   <VoteButton
                     votes={comment.votes}
                     upvotes={comment.votes?.filter(
@@ -169,15 +174,18 @@ export default function CommentBar({
                   ></VoteButton>
                 </div>
                 <div
-                  className={`relative -mr-medium flex h-full w-[90%] flex-col justify-between  gap-small p-small dark:text-primary1 ${
+                  className={`relative -mr-medium flex h-full w-full flex-col justify-between gap-small  p-small dark:text-primary1 tablet:w-[90%] ${
                     isSubmitting ? "animate-pulse" : ""
                   }`}
                 >
-                  <div className="caption flex items-center gap-extra-small">
-                    <P type="caption">{`Posted by u/${
+                  <div className="caption flex w-full items-center gap-extra-small">
+                    <P className="" type="caption">{`Posted by u/${
                       comment?.author.name ? comment?.author.name : "deleted"
                     }`}</P>
-                    <P type="caption">
+                    <P
+                      type="caption"
+                      className="mr-small self-start mobile-large:mr-0"
+                    >
                       {comment?.createdAt &&
                         getDateDifference(comment?.createdAt)}
                     </P>
@@ -200,17 +208,21 @@ export default function CommentBar({
                       cols={50}
                     />
                   )}
-                  <div className="flex justify-between">
-                    <div className="flex gap-sub-medium">
-                      <Button
-                        onClick={() =>
-                          userId ? setIsReplying(!isReplying) : setIsOpen(true)
-                        }
-                        className="flex w-fit items-start gap-extra-small"
-                      >
-                        <Icon path={mdiCommentOutline} size={1.4}></Icon>
-                        <P>Reply</P>
-                      </Button>
+                  <div className="flex flex-wrap justify-between">
+                    <div className="flex  flex-wrap  gap-sub-medium">
+                      {!isEditing && (
+                        <Button
+                          onClick={() =>
+                            userId
+                              ? setIsReplying(!isReplying)
+                              : setIsOpen(true)
+                          }
+                          className="flex w-fit items-start gap-extra-small"
+                        >
+                          <Icon path={mdiCommentOutline} size={1.4}></Icon>
+                          <P>Reply</P>
+                        </Button>
+                      )}
                       {!isEditing && userId === comment.author_id ? (
                         <Button
                           className="flex w-fit items-start gap-extra-small"
@@ -274,7 +286,7 @@ export default function CommentBar({
                   return (
                     <CommentBar
                       userId={userId}
-                      className="z-0 pl-large"
+                      className="tablet:z-0"
                       comment_id={comment.comment_id}
                       content={comment.content}
                       key={comment.comment_id}

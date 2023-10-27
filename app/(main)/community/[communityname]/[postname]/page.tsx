@@ -1,5 +1,6 @@
 import CommunityInfo from "@/components/community/CommunityInfo";
 import CommentSection from "@/components/post/comment/CommentSection";
+import PopUp from "@/components/ui/div/PopUp";
 import { PostDetailProps } from "@/interface/interface";
 import prisma from "@/prisma/client";
 import { BASE_URL } from "@/utils/utils";
@@ -42,6 +43,7 @@ export default async function PostPage({
           id={postDetails?.community?.community_id}
         ></CommunityInfo>
       </aside>
+      <PopUp></PopUp>
     </main>
   );
 }

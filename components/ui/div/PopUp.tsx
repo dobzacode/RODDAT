@@ -52,6 +52,13 @@ const PopUp: FC<PopUpProps> = ({ children, isSuccess = false }) => {
                 {searchParams.get("login") && (
                   <>{`You are successfully logged in`}</>
                 )}
+                {searchParams.get("content") && (
+                  <>{`You have successfully ${
+                    searchParams.get("type") === "modified"
+                      ? `modified your ${searchParams.get("content")}`
+                      : "added a comment"
+                  }`}</>
+                )}
               </>
             </H2>
           </div>

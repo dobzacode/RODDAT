@@ -131,7 +131,9 @@ const CommunityForm: FC<CommunityFormProps> = ({
 
       setIsAlreadyTaken(null);
       return router.push(
-        `/community/${data.community.name}?popup=true&type=created&name=${data.community.name}`,
+        `/community/${data.community.name}?popup=true&type=${
+          community?.community_id ? "modified" : "created"
+        }&name=${data.community.name}`,
       );
     } catch (e) {
       console.log(e);

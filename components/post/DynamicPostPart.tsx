@@ -14,6 +14,7 @@ import H2 from "../ui/text/H2";
 import Input from "../ui/form/Input";
 import { useSession } from "next-auth/react";
 import { Post } from "@prisma/client";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function DynamicPostPart({
   content: propsContent,
@@ -36,6 +37,9 @@ export default function DynamicPostPart({
   const [title, setTitle] = useState<string>(propsTitle);
   const [alreadyExist, setAlreadyExist] = useState<boolean>(false);
   const { data: session } = useSession();
+
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.name === "title") {
@@ -75,6 +79,7 @@ export default function DynamicPostPart({
       console.log(data);
 
       setIsEditing(false);
+      return `${pathname}?popup=true&type=modified&content=post`;
     } catch (e) {
       console.log(e);
     } finally {
