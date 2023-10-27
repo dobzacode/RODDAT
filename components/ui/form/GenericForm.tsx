@@ -44,13 +44,14 @@ const GenericForm = <T extends FormData>({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     setIsSubmitting(true);
     setIsError(false);
 
     try {
       const data: any = await onSubmit(formData);
-      if (!data) return;
-      console.log(data);
+      if (!data) return setIsSubmitting(false);
+
       setIsOpen ? setIsOpen() : "";
       if (data.post) {
         router.push("/");
@@ -59,6 +60,7 @@ const GenericForm = <T extends FormData>({
         setIsSuccess(true);
       }
     } catch (error: any) {
+      setIsSubmitting(false);
       switch (error.message) {
         case "404":
           break;
@@ -69,10 +71,10 @@ const GenericForm = <T extends FormData>({
         default:
           setIsError(true);
       }
-    } finally {
-      setIsSubmitting(false);
     }
   };
+
+  console.log(isSubmitting);
 
   return (
     <div
@@ -102,6 +104,7 @@ const GenericForm = <T extends FormData>({
             }}
             hover={true}
             transparent={true}
+            disabled={isSubmitting}
           >
             Cancel
           </Button>
@@ -109,11 +112,11 @@ const GenericForm = <T extends FormData>({
           <Button
             type="submit"
             size="small"
-            intent={!isSpecialCharacter ? theme : "neutral"}
+            intent={isSpecialCharacter || isSubmitting ? "neutral" : theme}
             modifier="brutalism"
             rounded="small"
-            hover={!isSpecialCharacter}
-            disabled={isSpecialCharacter}
+            hover={!Boolean(isSpecialCharacter || isSubmitting)}
+            disabled={Boolean(isSpecialCharacter || isSubmitting)}
           >
             {title}
           </Button>

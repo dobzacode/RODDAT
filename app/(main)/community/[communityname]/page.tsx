@@ -1,6 +1,8 @@
 import CommunityInfo from "@/components/community/CommunityInfo";
 import PostSection from "@/components/community/PostSection";
 import NewPostBar from "@/components/home/NewPostBar";
+import PopUp from "@/components/ui/div/PopUp";
+import H2 from "@/components/ui/text/H2";
 import { PostDetailProps } from "@/interface/interface";
 import prisma from "@/prisma/client";
 import { BASE_URL } from "@/utils/utils";
@@ -43,6 +45,13 @@ export default async function CommunityPage({
       <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1 laptop:flex">
         <CommunityInfo id={community.community_id}></CommunityInfo>
       </aside>
+      <PopUp>
+        <H2 type="sub-heading" textColor="text-success90">
+          {`Your community was successfully ${
+            community ? "modified" : "created"
+          }`}
+        </H2>
+      </PopUp>
     </main>
   );
 }

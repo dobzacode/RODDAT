@@ -47,6 +47,7 @@ const InputSelect: FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
           </select>
         ) : (
           <span
+            ref={ref}
             className={cn(
               "absolute top-16 box-border flex h-full w-full items-center justify-center rounded-lg border shadow-inner",
               className,

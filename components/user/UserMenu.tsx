@@ -151,6 +151,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
 
       {isLaptopScreen || isLaptopScreen === null ? (
         <CSSTransition
+          nodeRef={modalRef}
           in={isShown as boolean}
           timeout={400}
           classNames="fade"

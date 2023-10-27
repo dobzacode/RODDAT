@@ -29,7 +29,7 @@ const inputVariants = cva("", {
     intent: {
       primary:
         "bg-primary5 placeholder:text-primary90/[.4] text-primary90 border-primary90/[.2] outline-primary90/[.2] dark:bg-primary90 dark:text-primary1 dark:placeholder:text-primary10/[.4] dark:border-primary10/[.2] dark:outline-primary10/[.2]",
-      
+
       secondary:
         "bg-secondary5 placeholder:text-secondary90/[.4] text-secondary90 border-secondary90/[.2] outline-secondary90/[.2]",
       tertiary:
@@ -94,6 +94,7 @@ const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
                   intent,
                 }),
               )}
+              ref={ref}
               loader={loader}
               choices={choices}
               onChange={onChange as ChangeEventHandler<HTMLSelectElement>}

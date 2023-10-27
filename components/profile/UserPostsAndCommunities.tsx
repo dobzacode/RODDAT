@@ -4,7 +4,7 @@ import { CommunityDetailsProps, PostDetailProps } from "@/interface/interface";
 import { mdiArrowRight } from "@mdi/js";
 import Icon from "@mdi/react";
 import { User } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { v4 as uuidv4 } from "uuid";
 import CommunitySnippet from "../community/CommunitySnippet";
@@ -40,6 +40,8 @@ export default function UserPostAndCommunities({
     userCommunities,
     sortCommunityBy,
   );
+  const refCommunitySort = useRef(null);
+  const refPostSort = useRef(null);
 
   useEffect(() => {
     setSortPostBy(null);
@@ -92,12 +94,16 @@ export default function UserPostAndCommunities({
           </div>
           {showContent === "posts" ? (
             <CSSTransition
+              nodeRef={refPostSort}
               in={isSorting}
               timeout={400}
               classNames="fade-horizontally"
               unmountOnExit
             >
-              <ul className="fade-enter-done brutalism-border left-[12.5rem] top-0 z-10 mx-medium -mt-extra-small flex h-[60px]  cursor-pointer items-center justify-center overflow-hidden rounded-b-sub-large rounded-tr-sub-large border-primary80 bg-white text-body font-medium text-primary90 dark:border-primary1 dark:bg-primary80 dark:text-primary1 tablet:mx-0 tablet:-ml-10 tablet:mr-10 tablet:mt-0 tablet:w-full tablet:flex-nowrap tablet:rounded-b-none tablet:rounded-br-sub-large tablet:rounded-tr-none  tablet:border-t-0 laptop:absolute laptop:ml-0 laptop:mr-0 laptop:w-auto   ">
+              <ul
+                ref={refPostSort}
+                className="fade-enter-done brutalism-border left-[12.5rem] top-0 z-10 mx-medium -mt-extra-small flex h-[60px]  cursor-pointer items-center justify-center overflow-hidden rounded-b-sub-large rounded-tr-sub-large border-primary80 bg-white text-body font-medium text-primary90 dark:border-primary1 dark:bg-primary80 dark:text-primary1 tablet:mx-0 tablet:-ml-10 tablet:mr-10 tablet:mt-0 tablet:w-full tablet:flex-nowrap tablet:rounded-b-none tablet:rounded-br-sub-large tablet:rounded-tr-none  tablet:border-t-0 laptop:absolute laptop:ml-0 laptop:mr-0 laptop:w-auto   "
+              >
                 <li className="h-full w-1/4">
                   <Button
                     onClick={() => setSortPostBy("upvote")}
@@ -149,8 +155,12 @@ export default function UserPostAndCommunities({
               timeout={400}
               classNames="fade-horizontally"
               unmountOnExit
+              nodeRef={refCommunitySort}
             >
-              <ul className="fade-enter-done brutalism-border left-[12.5rem] top-0 z-10 mx-medium -mt-extra-small flex h-[60px]  cursor-pointer items-center justify-center overflow-hidden rounded-b-sub-large rounded-tr-sub-large border-primary80 bg-white text-body font-medium text-primary90 dark:border-primary1 dark:bg-primary80 dark:text-primary1 tablet:mx-0 tablet:-ml-10 tablet:mr-10 tablet:mt-0 tablet:w-full tablet:flex-nowrap tablet:rounded-b-none tablet:rounded-br-sub-large tablet:rounded-tr-none  tablet:border-t-0 laptop:absolute laptop:ml-0 laptop:mr-0 laptop:w-fit   ">
+              <ul
+                ref={refCommunitySort}
+                className="fade-enter-done brutalism-border left-[12.5rem] top-0 z-10 mx-medium -mt-extra-small flex h-[60px]  cursor-pointer items-center justify-center overflow-hidden rounded-b-sub-large rounded-tr-sub-large border-primary80 bg-white text-body font-medium text-primary90 dark:border-primary1 dark:bg-primary80 dark:text-primary1 tablet:mx-0 tablet:-ml-10 tablet:mr-10 tablet:mt-0 tablet:w-full tablet:flex-nowrap tablet:rounded-b-none tablet:rounded-br-sub-large tablet:rounded-tr-none  tablet:border-t-0 laptop:absolute laptop:ml-0 laptop:mr-0 laptop:w-fit   "
+              >
                 <li className="h-full w-full">
                   <Button
                     onClick={() => setSortCommunityBy("visibility")}

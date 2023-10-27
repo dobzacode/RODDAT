@@ -59,6 +59,8 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
 
   const searchParams = useSearchParams();
 
+  const ref = useRef();
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (showCommunity) {
@@ -276,12 +278,14 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
               <p className="text-error40">{`r/${isNotFound} is not found`}</p>
             )}
             <CSSTransition
+              nodeRef={ref}
               in={showCommunity && communities.length > 0}
               timeout={500} // Durée de l'animation en millisecondes
               classNames="fade"
               unmountOnExit
             >
               <Input
+                ref={ref as any}
                 loader={
                   <BarLoader
                     className="absolute -right-[45%] "

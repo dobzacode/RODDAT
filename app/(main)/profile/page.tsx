@@ -69,6 +69,8 @@ export default async function ProfilePage({}) {
   const { posts } = await fetchUserPosts(userInfo.id);
   const { communitiesDetails } = await fetchUserCommunities(userInfo.id);
 
+  console.log(communitiesDetails);
+
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
       <UserPostAndCommunities

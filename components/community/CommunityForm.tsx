@@ -7,11 +7,10 @@ import { handleInputChange } from "@/utils/formUtils/handleInputChange";
 import { uploadMedia } from "@/utils/utils";
 import { Community } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Uploader from "../Uploader";
-import PopUp from "../ui/div/PopUp";
 import ColorDiv from "../ui/div/colorDiv";
 import GenericForm from "../ui/form/GenericForm";
-import H2 from "../ui/text/H2";
 import H3 from "../ui/text/H3";
 import P from "../ui/text/P";
 
@@ -56,6 +55,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
   const [isAlreadyTaken, setIsAlreadyTaken] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     setTimeout(() => {
@@ -89,49 +89,53 @@ const CommunityForm: FC<CommunityFormProps> = ({
     }
 
     let data;
-
-    if (community?.community_id) {
-      const res = await fetch(
-        `/api/communities?community=${community.community_id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
+    try {
+      if (community?.community_id) {
+        const res = await fetch(
+          `/api/communities?community=${community.community_id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
           },
-          body: JSON.stringify(formData),
-        },
-      );
-      data = await res.json();
-    } else {
-      const res = await fetch(
-        `/api/communities?email=${session?.user?.email}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        );
+        data = await res.json();
+      } else {
+        const res = await fetch(
+          `/api/communities?email=${session?.user?.email}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
           },
-          body: JSON.stringify(formData),
-        },
+        );
+        data = await res.json();
+      }
+
+      if (data.status === 400) {
+        setIsAlreadyTaken(data.communityName);
+        throw new Error("400");
+      }
+
+      if (selectedFile) {
+        const uploadRes = await uploadMedia(
+          selectedFile,
+          "community",
+          data.community.community_id,
+        );
+      }
+
+      setIsAlreadyTaken(null);
+      return router.push(
+        `/community/${data.community.name}?popup=true&type=created&name=${data.community.name}`,
       );
-      data = await res.json();
+    } catch (e) {
+      console.log(e);
     }
-
-    if (data.status === 400) {
-      setIsAlreadyTaken(data.communityName);
-      throw new Error("400");
-    }
-
-    if (selectedFile) {
-      const uploadRes = await uploadMedia(
-        selectedFile,
-        "community",
-        data.community.community_id,
-      );
-      console.log(uploadRes);
-    }
-
-    setIsAlreadyTaken(null);
-    return data;
   };
 
   return (
@@ -149,33 +153,40 @@ const CommunityForm: FC<CommunityFormProps> = ({
           onSubmit={handleSubmit}
           isSpecialCharacter={isSpecialCharacter}
         >
-          <div className="flex gap-sub-medium">
-            <div className="flex flex-col gap-sub-medium  ">
-              <H3 type="sub-heading">Picture</H3>
-              <Uploader
-                communityPicture={community?.picture}
-                selectedFile={selectedFile}
-                setSelectedFile={setSelectedFile}
-              ></Uploader>
-            </div>
-            <div className="flex flex-col gap-sub-medium  ">
-              <H3 type="sub-heading">Name</H3>
-              <Input
-                required
-                hiddenLabel={true}
-                placeholder="r/"
-                intent={theme}
-                type="text"
-                className="flex flex-col gap-small"
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-              ></Input>
-              {isAlreadyTaken && (
-                <p className="text-error40">{`r/${isAlreadyTaken} is already taken`}</p>
-              )}
+          <div className="flex flex-col gap-sub-medium">
+            <div className="flex  gap-sub-medium">
+              <div className="flex flex-col gap-sub-medium  ">
+                <H3 type="sub-heading">Picture</H3>
+                <Uploader
+                  communityPicture={community?.picture}
+                  selectedFile={selectedFile}
+                  setSelectedFile={setSelectedFile}
+                ></Uploader>
+              </div>
+              <div className="flex flex-col gap-sub-medium">
+                <H3 type="sub-heading">Name</H3>
+                <Input
+                  required
+                  hiddenLabel={true}
+                  placeholder="r/"
+                  intent={theme}
+                  type="text"
+                  className="flex flex-col gap-small"
+                  id="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                ></Input>
+                {isAlreadyTaken && (
+                  <p className="text-error40">{`r/${isAlreadyTaken} is already taken`}</p>
+                )}
+              </div>
             </div>
           </div>
+          {isSpecialCharacter && (
+            <p className="  text-error40">
+              Special characters are not allowed in post title
+            </p>
+          )}
           <div className="flex flex-col gap-sub-medium  ">
             <H3 type="sub-heading">Description</H3>
             <Input
@@ -188,12 +199,6 @@ const CommunityForm: FC<CommunityFormProps> = ({
               value={formData.description}
               onChange={handleChange}
             ></Input>
-
-            {isSpecialCharacter && (
-              <p className="text-error40">
-                Special characters are not allowed in post title
-              </p>
-            )}
           </div>
           <div className="flex flex-col gap-sub-medium">
             <H3 type="sub-heading">Community type</H3>
@@ -238,13 +243,6 @@ const CommunityForm: FC<CommunityFormProps> = ({
           </div>
         </GenericForm>
       </div>
-      <PopUp isSuccess={isSuccess}>
-        <H2 type="sub-heading" textColor="text-success90">
-          {`Your community was successfully ${
-            community ? "modified" : "created"
-          }`}
-        </H2>
-      </PopUp>
     </>
   );
 };
