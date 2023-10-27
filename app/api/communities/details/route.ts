@@ -43,8 +43,6 @@ export async function GET(request: NextRequest) {
         }),
       );
 
-      console.log(communitiesDetails);
-
       const message = "Community details are returned";
       return NextResponse.json({
         message,
@@ -53,13 +51,34 @@ export async function GET(request: NextRequest) {
     }
 
     if (!id) {
-      const message = "No community id or user id was specified";
-      return NextResponse.json(
-        {
-          message,
-        },
-        { status: 400 },
+      const communities = await prisma.community.findMany();
+      const communitiesDetails = await Promise.all(
+        communities.map(async (community: any) => {
+          const userAmount = await prisma.communityUser.count({
+            where: {
+              community_id: community.community_id,
+            },
+          });
+
+          const postAmount = await prisma.post.count({
+            where: {
+              community_id: community.community_id,
+            },
+          });
+
+          return {
+            community,
+            userAmount,
+            postAmount,
+          };
+        }),
       );
+
+      const message = "Community details are returned";
+      return NextResponse.json({
+        message,
+        communitiesDetails,
+      });
     }
 
     const community = await prisma.community.findUnique({

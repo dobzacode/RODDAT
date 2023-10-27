@@ -1,57 +1,32 @@
-"use client";
-
-import Uploader from "@/components/Uploader";
-import CommunityBar from "@/components/community/CommunityBar";
-import GoUpButton from "@/components/home/GoUpButton";
-import CommunitySkeleton from "@/components/skeleton/CommunitySkeleton";
-import { Community } from "@prisma/client";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import CommunitiesSection from "@/components/community/CommunitiesSection";
+import { CommunityDetailsProps } from "@/interface/interface";
+import { BASE_URL } from "@/utils/utils";
 
 export const revalidate = 0;
 
-export default function CommunityPage({}) {
-  const [communities, setCommunities] = useState<Community[] | null>(null);
-  const searchParams = useSearchParams();
-  const [isFetching, setIsFetching] = useState<boolean>(true);
+const fetchCommunities = async () => {
+  const resCom = await fetch(`${BASE_URL}/api/communities/details`, {
+    cache: "no-store",
+  });
 
-  useEffect(() => {
-    setIsFetching(true);
-    const fetchCommunities = async () => {
-      const name = searchParams ? searchParams.get("name") : null;
-      const res = await fetch(`/api/communities${name ? `?name=${name}` : ""}`);
+  const {
+    communitiesDetails,
+  }: { communitiesDetails: CommunityDetailsProps[] } = await resCom.json();
 
-      const { communities }: { communities: Community[] } = await res.json();
-      console.log(communities);
-      setCommunities(communities);
-      setIsFetching(false);
-    };
-    fetchCommunities();
-  }, [searchParams]);
+  return { communitiesDetails };
+};
+
+export default async function CommunityPage({}) {
+  const {
+    communitiesDetails,
+  }: { communitiesDetails: CommunityDetailsProps[] } = await fetchCommunities();
 
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large">
       <section className="flex flex-col gap-sub-large laptop:w-[600px] ">
-        {isFetching ? (
-          <CommunitySkeleton></CommunitySkeleton>
-        ) : (
-          <ul className="flex w-full flex-col items-center justify-center gap-sub-large">
-            {communities?.map((community) => {
-              return (
-                <li
-                  key={uuidv4()}
-                  className="relative flex h-full w-full flex-col gap-sub-large"
-                >
-                  <CommunityBar
-                    community={community}
-                    id={community.community_id}
-                  ></CommunityBar>
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        <CommunitiesSection
+          communities={communitiesDetails}
+        ></CommunitiesSection>
       </section>
     </main>
   );

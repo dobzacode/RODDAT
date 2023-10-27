@@ -210,7 +210,7 @@ export default function UserPostAndCommunities({
         </div>
       </div>
 
-      <ul className="flex w-full flex-col  justify-center gap-sub-large">
+      <ul className="flex w-full flex-col  justify-center gap-small">
         {showContent === "posts"
           ? sortedPosts?.map((post) => {
               return (

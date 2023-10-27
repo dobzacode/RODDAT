@@ -16,8 +16,8 @@ interface CommunitySnippetProps {
   userAmount: number;
   postAmount: number;
   createdAt: Date;
-  userId: string;
-  admin: CommunityUser[];
+  userId?: string;
+  admin?: CommunityUser[];
 }
 
 export default function CommunitySnippet({
@@ -41,7 +41,7 @@ export default function CommunitySnippet({
               alt={`${name} picture`}
               objectFit="cover"
               fill
-              className="rounded-l-small "
+              className="rounded-l-[14px] "
             ></Image>
           ) : (
             <Icon path={mdiImageOffOutline}></Icon>
@@ -59,7 +59,8 @@ export default function CommunitySnippet({
           </P>
         </Link>
       </div>
-      {admin.some((admin) => {
+      {admin &&
+      admin.some((admin) => {
         return admin.user_id === userId;
       }) ? (
         <Link
@@ -70,11 +71,11 @@ export default function CommunitySnippet({
         </Link>
       ) : null}
       {isNsfw ? (
-        <P className="absolute  right-6 top-1/2 -z-10 -translate-y-1/2  transform text-error40  duration-fast peer-hover:translate-x-2 peer-hover:scale-[110%]">
+        <P className="absolute  right-6 top-1/2 z-10 -translate-y-1/2  transform text-error40 duration-fast  peer-hover:translate-x-2 peer-hover:scale-[110%] dark:text-error40">
           NSFW
         </P>
       ) : null}
-      <P className="absolute  bottom-6 right-6 -z-10 font-medium duration-fast  peer-hover:translate-x-2 peer-hover:scale-[110%]">
+      <P className="absolute  bottom-6 right-6 z-10 font-medium duration-fast  peer-hover:translate-x-2 peer-hover:scale-[110%]">
         {visibility.charAt(0) + visibility.slice(1).toLowerCase()}
       </P>
     </li>
