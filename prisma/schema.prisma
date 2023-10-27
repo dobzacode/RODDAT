@@ -96,7 +96,7 @@ model CommunityUser {
 
 model Post {
   post_id         String       @id @default(uuid())
-  title           String  @unique
+  title           String  
   content         String
   positivity      Float
   picture String?
@@ -110,6 +110,8 @@ model Post {
   
   comments        Comment[] 
   votes           Vote[]
+
+  @@unique([title, community_id])
 }
 
 

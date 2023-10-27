@@ -79,20 +79,13 @@ export default function PostBar({
                     ? `${comments?.length} comments`
                     : `${comments?.length} comment`}
                 </P>
-                {!isEditing && (
-                  <Button
-                    className="flex w-fit items-start gap-extra-small"
-                    onClick={() => setIsEditing(!isEditing)}
-                  >
-                    <Icon path={mdiPencilOutline} size={1.4}></Icon>
-                    <P>Edit</P>
-                  </Button>
-                )}
               </div>
             </div>
           </>
         ) : (
           <DynamicPostPart
+            author_id={author_id}
+            userId={userId}
             post_id={post_id}
             commentAmount={comments.length}
             title={title}

@@ -64,6 +64,8 @@ const GenericForm = <T extends FormData>({
           break;
         case "400":
           break;
+        case "409":
+          break;
         default:
           setIsError(true);
       }

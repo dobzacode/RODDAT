@@ -77,6 +77,10 @@ export default function CommentBar({
 
   const submitEdittedComment = async () => {
     setIsSubmitting(true);
+    if (content === edittedContent) {
+      setIsEditing(false);
+      return setIsSubmitting(false);
+    }
     try {
       const res = await fetch(`/api/comments`, {
         method: "PUT",
@@ -103,6 +107,7 @@ export default function CommentBar({
       });
       setIsEditing(false);
     } catch (e) {
+      comment?.content ? setEdittedContent(comment.content) : "";
       console.log(e);
     } finally {
       setIsSubmitting(false);
@@ -206,7 +211,7 @@ export default function CommentBar({
                         <Icon path={mdiCommentOutline} size={1.4}></Icon>
                         <P>Reply</P>
                       </Button>
-                      {!isEditing && (
+                      {!isEditing && userId === comment.author_id ? (
                         <Button
                           className="flex w-fit items-start gap-extra-small"
                           onClick={() => setIsEditing(!isEditing)}
@@ -214,7 +219,7 @@ export default function CommentBar({
                           <Icon path={mdiPencilOutline} size={1.4}></Icon>
                           <P>Edit</P>
                         </Button>
-                      )}
+                      ) : null}
                     </div>
                     {isEditing && (
                       <div className="flex gap-sub-medium">

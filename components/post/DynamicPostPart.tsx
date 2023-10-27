@@ -12,23 +12,34 @@ import {
 } from "@mdi/js";
 import H2 from "../ui/text/H2";
 import Input from "../ui/form/Input";
+import { useSession } from "next-auth/react";
+import { Post } from "@prisma/client";
 
 export default function DynamicPostPart({
   content: propsContent,
   title: propsTitle,
   commentAmount,
+  post_id,
+  userId,
+  author_id,
 }: {
   content: string;
   title: string;
   commentAmount: number;
+  post_id: string;
+  userId: string | null;
+  author_id: string;
 }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [content, setContent] = useState<string>(propsContent);
   const [title, setTitle] = useState<string>(propsTitle);
+  const [alreadyExist, setAlreadyExist] = useState<boolean>(false);
+  const { data: session } = useSession();
 
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.name === "title") {
+      setAlreadyExist(false);
       return setTitle(e.target.value);
     }
     setContent(e.target.value);
@@ -36,30 +47,33 @@ export default function DynamicPostPart({
 
   const submitEdittedPost = async () => {
     setIsSubmitting(true);
+
+    if (title === propsTitle && content === propsContent) {
+      setIsEditing(false);
+      return setIsSubmitting(false);
+    }
     try {
-      const res = await fetch(`/api/comments`, {
+      const res = await fetch(`/api/posts`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          edittedContent,
-          comment_id: comment?.comment_id,
+          title,
+          content,
+          post_id,
           email: session?.user?.email,
         }),
       });
 
-      const { updatedComment }: { updatedComment: Comment } = await res.json();
-      setComment((prevComment) => {
-        if (prevComment) {
-          return {
-            ...prevComment,
-            content: updatedComment.content,
-            positivity: updatedComment.positivity,
-          };
-        }
-        return null;
-      });
+      const data = await res.json();
+      if (data.status === 409) {
+        console.log(data);
+        setAlreadyExist(true);
+        return setIsSubmitting(false);
+      }
+      console.log(data);
+
       setIsEditing(false);
     } catch (e) {
       console.log(e);
@@ -82,8 +96,12 @@ export default function DynamicPostPart({
             disabled={isSubmitting}
             type="textarea"
             hiddenLabel={true}
-            className={`} dark:border-primary10/[.2] dark:bg-primary80 dark:text-primary1 dark:outline-primary10/[.2] 
-                      dark:placeholder:text-primary10/[.4]`}
+            className={`dark:border-primary10/[.2] dark:bg-primary80  dark:outline-primary10/[.2] 
+                      dark:placeholder:text-primary10/[.4] ${
+                        alreadyExist
+                          ? "text-error40 dark:text-error40"
+                          : "dark:text-primary1"
+                      }`}
             id="title"
             value={title as string}
             onChange={handleContentChange}
@@ -118,15 +136,18 @@ export default function DynamicPostPart({
               ? `${commentAmount} comments`
               : `${commentAmount} comment`}
           </P>
-          {!isEditing && (
+          {!isEditing && userId === author_id ? (
             <Button
               className="flex w-fit items-start gap-extra-small"
-              onClick={() => setIsEditing(!isEditing)}
+              onClick={() => {
+                setAlreadyExist(false);
+                setIsEditing(!isEditing);
+              }}
             >
               <Icon path={mdiPencilOutline} size={1.4}></Icon>
               <P>Edit</P>
             </Button>
-          )}
+          ) : null}
         </div>
         {isEditing && (
           <div className="flex gap-sub-medium">

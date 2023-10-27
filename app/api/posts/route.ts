@@ -4,6 +4,7 @@ import { Session, getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { zeroShotClassify } from "@/utils/utils";
+import { Prisma } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
   try {
@@ -138,6 +139,78 @@ export async function POST(req: NextRequest) {
     }
   } catch (e) {
     const message = "The post can't be added";
+    return NextResponse.json({ message: message, status: 500 });
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session)
+      return NextResponse.json(
+        {
+          message: "You must be logged in to create a post",
+        },
+        { status: 403 },
+      );
+
+    const { title, content, post_id, email } = await req.json();
+
+    const user = email
+      ? await prisma.user.findUnique({ where: { email: email } })
+      : "";
+
+    if (!user) {
+      const message = "User not found";
+      return NextResponse.json({ message: message, status: 404 });
+    }
+
+    const post = await prisma.post.findUnique({ where: { post_id } });
+
+    if (!post) {
+      const message = `No post was found with the following ID : ${post_id}`;
+      return NextResponse.json({ message: message, status: 404 });
+    }
+
+    if (post.author_id !== user.id) {
+      const message = `${user.id} is not authorized to modify ${post.title} post`;
+      return NextResponse.json({ message }, { status: 401 });
+    }
+
+    const zsc = await zeroShotClassify([content], ["positivity"]);
+    const { scores } = zsc[0];
+    const positivity = scores[0];
+
+    try {
+      const updatedPost = await prisma.post.update({
+        where: { post_id },
+        data: {
+          title: title.toLowerCase(),
+          positivity,
+          content,
+        },
+      });
+
+      const message = `The post ${post_id} was successfully modified`;
+      return NextResponse.json({ message, updatedPost });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        const message = `A post with the title : ${title.toLowerCase()} already exist in the community`;
+        return NextResponse.json({
+          message: message,
+          title: title.toLowerCase,
+          status: 409,
+        });
+      }
+      const message = `An error occured during the modification`;
+      return NextResponse.json({ message: message, error, status: 500 });
+    }
+  } catch (e) {
+    const message = "The post can't be modified";
     return NextResponse.json({ message: message, status: 500 });
   }
 }
