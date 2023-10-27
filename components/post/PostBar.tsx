@@ -1,6 +1,11 @@
 import { PostDetailProps } from "@/interface/interface";
 import { getDateDifference } from "@/utils/utils";
-import { mdiCommentOutline, mdiShareOutline } from "@mdi/js";
+import {
+  mdiCheck,
+  mdiCommentOutline,
+  mdiPencilOutline,
+  mdiShareOutline,
+} from "@mdi/js";
 import Icon from "@mdi/react";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -10,6 +15,8 @@ import P from "../ui/text/P";
 import DeleteButton from "./DeleteButton";
 import VoteButton from "./VoteButton";
 import ThreadLine from "./ThreadLine";
+import Button from "../ui/button/Button";
+import DynamicPostPart from "./DynamicPostPart";
 
 interface PostBarProps extends Omit<PostDetailProps, "community_id"> {
   isPagePost?: boolean;
@@ -56,26 +63,42 @@ export default function PostBar({
           }`}</P>
           <P type="caption">{getDateDifference(createdAt)}</P>
         </div>
-        <div className=" flex h-fit flex-col gap-extra-small">
-          <H2 type="sub-heading">
-            {title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
-          </H2>
-          <P className="break-words">{content}</P>
-        </div>
-        <div className="flex gap-small dark:text-primary1">
-          <div className="flex gap-extra-small">
-            <Icon path={mdiCommentOutline} size={1.4}></Icon>
-            <P>
-              {comments?.length > 1
-                ? `${comments?.length} comments`
-                : `${comments?.length} comment`}
-            </P>
-          </div>
-          <div className="flex gap-extra-small dark:text-primary1">
-            <Icon path={mdiShareOutline} size={1.4}></Icon>
-            <P>Share</P>
-          </div>
-        </div>
+        {!isPagePost ? (
+          <>
+            <div className=" flex h-fit flex-col gap-extra-small">
+              <H2 type="sub-heading">
+                {title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
+              </H2>
+              <P className="break-words">{content}</P>
+            </div>
+            <div className="flex gap-small dark:text-primary1">
+              <div className="flex gap-extra-small">
+                <Icon path={mdiCommentOutline} size={1.4}></Icon>
+                <P>
+                  {comments?.length > 1
+                    ? `${comments?.length} comments`
+                    : `${comments?.length} comment`}
+                </P>
+                {!isEditing && (
+                  <Button
+                    className="flex w-fit items-start gap-extra-small"
+                    onClick={() => setIsEditing(!isEditing)}
+                  >
+                    <Icon path={mdiPencilOutline} size={1.4}></Icon>
+                    <P>Edit</P>
+                  </Button>
+                )}
+              </div>
+            </div>
+          </>
+        ) : (
+          <DynamicPostPart
+            post_id={post_id}
+            commentAmount={comments.length}
+            title={title}
+            content={content}
+          ></DynamicPostPart>
+        )}
       </>
     );
   };
