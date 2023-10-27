@@ -3,20 +3,26 @@
 import useSibling from "@/components/hooks/useIsSibling";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/button/Button";
+import Input from "@/components/ui/form/Input";
 import P from "@/components/ui/text/P";
 import LogInModal from "@/components/user/LogInModal";
 import { CommentDetail } from "@/interface/interface";
 import { cn, getDateDifference } from "@/utils/utils";
-import { mdiCog, mdiCommentOutline } from "@mdi/js";
+import {
+  mdiCancel,
+  mdiCheck,
+  mdiCommentOutline,
+  mdiPencilOutline,
+} from "@mdi/js";
 import Icon from "@mdi/react";
 import { Comment, Vote } from "@prisma/client";
 import { ChangeEvent, ReactNode, useEffect, useState } from "react";
 import PostSkeleton from "../../skeleton/PostSkeleton";
+import DeleteButton from "../DeleteButton";
 import VoteButton from "../VoteButton";
 import { CommentForm } from "./CommentForm";
-import DeleteButton from "../DeleteButton";
-import { useRouter } from "next/navigation";
-import Input from "@/components/ui/form/Input";
+import { useSession } from "next-auth/react";
+import { BarLoader } from "react-spinners";
 
 export default function CommentBar({
   comment_id,
@@ -36,7 +42,9 @@ export default function CommentBar({
   const { isSibling } = useSibling(comment_id);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editContent, setEditContent] = useState<string | null>(null);
+  const [edittedContent, setEdittedContent] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchComment = async () => {
@@ -48,7 +56,7 @@ export default function CommentBar({
         const { comment: data }: { comment: CommentDetail } = await res.json();
 
         setComment(data);
-        setEditContent(data.content);
+        setEdittedContent(data.content);
       } catch (e) {
         console.log(e);
       }
@@ -67,8 +75,42 @@ export default function CommentBar({
     }
   };
 
+  const submitEdittedComment = async () => {
+    setIsSubmitting(true);
+    try {
+      const res = await fetch(`/api/comments`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          edittedContent,
+          comment_id: comment?.comment_id,
+          email: session?.user?.email,
+        }),
+      });
+
+      const { updatedComment }: { updatedComment: Comment } = await res.json();
+      setComment((prevComment) => {
+        if (prevComment) {
+          return {
+            ...prevComment,
+            content: updatedComment.content,
+            positivity: updatedComment.positivity,
+          };
+        }
+        return null;
+      });
+      setIsEditing(false);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setEditContent(e.target.value);
+    setEdittedContent(e.target.value);
   };
 
   return (
@@ -121,7 +163,11 @@ export default function CommentBar({
                     userId={userId}
                   ></VoteButton>
                 </div>
-                <div className="mr-medium flex h-full w-full flex-col justify-between gap-small  p-small dark:text-primary1">
+                <div
+                  className={`relative -mr-medium flex h-full w-[90%] flex-col justify-between  gap-small p-small dark:text-primary1 ${
+                    isSubmitting ? "animate-pulse" : ""
+                  }`}
+                >
                   <div className="caption flex items-center gap-extra-small">
                     <P type="caption">{`Posted by u/${
                       comment?.author.name ? comment?.author.name : "deleted"
@@ -132,41 +178,77 @@ export default function CommentBar({
                     </P>
                   </div>
                   {!isEditing ? (
-                    <P>{comment.content}</P>
+                    <P className="break-words">{comment.content}</P>
                   ) : (
                     <Input
                       placeholder={comment.content}
                       required
+                      disabled={isSubmitting}
                       type="textarea"
                       hiddenLabel={true}
-                      className="dark:border-primary10/[.2] dark:bg-primary80 dark:text-primary1 dark:outline-primary10/[.2] dark:placeholder:text-primary10/[.4]"
+                      className={`} dark:border-primary10/[.2] dark:bg-primary80 dark:text-primary1 dark:outline-primary10/[.2] 
+                      dark:placeholder:text-primary10/[.4]`}
                       id="content"
-                      value={editContent as string}
+                      value={edittedContent as string}
                       onChange={handleContentChange}
                       rows={3}
                       cols={50}
                     />
                   )}
-                  <Button
-                    onClick={() =>
-                      userId ? setIsReplying(!isReplying) : setIsOpen(true)
-                    }
-                    className="flex w-fit items-start gap-extra-small"
-                  >
-                    <Icon path={mdiCommentOutline} size={1.4}></Icon>
-                    <P>Reply</P>
-                  </Button>
+                  <div className="flex justify-between">
+                    <div className="flex gap-sub-medium">
+                      <Button
+                        onClick={() =>
+                          userId ? setIsReplying(!isReplying) : setIsOpen(true)
+                        }
+                        className="flex w-fit items-start gap-extra-small"
+                      >
+                        <Icon path={mdiCommentOutline} size={1.4}></Icon>
+                        <P>Reply</P>
+                      </Button>
+                      {!isEditing && (
+                        <Button
+                          className="flex w-fit items-start gap-extra-small"
+                          onClick={() => setIsEditing(!isEditing)}
+                        >
+                          <Icon path={mdiPencilOutline} size={1.4}></Icon>
+                          <P>Edit</P>
+                        </Button>
+                      )}
+                    </div>
+                    {isEditing && (
+                      <div className="flex gap-sub-medium">
+                        <Button
+                          disabled={isSubmitting}
+                          className="flex w-fit items-start gap-extra-small"
+                          onClick={() => submitEdittedComment()}
+                        >
+                          <Icon path={mdiCheck} size={1.4}></Icon>
+                          <P>Validate</P>
+                        </Button>
+                        <Button
+                          disabled={isSubmitting}
+                          className="flex w-fit items-start gap-extra-small "
+                          onClick={() => {
+                            setEdittedContent(comment.content);
+                            setIsEditing(false);
+                          }}
+                        >
+                          <Icon path={mdiCancel} size={1.4}></Icon>
+                          <P>Cancel</P>
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 {comment.author_id === userId && (
                   <div className="heading body absolute right-4 top-4 flex flex-col duration-fast peer-hover:translate-x-2  peer-hover:scale-[110%] ">
                     <DeleteButton
+                      aria-disabled={isSubmitting}
                       setStatus={setStatus}
                       to="comment"
                       comment_id={comment_id}
                     ></DeleteButton>
-                    <button onClick={() => setIsEditing(!isEditing)}>
-                      <Icon path={mdiCog} size={1.5}></Icon>
-                    </button>
                   </div>
                 )}
               </div>

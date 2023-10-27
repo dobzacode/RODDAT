@@ -89,6 +89,73 @@ export async function POST(request: NextRequest) {
   }
 }
 
+export async function PUT(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session)
+      return NextResponse.json(
+        {
+          message: "You must be logged in to post a comment",
+        },
+        { status: 403 },
+      );
+
+    const { edittedContent, email, comment_id } = await request.json();
+
+    const user = await prisma.user.findUnique({ where: { email: email } });
+
+    if (!user) {
+      const message = `No user was found with the following email : ${email}`;
+      return NextResponse.json(
+        {
+          message,
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
+    const comment = await prisma.comment.findUnique({ where: { comment_id } });
+
+    if (!comment) {
+      const message = `No comment was found with the following ID : ${comment_id}`;
+      return NextResponse.json({ message }, { status: 404 });
+    }
+
+    if (comment.author_id !== user.id) {
+      const message = `You must be the author of the comment in order to edit it`;
+      return NextResponse.json({ message }, { status: 404 });
+    }
+
+    const zsc = await zeroShotClassify([edittedContent], ["positivity"]);
+    const { scores } = zsc[0];
+    const positivity = scores[0];
+
+    const updatedComment = await prisma.comment.update({
+      where: {
+        comment_id,
+      },
+      data: {
+        content: edittedContent,
+        positivity,
+      },
+    });
+
+    const message = `The comment with the ID ${updatedComment.comment_id} was successfully modified`;
+    return NextResponse.json({ message, updatedComment });
+  } catch (e) {
+    const message = "The comment can't be modified";
+    return NextResponse.json(
+      {
+        message,
+      },
+      { status: 500 },
+    );
+  }
+}
+
 export async function GET(request: NextRequest) {
   try {
     const comment_id = request.nextUrl.searchParams.get("comment_id");
