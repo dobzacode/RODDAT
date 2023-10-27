@@ -24,7 +24,6 @@ export default function DeleteButton({
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const router = useRouter();
-  const pathname = usePathname();
 
   const handleDelete = async () => {
     try {
@@ -36,7 +35,7 @@ export default function DeleteButton({
         method: "DELETE",
       });
       to === "comment" && setStatus ? setStatus("deleted") : "";
-      router.push(`${pathname}?deleted=true`);
+      router.forward();
     } catch (e) {
       console.log(e);
     }

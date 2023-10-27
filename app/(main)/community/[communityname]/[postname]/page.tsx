@@ -4,6 +4,7 @@ import { PostDetailProps } from "@/interface/interface";
 import prisma from "@/prisma/client";
 import { BASE_URL } from "@/utils/utils";
 import { Post } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 export const revalidate = 0;
 
@@ -29,6 +30,8 @@ export default async function PostPage({
     },
   );
   const { postDetails }: { postDetails: PostDetailProps } = await res.json();
+
+  if (!postDetails) redirect(`/community/${params.communityname}`);
 
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
