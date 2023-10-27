@@ -90,7 +90,7 @@ export async function zeroShotClassify(input: string[], parameters: string[]) {
 
 export async function uploadMedia(file: File, to: string, id: string) {
   try {
-    const res = await fetch(`${BASE_URL}/api/media?to=${to}&id=${id}`, {
+    const res = await fetch(`/api/media?to=${to}&id=${id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
