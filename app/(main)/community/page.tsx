@@ -2,6 +2,7 @@
 
 import Uploader from "@/components/Uploader";
 import CommunityBar from "@/components/community/CommunityBar";
+import GoUpButton from "@/components/home/GoUpButton";
 import CommunitySkeleton from "@/components/skeleton/CommunitySkeleton";
 import { Community } from "@prisma/client";
 import { useSearchParams } from "next/navigation";

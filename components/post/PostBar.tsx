@@ -66,7 +66,7 @@ export default function PostBar({
         {!isPagePost ? (
           <>
             <div className=" flex h-fit flex-col gap-extra-small">
-              <H2 type="sub-heading">
+              <H2 type="sub-heading break-words">
                 {title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
               </H2>
               <P className="break-words">{content}</P>
@@ -140,7 +140,12 @@ export default function PostBar({
                   "_",
                 )}`,
               }}
-              className=" flex w-[92%] flex-col gap-small rounded-r-small p-small dark:bg-primary80"
+              className={cn(
+                " flex flex-col gap-small   p-small dark:bg-primary80",
+                isPagePost
+                  ? "w-[92%] rounded-r-small"
+                  : "rounded-t-small tablet:rounded-r-small",
+              )}
             >
               {postContent()}
             </Link>

@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import GoUpButton from "@/components/home/GoUpButton";
 import Header from "@/components/ui/header/Header";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";

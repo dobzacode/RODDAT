@@ -91,7 +91,7 @@ export default function DynamicPostPart({
     <>
       <div className=" flex h-fit flex-col gap-extra-small">
         {!isEditing ? (
-          <H2 type="sub-heading">
+          <H2 type="sub-heading break-words">
             {title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
           </H2>
         ) : (

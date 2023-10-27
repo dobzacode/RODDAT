@@ -1,16 +1,16 @@
 "use client";
 
-import getUserCommunities from "@/utils/utils";
 import { handleInputChange } from "@/utils/formUtils/handleInputChange";
-import { Community } from "@prisma/client";
+import getUserCommunities from "@/utils/utils";
+import { Community, Post } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
 import { CSSTransition } from "react-transition-group";
 import GenericForm from "../ui/form/GenericForm";
 import Input from "../ui/form/Input";
 import H3 from "../ui/text/H3";
-import { useRouter, useSearchParams } from "next/navigation";
 
 interface PostFormData {
   title: string;
@@ -58,6 +58,8 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
   const router = useRouter();
 
   const searchParams = useSearchParams();
+
+  const pathname = usePathname();
 
   const ref = useRef();
 
@@ -218,32 +220,37 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
       return setNoCommunity(true);
     }
 
-    const res = await fetch(`/api/posts?email=${session?.user?.email}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await res.json();
+    try {
+      const res = await fetch(`/api/posts?email=${session?.user?.email}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
 
-    data;
+      if (data.status === 404) {
+        setIsNotFound(data.community);
+        throw new Error("404");
+      }
 
-    if (data.status === 404) {
-      setIsNotFound(data.community);
-      throw new Error("404");
+      if (data.status === 409) {
+        setPostAlreadyExist(true);
+        throw new Error("409");
+      }
+
+      const { post }: { post: Post } = data;
+
+      console.log(post);
+
+      setIsNotFound(null);
+
+      return router.push(`/community/${formData.community}/${post.title}`);
+    } catch (e) {
+      console.log(e);
     }
-
-    if (data.status === 409) {
-      setPostAlreadyExist(true);
-      throw new Error("409");
-    }
-
-    setIsNotFound(null);
-
-    router.refresh();
-
-    return data;
   };
 
   return (
