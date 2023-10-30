@@ -40,13 +40,13 @@ export default function CommunitiesSection({
             {communities?.map((community) => {
               return (
                 <CommunitySnippet
-                  name={community.community.name}
-                  visibility={community.community.visibility}
-                  isNsfw={community.community.isNsfw}
-                  picture={community.community.picture}
-                  description={community.community.description}
+                  name={community.name}
+                  visibility={community.visibility}
+                  isNsfw={community.isNsfw}
+                  picture={community.picture}
+                  description={community.description}
                   postAmount={community.postAmount}
-                  createdAt={community.community.createdAt}
+                  createdAt={community.createdAt}
                   userAmount={community.userAmount}
                   key={uuidv4()}
                 ></CommunitySnippet>
