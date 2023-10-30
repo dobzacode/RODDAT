@@ -12,6 +12,7 @@ import { BASE_URL } from "@/utils/utils";
 import { Community, User } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 import Avatar from "../Avatar";
+import Link from "next/link";
 
 interface searchResult {
   community?: (Community & { userCount: number })[];
@@ -31,6 +32,8 @@ const SearchBar: FC = () => {
   const pathName = usePathname();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    !isSearching ? setIsSearching(true) : "";
+    !e.target.value ? setIsSearching(false) : "";
     setSearchResult(null);
     setQuery(e.target.value);
     if (searchTimeout) {
@@ -82,6 +85,12 @@ const SearchBar: FC = () => {
     };
   }, [isSearching]);
 
+  useEffect(() => {
+    setIsSearching(false);
+    setQuery("");
+    setSearchResult(null);
+  }, [pathName]);
+
   return (
     <div className="left-0 right-0 laptop:absolute laptop:m-auto laptop:w-fit">
       <div className="heading brutalism-border relative   z-[70] flex  h-fit gap-extra-small rounded-large border-primary80 bg-neutral1  p-extra-small dark:border-primary1 dark:bg-primary80 ">
@@ -90,7 +99,6 @@ const SearchBar: FC = () => {
         </Button>
         <input
           id="searchbar"
-          onClick={() => setIsSearching(true)}
           className="body relative z-[70] w-full bg-neutral1 focus:outline-none dark:bg-primary80 dark:text-primary1 laptop:w-[600px] "
           type="text"
           placeholder="Search in Roddat"
@@ -116,7 +124,8 @@ const SearchBar: FC = () => {
                 <H3 className="body font-bold">Communities</H3>
                 {searchResult.community.map((community) => {
                   return (
-                    <div
+                    <Link
+                      href={`/community/${community.name}`}
                       key={uuidv4()}
                       className="flex items-center gap-extra-small"
                     >
@@ -138,7 +147,7 @@ const SearchBar: FC = () => {
                           {community.userCount > 1 ? "members" : "member"}
                         </caption>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
@@ -152,7 +161,8 @@ const SearchBar: FC = () => {
                 <H3 className="body font-bold">User</H3>
                 {searchResult.user.map((user) => {
                   return (
-                    <div
+                    <Link
+                      href={`/user/${user.name}`}
                       key={uuidv4()}
                       className="flex items-center gap-extra-small"
                     >
@@ -171,7 +181,7 @@ const SearchBar: FC = () => {
                         <p>r/{user.name}</p>
                         <caption className="caption">User</caption>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
