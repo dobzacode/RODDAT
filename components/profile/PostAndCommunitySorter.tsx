@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import Button from "../ui/button/Button";
+import { cn } from "@/utils/utils";
 
 export default function PostAndCommunitySorter({
   showContent,
@@ -11,16 +12,21 @@ export default function PostAndCommunitySorter({
   sortPostBy,
   isSorting,
   sortCommunityBy,
+  className: string,
+  extraPaddingLeft,
 }: {
-  showContent: "posts" | "communities";
+  showContent: string | null;
   setSortPostBy: Function;
   setSortCommunityBy: Function;
   sortPostBy: string | null;
   isSorting: boolean;
   sortCommunityBy: string | null;
+  className?: string;
+  extraPaddingLeft?: string;
 }) {
   const refCommunitySort = useRef(null);
   const refPostSort = useRef(null);
+  console.log(showContent);
   return (
     <>
       {showContent === "posts" ? (
@@ -38,7 +44,10 @@ export default function PostAndCommunitySorter({
             <li className="h-full w-full">
               <Button
                 onClick={() => setSortPostBy("upvote")}
-                className="h-full w-full  duration-fast hover:bg-primary10 dark:hover:bg-primary30 mobile-large:pl-sub-large mobile-large:pr-small"
+                className={cn(
+                  "h-full w-full  duration-fast hover:bg-primary10 dark:hover:bg-primary30 mobile-large:pl-sub-large mobile-large:pr-small",
+                  extraPaddingLeft,
+                )}
                 intent={"pastelPrimary"}
                 transparent={sortPostBy !== "upvote"}
               >
@@ -95,7 +104,10 @@ export default function PostAndCommunitySorter({
             <li className="h-full w-full">
               <Button
                 onClick={() => setSortCommunityBy("visibility")}
-                className="h-full w-full  duration-fast hover:bg-primary10 dark:hover:bg-primary30 mobile-large:pl-sub-large mobile-large:pr-small"
+                className={cn(
+                  "h-full w-full  duration-fast hover:bg-primary10 dark:hover:bg-primary30 mobile-large:pl-sub-large mobile-large:pr-small",
+                  extraPaddingLeft,
+                )}
                 intent={"pastelPrimary"}
                 transparent={sortCommunityBy !== "visibility"}
               >

@@ -181,8 +181,8 @@ export function sortCommunities(
   switch (sortBy) {
     case "visibility":
       return communities.slice().sort((a, b) => {
-        if (a.community.visibility < b.community.visibility) return -1;
-        if (a.community.visibility > b.community.visibility) return 1;
+        if (a.visibility < b.visibility) return -1;
+        if (a.visibility > b.visibility) return 1;
         return 0;
       });
     case "postAmount":
@@ -195,8 +195,7 @@ export function sortCommunities(
         .slice()
         .sort(
           (a, b) =>
-            new Date(b.community.createdAt).getTime() -
-            new Date(a.community.createdAt).getTime(),
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         );
     default:
       return communities;

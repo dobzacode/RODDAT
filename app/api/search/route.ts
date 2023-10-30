@@ -64,6 +64,7 @@ export async function GET(req: NextRequest) {
           },
         },
         include: {
+          comments: true,
           votes: true,
           community: true,
           author: true,

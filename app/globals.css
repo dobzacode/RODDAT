@@ -190,6 +190,10 @@ input[type="search"]:focus {
   transition: transform 400ms;
 }
 
+.fade-horizontally-exit-done {
+  opacity: 0;
+}
+
 .fade-enter {
   transform-origin: top;
   transform: scaleY(0);

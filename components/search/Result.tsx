@@ -10,7 +10,7 @@ import Avatar from "../ui/Avatar";
 import { getDateDifference } from "@/utils/utils";
 import H2 from "../ui/text/H2";
 import Icon from "@mdi/react";
-import { mdiCommentOutline, mdiImageOffOutline } from "@mdi/js";
+import { mdiArrowRight, mdiCommentOutline, mdiImageOffOutline } from "@mdi/js";
 import Comments from "../post/comment/Comments";
 import VoteButton from "../post/VoteButton";
 import CommunitySnippet from "../community/CommunitySnippet";
@@ -19,22 +19,16 @@ import Image from "next/image";
 import Link from "next/link";
 import PostSkeleton from "../skeleton/PostSkeleton";
 import SnippetSkeleton from "../skeleton/SnippetSkeleton";
-
-interface PostWithDetails extends Post {
-  votes: Vote[];
-  community: Community;
-  author: User;
-}
-
-interface CommunityWithDetails extends Community {
-  postAmount: number;
-  userAmount: number;
-}
+import useBetterMediaQuery from "../hooks/useBetterMediaQuery";
+import usePostsSort from "../hooks/usePostsSort";
+import useCommunitiesSort from "../hooks/useCommunitiesSort";
+import { CommunityDetailsProps, PostDetailProps } from "@/interface/interface";
+import PostAndCommunitySorter from "../profile/PostAndCommunitySorter";
 
 interface Result {
   users: User[];
-  communities: CommunityWithDetails[];
-  posts: PostWithDetails[];
+  communities: CommunityDetailsProps[];
+  posts: PostDetailProps[];
 }
 
 export default function Result() {
@@ -42,6 +36,19 @@ export default function Result() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [result, setResult] = useState<Result | null>(null);
+  const [isSorting, setIsSorting] = useState<boolean>(false);
+  const [sortPostBy, setSortPostBy] = useState<
+    "upvote" | "downvote" | "comment" | "date" | null
+  >(null);
+  const [sortCommunityBy, setSortCommunityBy] = useState<
+    "visibility" | "postAmount" | "userAmount" | "date" | null
+  >(null);
+  const isTablet = useBetterMediaQuery("(max-width: 768px)");
+  const { sortedPosts } = usePostsSort(result?.posts, sortPostBy);
+  const { sortedCommunities } = useCommunitiesSort(
+    result?.communities,
+    sortCommunityBy,
+  );
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -57,7 +64,7 @@ export default function Result() {
     console.log("render");
     const contentType = searchParams.get("type")
       ? searchParams.get("type")
-      : "post";
+      : "posts";
     const term = searchParams.get("term");
     const fetchResult = async () => {
       try {
@@ -71,6 +78,11 @@ export default function Result() {
     };
     fetchResult();
   }, [searchParams.get("term")]);
+
+  useEffect(() => {
+    setSortPostBy(null);
+    setSortCommunityBy(null);
+  }, [searchParams.get("type")]);
 
   const generateSkeleton = (
     count: number,
@@ -94,55 +106,90 @@ export default function Result() {
 
   return (
     <section className="flex flex-col items-center gap-small">
-      <div className="brutalism-border relative z-[19] flex h-[60px] w-fit flex-grow-0 justify-between overflow-hidden rounded-medium border-primary80    text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1">
-        <Button
-          intent="pastelPrimary"
-          size="small"
-          transparent={
-            searchParams.get("type") === "post" || !searchParams.get("type")
-              ? false
-              : true
-          }
-          onClick={() => {
-            router.push(pathName + "?" + createQueryString("type", "post"));
-          }}
-          className="h-full w-1/2 rounded-l-small border-r duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30"
-        >
-          Posts
-        </Button>
-        <Button
-          intent="pastelPrimary"
-          size="small"
-          transparent={searchParams.get("type") === "community" ? false : true}
-          onClick={() => {
-            router.push(
-              pathName + "?" + createQueryString("type", "community"),
-            );
-          }}
-          className="h-full w-1/2 border-l duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30"
-        >
-          Community
-        </Button>
-        <Button
-          intent="pastelPrimary"
-          size="small"
-          transparent={searchParams.get("type") === "user" ? false : true}
-          onClick={() => {
-            router.push(pathName + "?" + createQueryString("type", "user"));
-          }}
-          className="h-full w-1/2 rounded-r-small border-l duration-fast hover:bg-primary10  dark:border-primary1 dark:hover:bg-primary30"
-        >
-          User
-        </Button>
+      <div className="flex w-full flex-col laptop:w-[800px]">
+        <div className="brutalism-border relative z-[19] flex h-[60px] w-full justify-between overflow-hidden rounded-medium border-primary80    text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1">
+          <Button
+            intent="pastelPrimary"
+            size="small"
+            transparent={
+              searchParams.get("type") === "posts" || !searchParams.get("type")
+                ? false
+                : true
+            }
+            onClick={() => {
+              router.push(pathName + "?" + createQueryString("type", "posts"));
+            }}
+            className="h-full w-1/2 rounded-l-small border-r duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30"
+          >
+            Posts
+          </Button>
+          <Button
+            intent="pastelPrimary"
+            size="small"
+            transparent={
+              searchParams.get("type") === "communities" ? false : true
+            }
+            onClick={() => {
+              router.push(
+                pathName + "?" + createQueryString("type", "communities"),
+              );
+            }}
+            className="h-full w-1/2 border-l duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30"
+          >
+            Community
+          </Button>
+          <Button
+            intent="pastelPrimary"
+            size="small"
+            transparent={searchParams.get("type") === "users" ? false : true}
+            onClick={() => {
+              router.push(pathName + "?" + createQueryString("type", "users"));
+            }}
+            className="h-full w-1/2 rounded-r-small border-l duration-fast hover:bg-primary10  dark:border-primary1 dark:hover:bg-primary30"
+          >
+            User
+          </Button>
+        </div>
+        {searchParams.get("type") === "posts" ||
+        searchParams.get("type") === "communities" ? (
+          <div className="  relative flex w-full flex-col tablet:ml-small tablet:flex-row laptop:w-auto laptop:flex-row">
+            <div className="brutalism-border relative z-20  ml-small flex h-[60px] w-fit justify-center overflow-hidden rounded-b-medium border-primary80 border-t-transparent   bg-primary1 text-primary80 dark:border-primary1  dark:border-x-primary1 dark:border-t-transparent   dark:bg-primary80 dark:text-primary1 tablet:ml-0 ">
+              <Button
+                intent="pastelPrimary"
+                size="small"
+                transparent={true}
+                className="relative   flex h-full items-center  justify-between gap-small rounded-b-small dark:bg-primary80"
+                onClick={() => (!isTablet ? setIsSorting(!isSorting) : "")}
+              >
+                <P>Sort by</P>
+                <Icon
+                  className="mt-[2px] hidden tablet:block"
+                  path={mdiArrowRight}
+                  size={1.5}
+                ></Icon>
+              </Button>
+            </div>
+            <PostAndCommunitySorter
+              extraPaddingLeft="laptop:pl-[5.5rem]"
+              isSorting={isSorting}
+              setSortCommunityBy={setSortCommunityBy}
+              setSortPostBy={setSortPostBy}
+              showContent={searchParams.get("type")}
+              sortPostBy={sortPostBy}
+              sortCommunityBy={sortCommunityBy}
+              className=""
+            ></PostAndCommunitySorter>
+          </div>
+        ) : null}
       </div>
 
-      {result && (
+      {result && sortedPosts && sortedCommunities ? (
         <ul className="flex w-full flex-col items-center justify-center gap-small ">
-          {searchParams.get("type") === "post" || !searchParams.get("type") ? (
+          {searchParams.get("type") === "posts" ||
+          (!searchParams.get("type") && sortedPosts) ? (
             <>
-              {result.posts.length > 0 ? (
-                result.posts.map((item) => {
-                  const post = item as PostWithDetails;
+              {sortedPosts?.length > 0 ? (
+                sortedPosts?.map((post) => {
                   return (
                     <li
                       className="brutalism-border primary-hover dark:primary-hover-dark peer flex h-fit w-full max-w-7xl rounded-small border-primary80 dark:border-primary1"
@@ -192,9 +239,9 @@ export default function Result() {
                             <div className="flex gap-extra-small">
                               <Icon path={mdiCommentOutline} size={1.4}></Icon>
                               <P>
-                                {Comments?.length > 1
-                                  ? `${Comments?.length} comments`
-                                  : `${Comments?.length} comment`}
+                                {post.comments?.length > 1
+                                  ? `${post.comments?.length} comments`
+                                  : `${post.comments?.length} comment`}
                               </P>
                             </div>
                           </div>
@@ -211,11 +258,10 @@ export default function Result() {
               )}
             </>
           ) : null}
-          {searchParams.get("type") === "community" ? (
+          {searchParams.get("type") === "communities" ? (
             <>
-              {result.communities.length > 0 ? (
-                result.communities.map((item) => {
-                  const community = item as CommunityWithDetails;
+              {sortedCommunities.length > 0 ? (
+                sortedCommunities.map((community) => {
                   return (
                     <li
                       key={uuidv4()}
@@ -270,11 +316,10 @@ export default function Result() {
               )}
             </>
           ) : null}
-          {searchParams.get("type") === "user" ? (
+          {searchParams.get("type") === "users" ? (
             <>
               {result.users.length > 0 ? (
-                result.users.map((item) => {
-                  const user = item as User;
+                result.users.map((user) => {
                   return (
                     <li
                       key={uuidv4()}
@@ -313,7 +358,7 @@ export default function Result() {
             </>
           ) : null}
         </ul>
-      )}
+      ) : null}
       {!result && (
         <>
           {

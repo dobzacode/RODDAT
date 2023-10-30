@@ -51,6 +51,8 @@ export default function UserPostAndCommunities({
     isTablet ? setIsSorting(true) : "";
   }, [isTablet]);
 
+  console.log(userCommunities);
+
   return (
     <section className="flex w-full flex-col gap-sub-large laptop:w-[600px]">
       <div className="flex flex-col">
@@ -122,17 +124,17 @@ export default function UserPostAndCommunities({
           sortedCommunities?.map((community) => {
             return (
               <CommunitySnippet
-                admin={community.community.communityUsers.filter((user) => {
+                admin={community.communityUsers?.filter((user) => {
                   return user.role === "ADMIN";
                 })}
                 userId={userInfo.id}
-                name={community.community.name}
-                visibility={community.community.visibility}
-                isNsfw={community.community.isNsfw}
-                picture={community.community.picture}
-                description={community.community.description}
+                name={community.name}
+                visibility={community.visibility}
+                isNsfw={community.isNsfw}
+                picture={community.picture}
+                description={community.description}
                 postAmount={community.postAmount}
-                createdAt={community.community.createdAt}
+                createdAt={community.createdAt}
                 userAmount={community.userAmount}
                 key={uuidv4()}
               ></CommunitySnippet>

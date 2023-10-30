@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
           });
 
           return {
-            community: community.community,
+            ...community.community,
             userAmount,
             postAmount,
           };

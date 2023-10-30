@@ -5,12 +5,12 @@ import { sortPosts } from "@/utils/utils";
 import { useEffect, useState } from "react";
 
 export default function usePostsSort(
-  posts: PostDetailProps[] | null,
+  posts: PostDetailProps[] | null | undefined,
   sortBy: "upvote" | "downvote" | "comment" | "date" | null,
 ) {
-  const [sortedPosts, setSortedPosts] = useState<PostDetailProps[] | null>(
-    posts,
-  );
+  const [sortedPosts, setSortedPosts] = useState<
+    PostDetailProps[] | null | undefined
+  >(posts);
 
   useEffect(() => {
     if (sortBy && posts) {
