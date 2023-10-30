@@ -17,7 +17,7 @@ export default async function Home() {
   const session: Session | null = await getServerSession(authOptions);
 
   return (
-    <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
+    <main className="mx-extra-small flex justify-center gap-medium mobile-large:mx-small laptop-large:mx-extra-large ">
       <section className="flex w-full flex-col gap-sub-large tablet:w-[600px]">
         <div className="flex w-full flex-col items-center justify-center gap-sub-large">
           <Suspense

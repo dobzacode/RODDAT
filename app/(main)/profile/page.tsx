@@ -72,7 +72,7 @@ export default async function ProfilePage({}) {
   console.log(communitiesDetails);
 
   return (
-    <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
+    <main className="mx-extra-small flex justify-center gap-medium mobile-large:mx-small laptop-large:mx-extra-large ">
       <UserPostAndCommunities
         userPosts={posts}
         userCommunities={communitiesDetails}

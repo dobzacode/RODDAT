@@ -18,7 +18,7 @@ interface GenericFormProps<T> {
   theme: "primary" | "secondary" | "tertiary" | "neutral";
   setIsOpen?: Function;
   setIsSuccess: Function;
-  title: string;
+  title: string | ReactNode;
   formData: T; // Utilisez le type générique ici
   onSubmit: (formData: T) => Promise<void>;
   children: ReactNode;
@@ -84,7 +84,7 @@ const GenericForm = <T extends FormData>({
       )}
     >
       <form
-        className={cn(`body flex flex-col gap-sub-large`, className)}
+        className={cn(`body flex flex-col flex-wrap gap-sub-large`, className)}
         onSubmit={handleSubmit}
       >
         {children}
@@ -92,7 +92,7 @@ const GenericForm = <T extends FormData>({
         {isError && (
           <p className="text-error40">Something went wrong, try again</p>
         )}
-        <div className="mt-small flex items-center gap-small">
+        <div className="mt-small flex  items-center gap-small">
           <Button
             type="button"
             size="small"

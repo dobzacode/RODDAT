@@ -62,13 +62,18 @@ export default async function ModifyCommunity({
 
   return (
     <>
-      <section className="flex w-full justify-center p-sub-large">
+      <main className="mx-extra-small flex justify-center gap-medium mobile-large:mx-small laptop-large:mx-extra-large ">
         <CommunityForm
           community={community}
           theme="primary"
-          title="Create community"
+          title={
+            <p>
+              Create
+              <span className="hidden mobile-large:block">community</span>
+            </p>
+          }
         ></CommunityForm>
-      </section>
+      </main>
     </>
   );
 }

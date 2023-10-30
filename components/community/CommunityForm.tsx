@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, ReactNode, useEffect, useState } from "react";
 import Input from "../ui/form/Input";
 
 import { handleInputChange } from "@/utils/formUtils/handleInputChange";
@@ -22,7 +22,7 @@ interface CommunityFormData {
 }
 
 interface CommunityFormProps {
-  title: string;
+  title: string | ReactNode;
   theme: "primary" | "secondary" | "tertiary" | "neutral";
   setIsOpen?: Function;
 
@@ -156,7 +156,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
           isSpecialCharacter={isSpecialCharacter}
         >
           <div className="flex flex-col gap-sub-medium">
-            <div className="flex  gap-sub-medium">
+            <div className="flex flex-wrap  gap-sub-medium">
               <div className="flex flex-col gap-sub-medium  ">
                 <H3 type="sub-heading">Picture</H3>
                 <Uploader
@@ -165,7 +165,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
                   setSelectedFile={setSelectedFile}
                 ></Uploader>
               </div>
-              <div className="flex flex-col gap-sub-medium">
+              <div className="flex grow flex-col gap-sub-medium">
                 <H3 type="sub-heading">Name</H3>
                 <Input
                   required
@@ -222,7 +222,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
           </div>
           <div className="switch flex flex-col gap-sub-medium">
             <H3 type="sub-heading">Adult content</H3>
-            <label className="flex items-center gap-extra-small">
+            <label className="flex flex-wrap items-center gap-extra-small">
               <input
                 className="toggle-checkbox"
                 type="checkbox"
@@ -240,7 +240,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
               >
                 <P textColor="text-error1">NSFW</P>
               </ColorDiv>
-              <span className="toggle-label">18+ Years old community</span>
+              <P className="toggle-label">18+ Years old community</P>
             </label>
           </div>
         </GenericForm>
