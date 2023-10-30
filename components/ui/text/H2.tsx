@@ -1,8 +1,8 @@
 import { cn } from "@/utils/utils";
-import { FC, HTMLProps } from "react";
+import { FC, HTMLProps, ReactNode } from "react";
 
 interface H2Props extends HTMLProps<HTMLHeadingElement> {
-  children: string | JSX.Element;
+  children: string | ReactNode | ReactNode[];
   type: string;
   textColor?: string;
   bgColor?: string;

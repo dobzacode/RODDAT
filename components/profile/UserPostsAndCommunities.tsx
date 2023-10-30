@@ -60,7 +60,7 @@ export default function UserPostAndCommunities({
             intent="pastelPrimary"
             size="small"
             transparent={showContent === "posts" ? false : true}
-            className="h-full w-1/2 rounded-l-small border-r dark:border-primary1 "
+            className="h-full w-1/2 rounded-l-small border-r duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30 "
             onClick={() => setShowContent("posts")}
           >
             Posts
@@ -69,7 +69,7 @@ export default function UserPostAndCommunities({
             intent="pastelPrimary"
             size="small"
             transparent={showContent === "communities" ? false : true}
-            className="h-full w-1/2 rounded-r-small border-l dark:border-primary1"
+            className="h-full w-1/2 rounded-r-small border-l duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30"
             onClick={() => setShowContent("communities")}
           >
             Community

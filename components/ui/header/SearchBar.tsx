@@ -5,7 +5,7 @@ import { mdiMagnify } from "@mdi/js";
 import Icon from "@mdi/react";
 import { FC, useEffect, useRef, useState } from "react";
 import Button from "../button/Button";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CSSTransition } from "react-transition-group";
 import H3 from "../text/H3";
 import { BASE_URL } from "@/utils/utils";
@@ -13,8 +13,9 @@ import { Community, User } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 import Avatar from "../Avatar";
 import Link from "next/link";
+import P from "../text/P";
 
-interface searchResult {
+interface SearchResult {
   community?: (Community & { userCount: number })[];
   user?: User[];
 }
@@ -25,11 +26,12 @@ const SearchBar: FC = () => {
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
     null,
   );
-  const [searchResult, setSearchResult] = useState<null | searchResult>(null);
+  const [searchResult, setSearchResult] = useState<null | SearchResult>(null);
 
   const ref = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const pathName = usePathname();
+  const searchParams = useSearchParams();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     !isSearching ? setIsSearching(true) : "";
@@ -60,7 +62,7 @@ const SearchBar: FC = () => {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleSearch();
+      router.replace(`/search?term=${query}`);
     }
   };
 
@@ -89,7 +91,7 @@ const SearchBar: FC = () => {
     setIsSearching(false);
     setQuery("");
     setSearchResult(null);
-  }, [pathName]);
+  }, [pathName, searchParams]);
 
   return (
     <div className="left-0 right-0 laptop:absolute laptop:m-auto laptop:w-fit">
@@ -141,11 +143,11 @@ const SearchBar: FC = () => {
                       ></Avatar>
 
                       <div className="flex flex-col items-start">
-                        <p>r/{community.name}</p>
-                        <caption className="caption">
+                        <P>r/{community.name}</P>
+                        <P className="caption">
                           Community with {community.userCount}{" "}
                           {community.userCount > 1 ? "members" : "member"}
-                        </caption>
+                        </P>
                       </div>
                     </Link>
                   );
@@ -178,7 +180,7 @@ const SearchBar: FC = () => {
                       ></Avatar>
 
                       <div className="flex flex-col items-start">
-                        <p>r/{user.name}</p>
+                        <p>u/{user.name}</p>
                         <caption className="caption">User</caption>
                       </div>
                     </Link>
@@ -190,10 +192,13 @@ const SearchBar: FC = () => {
           ) : null}
 
           {query && (
-            <div className="flex gap-extra-small pl-medium">
+            <Link
+              href={`/search?term=${query}`}
+              className="flex gap-extra-small pl-medium"
+            >
               <Icon path={mdiMagnify} size={1.4}></Icon>
-              <H3 type="body">Search for {query}</H3>
-            </div>
+              <H3 type="body">Search for {query.toLowerCase()}</H3>
+            </Link>
           )}
         </div>
       </CSSTransition>
