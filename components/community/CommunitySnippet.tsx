@@ -53,7 +53,7 @@ export default function CommunitySnippet({
           className=" my-small ml-small flex flex-col gap-extra-small  dark:text-primary1"
         >
           <P type="caption">Created {getDateDifference(createdAt)}</P>
-          <H2 type="sub-heading">{name}</H2>
+          <H2 type="sub-heading">r/{name}</H2>
           <P type="caption">
             {postAmount} {postAmount > 1 ? "Posts" : "Post"} {userAmount} User
           </P>
