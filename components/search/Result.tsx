@@ -84,6 +84,10 @@ export default function Result() {
     setSortCommunityBy(null);
   }, [searchParams.get("type")]);
 
+  useEffect(() => {
+    isTablet ? setIsSorting(true) : "";
+  }, [isTablet]);
+
   const generateSkeleton = (
     count: number,
     type: "community" | "post" | "user",
@@ -93,7 +97,10 @@ export default function Result() {
       case "post":
         for (let i = 0; i < count; i++) {
           skeletons.push(
-            <PostSkeleton className="h-[195px] w-[800px]" key={uuidv4()} />,
+            <PostSkeleton
+              className="h-[195px] w-full max-[820px]:w-[800px]"
+              key={uuidv4()}
+            />,
           );
         }
       case "community" || "user":
@@ -105,8 +112,8 @@ export default function Result() {
   };
 
   return (
-    <section className="flex flex-col items-center gap-small">
-      <div className="flex w-full flex-col laptop:w-[800px]">
+    <section className="flex w-fit flex-col items-center gap-small">
+      <div className="max-mobile-large: flex  w-full flex-col laptop:w-[800px]">
         <div className="brutalism-border relative z-[19] flex h-[60px] w-full justify-between overflow-hidden rounded-medium border-primary80    text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1">
           <Button
             intent="pastelPrimary"
@@ -119,7 +126,7 @@ export default function Result() {
             onClick={() => {
               router.push(pathName + "?" + createQueryString("type", "posts"));
             }}
-            className="h-full w-1/2 rounded-l-small border-r duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30"
+            className="h-full w-1/2 rounded-l-small border-r duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30 max-[420px]:w-[100px]"
           >
             Posts
           </Button>
@@ -134,7 +141,7 @@ export default function Result() {
                 pathName + "?" + createQueryString("type", "communities"),
               );
             }}
-            className="h-full w-1/2 border-l duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30"
+            className="h-full w-1/2 duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30 max-[420px]:w-[100px]"
           >
             Community
           </Button>
@@ -145,7 +152,7 @@ export default function Result() {
             onClick={() => {
               router.push(pathName + "?" + createQueryString("type", "users"));
             }}
-            className="h-full w-1/2 rounded-r-small border-l duration-fast hover:bg-primary10  dark:border-primary1 dark:hover:bg-primary30"
+            className="h-full w-1/2 rounded-r-small border-l duration-fast hover:bg-primary10  dark:border-primary1 dark:hover:bg-primary30 max-[420px]:w-[80px]"
           >
             User
           </Button>
@@ -192,14 +199,14 @@ export default function Result() {
                 sortedPosts?.map((post) => {
                   return (
                     <li
-                      className="brutalism-border primary-hover dark:primary-hover-dark peer flex h-fit w-full max-w-7xl rounded-small border-primary80 dark:border-primary1"
+                      className="brutalism-border  primary-hover dark:primary-hover-dark peer flex h-fit w-full max-w-7xl rounded-small border-primary80 dark:border-primary1"
                       key={uuidv4()}
                     >
                       <Link
                         href={`/community/${post.community.name}/${post.title}`}
-                        className="flex"
+                        className="flex w-fit flex-col-reverse tablet:flex-row"
                       >
-                        <div className="flex flex-col items-center  gap-extra-small rounded-l-small bg-primary10 p-small dark:bg-primary90">
+                        <div className="flex items-center justify-center gap-extra-small rounded-l-small rounded-br-small rounded-tl-none bg-primary10 p-small dark:bg-primary90   tablet:flex-col tablet:justify-start tablet:rounded-br-none tablet:rounded-tl-small tablet:rounded-tr-none">
                           <VoteButton
                             userId={null}
                             id={post.post_id}
@@ -271,13 +278,10 @@ export default function Result() {
               {sortedCommunities.length > 0 ? (
                 sortedCommunities.map((community) => {
                   return (
-                    <li
-                      key={uuidv4()}
-                      className="brutalism-border primary-hover dark:primary-hover-dark peer relative flex h-fit w-full rounded-small  border-primary80 dark:border-primary1 dark:bg-primary80"
-                    >
+                    <li key={uuidv4()} className="relative w-full">
                       <Link
                         href={`/community/${community.name}`}
-                        className="flex"
+                        className="brutalism-border primary-hover dark:primary-hover-dark peer flex h-fit w-full rounded-small  border-primary80 dark:border-primary1 dark:bg-primary80"
                       >
                         <div className="relative flex w-[47px] flex-col items-center   gap-extra-small rounded-l-small bg-primary10 p-small dark:bg-primary90">
                           {community.picture ? (
