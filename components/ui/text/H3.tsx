@@ -1,9 +1,9 @@
 import { cn } from "@/utils/utils";
-import { FC, HTMLProps } from "react";
+import { FC, HTMLProps, ReactNode } from "react";
 
 interface H3Props extends HTMLProps<HTMLHeadingElement> {
-  children: string | JSX.Element;
-  type: string;
+  children: string | ReactNode;
+  type?: string;
   textColor?: string;
   bgColor?: string;
   padding?: string;

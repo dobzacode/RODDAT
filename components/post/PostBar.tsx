@@ -53,6 +53,7 @@ export default function PostBar({
           {!isPagePost && (
             <Avatar
               src={author.image}
+              alt={`${author.name} profil picture`}
               size={2}
               className="h-[20px] rounded-full"
             ></Avatar>

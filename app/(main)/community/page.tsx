@@ -23,7 +23,7 @@ export default async function CommunityPage({}) {
 
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large">
-      <section className="flex flex-col gap-sub-large laptop:w-[600px] ">
+      <section className="flex w-full max-w-3xl flex-col gap-sub-large ">
         <CommunitiesSection
           communities={communitiesDetails}
         ></CommunitiesSection>
