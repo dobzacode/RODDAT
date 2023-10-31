@@ -72,16 +72,14 @@ export default function DynamicPostPart({
 
       const data = await res.json();
       if (data.status === 409) {
-        console.log(data);
+        data;
         setAlreadyExist(true);
         return setIsSubmitting(false);
       }
-      console.log(data);
 
       setIsEditing(false);
       return `${pathname}?popup=true&type=modified&content=post`;
     } catch (e) {
-      console.log(e);
     } finally {
       setIsSubmitting(false);
     }

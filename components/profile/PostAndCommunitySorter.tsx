@@ -26,7 +26,6 @@ export default function PostAndCommunitySorter({
 }) {
   const refCommunitySort = useRef(null);
   const refPostSort = useRef(null);
-  console.log(showContent);
   return (
     <>
       {showContent === "posts" ? (

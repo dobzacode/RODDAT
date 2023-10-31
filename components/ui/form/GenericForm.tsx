@@ -74,8 +74,6 @@ const GenericForm = <T extends FormData>({
     }
   };
 
-  console.log(isSubmitting);
-
   return (
     <div
       className={cn(

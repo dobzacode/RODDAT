@@ -68,9 +68,7 @@ export function CommentForm({
       if (setIsReplying) setIsReplying(false);
       setIsSubmitting(false);
       return router.push(`${pathname}?popup=true&type=created&content=comment`);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {

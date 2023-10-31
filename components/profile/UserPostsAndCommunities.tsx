@@ -51,8 +51,6 @@ export default function UserPostAndCommunities({
     isTablet ? setIsSorting(true) : "";
   }, [isTablet]);
 
-  console.log(userCommunities);
-
   return (
     <section className="flex w-full flex-col gap-sub-large laptop:w-[600px]">
       <div className="flex flex-col">

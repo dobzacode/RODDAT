@@ -29,7 +29,11 @@ export default async function ProfileInfo({
   return (
     <>
       <div className="flex items-end gap-small">
-        <Avatar size={5} className="rounded-small" src={image}></Avatar>
+        <Avatar
+          size={5}
+          className="h-[50px] rounded-small"
+          src={image}
+        ></Avatar>
         <P className="w-full whitespace-nowrap font-medium laptop:block">
           u/{name}
         </P>

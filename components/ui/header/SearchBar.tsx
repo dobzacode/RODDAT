@@ -53,10 +53,7 @@ const SearchBar: FC = () => {
       const res = await fetch(`/api/search?term=${term}&snippet=true`);
       const data = await res.json();
       setSearchResult({ community: data.community, user: data.user });
-      console.log(data);
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {

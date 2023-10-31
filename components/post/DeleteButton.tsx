@@ -36,9 +36,7 @@ export default function DeleteButton({
       });
       to === "comment" && setStatus ? setStatus("deleted") : "";
       router.forward();
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   return (

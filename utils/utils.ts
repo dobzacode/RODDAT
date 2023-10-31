@@ -108,11 +108,8 @@ export async function uploadMedia(file: File, to: string, id: string) {
       headers: { "Content-Type": file.type },
     });
 
-    console.log(uploadResponse);
-
     return { status: uploadResponse.ok, uploadedUrl: getUrl };
   } catch (error) {
-    console.log(error);
     throw error;
   }
 }

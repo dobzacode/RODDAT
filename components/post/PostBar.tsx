@@ -1,11 +1,6 @@
 import { PostDetailProps } from "@/interface/interface";
 import { cn, getDateDifference } from "@/utils/utils";
-import {
-  mdiCheck,
-  mdiCommentOutline,
-  mdiPencilOutline,
-  mdiShareOutline,
-} from "@mdi/js";
+import { mdiCommentOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -13,10 +8,9 @@ import Avatar from "../ui/Avatar";
 import H2 from "../ui/text/H2";
 import P from "../ui/text/P";
 import DeleteButton from "./DeleteButton";
-import VoteButton from "./VoteButton";
-import ThreadLine from "./ThreadLine";
-import Button from "../ui/button/Button";
 import DynamicPostPart from "./DynamicPostPart";
+import ThreadLine from "./ThreadLine";
+import VoteButton from "./VoteButton";
 
 interface PostBarProps extends Omit<PostDetailProps, "community_id"> {
   isPagePost?: boolean;

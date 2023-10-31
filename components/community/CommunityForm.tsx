@@ -63,8 +63,6 @@ const CommunityForm: FC<CommunityFormProps> = ({
     }, 4000);
   }, [isSuccess]);
 
-  console.log(isSuccess);
-
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
@@ -135,9 +133,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
           community?.community_id ? "modified" : "created"
         }&name=${data.community.name}`,
       );
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   return (

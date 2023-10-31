@@ -62,23 +62,18 @@ export default function Result() {
 
   useEffect(() => {
     setResult(null);
-    console.log("render");
     const contentType = searchParams.get("type")
       ? searchParams.get("type")
       : "posts";
     const term = searchParams.get("term");
     const fetchResult = async () => {
       try {
-        console.log(`/api/search?type=${contentType}`);
         const res = term
           ? await fetch(`/api/search?term=${term}&type=${contentType}`)
           : await fetch(`/api/search?type=${contentType}`);
         const { content }: { content: Result } = await res.json();
-        console.log(content);
         setResult(content);
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
     };
     fetchResult();
   }, [searchParams.get("term")]);

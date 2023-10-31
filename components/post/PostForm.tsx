@@ -229,7 +229,6 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
 
       if (data.status === 404) {
         setIsNotFound(data.community);
@@ -243,14 +242,10 @@ const PostForm: FC<PostFormProps> = ({ theme, setIsSuccess, title }) => {
 
       const { post }: { post: Post } = data;
 
-      console.log(post);
-
       setIsNotFound(null);
 
       return router.push(`/community/${formData.community}/${post.title}`);
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   return (

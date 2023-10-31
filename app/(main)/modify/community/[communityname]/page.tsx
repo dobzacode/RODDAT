@@ -48,8 +48,6 @@ export default async function ModifyCommunity({
 
   const { user }: { user: User } = await userRes.json();
 
-  console.log(community.communityUsers);
-
   if (
     !community.communityUsers.some((communityUser) => {
       return (

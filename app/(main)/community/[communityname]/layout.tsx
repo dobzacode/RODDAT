@@ -31,7 +31,7 @@ export default async function RootLayout({
   }: { community: Community & { communityUsers: CommunityUser[] } } =
     await resCom.json();
 
-  console.log(community);
+  community;
 
   if (
     community.visibility === "PRIVATE" &&

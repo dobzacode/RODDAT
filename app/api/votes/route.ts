@@ -66,7 +66,6 @@ export async function POST(req: NextRequest) {
             type,
           },
         });
-        console.log(data);
         const message = `The past vote was replaced by a${
           type === "UPVOTE" ? "n" : ""
         } ${type}`;
@@ -235,7 +234,6 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ message }, { status: 400 });
   } catch (e) {
     const message = "The vote can't be added";
-    console.log(e);
     return NextResponse.json({ message }, { status: 500 });
   }
 }

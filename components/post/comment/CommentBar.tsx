@@ -62,9 +62,7 @@ export default function CommentBar({
 
         setComment(data);
         setEdittedContent(data.content);
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
     };
 
     status === "existing" ? fetchComment() : null;
@@ -116,7 +114,6 @@ export default function CommentBar({
       );
     } catch (e) {
       comment?.content ? setEdittedContent(comment.content) : "";
-      console.log(e);
     } finally {
       setIsSubmitting(false);
     }

@@ -14,7 +14,6 @@ export default async function CommunityInfo({
   postAmount: number;
   userAmount: number;
 }) {
-  console.log(userAmount);
   return (
     <>
       {community?.picture && (
