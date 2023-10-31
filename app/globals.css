@@ -37,23 +37,23 @@
   }
 
   .cancel-hover {
-    @apply duration-medium hover:border-transparent hover:bg-error40 hover:text-error1 hover:shadow-inner;
+    @apply tablet:over:text-error1 duration-medium tablet:hover:border-transparent tablet:hover:bg-error40 tablet:hover:shadow-inner;
   }
 
   .validate-hover {
-    @apply duration-medium hover:border-transparent hover:bg-success40 hover:text-success1 hover:shadow-inner;
+    @apply duration-medium tablet:hover:border-transparent tablet:hover:bg-success40 tablet:hover:text-success1 tablet:hover:shadow-inner;
   }
 
   .primary-transparent-hover {
-    @apply duration-fast hover:scale-[102%] hover:shadow-primary-medium;
+    @apply duration-fast tablet:hover:scale-[102%] tablet:hover:shadow-primary-medium;
   }
 
   .primary-hover {
-    @apply duration-fast hover:scale-[102%] hover:shadow-primary-medium dark:hover:shadow-primary-medium-light;
+    @apply duration-fast tablet:hover:scale-[102%] tablet:hover:shadow-primary-medium tablet:dark:hover:shadow-primary-medium-light;
   }
 
   .secondary-hover {
-    @apply duration-fast hover:scale-[102%] hover:shadow-secondary-medium;
+    @apply duration-fast tablet:hover:scale-[102%] tablet:hover:shadow-secondary-medium;
   }
 }
 

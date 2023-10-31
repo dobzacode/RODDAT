@@ -286,9 +286,9 @@ export default function Result() {
                             <Image
                               src={community.picture}
                               alt={`${community.name} picture`}
-                              objectFit="cover"
                               fill
-                              className="rounded-l-[14px] "
+                              className="rounded-l-[14px] object-cover"
+                              sizes="(max-width: 768px) 20vw, (max-width: 1200px) 30vw, 40vw"
                             ></Image>
                           ) : (
                             <Icon path={mdiImageOffOutline}></Icon>
@@ -369,7 +369,7 @@ export default function Result() {
           ) : null}
         </ul>
       ) : null}
-      {result && (
+      {!result && (
         <>
           {
             <ul className="flex w-full flex-col items-center justify-center gap-small ">
