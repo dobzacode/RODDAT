@@ -49,7 +49,7 @@ export default function PostBar({
   const postContent = () => {
     return (
       <>
-        <div className="caption flex items-center gap-extra-small dark:text-primary1">
+        <div className="caption flex flex-wrap items-center gap-extra-small dark:text-primary1">
           {!isPagePost && (
             <Avatar
               src={author.image}
@@ -67,10 +67,12 @@ export default function PostBar({
         {!isPagePost ? (
           <>
             <div className=" flex h-fit flex-col gap-extra-small">
-              <H2 type="sub-heading break-words">
+              <H2 type="sub-heading break-words ">
                 {title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
               </H2>
-              <P className="break-words">{content}</P>
+              <P className="max-h-[196px] overflow-clip break-words">
+                {content}
+              </P>
             </div>
             <div className="flex gap-small dark:text-primary1">
               <div className="flex gap-extra-small">

@@ -157,8 +157,7 @@ export default function Result() {
             User
           </Button>
         </div>
-        {searchParams.get("type") === "posts" ||
-        searchParams.get("type") === "communities" ? (
+        {searchParams.get("type") !== "users" ? (
           <div className="  relative flex w-full flex-col tablet:ml-small tablet:flex-row laptop:w-auto laptop:flex-row">
             <div className="brutalism-border relative z-20  ml-small flex h-[60px] w-fit justify-center overflow-hidden rounded-b-medium border-primary80 border-t-transparent   bg-primary1 text-primary80 dark:border-primary1  dark:border-x-primary1 dark:border-t-transparent   dark:bg-primary80 dark:text-primary1 tablet:ml-0 ">
               <Button
@@ -191,7 +190,7 @@ export default function Result() {
       </div>
 
       {result && sortedPosts && sortedCommunities ? (
-        <ul className="flex w-full flex-col items-center justify-center gap-small ">
+        <ul className="flex w-full max-w-[798px] flex-col items-center justify-center gap-small ">
           {searchParams.get("type") === "posts" ||
           (!searchParams.get("type") && sortedPosts) ? (
             <>
@@ -199,14 +198,14 @@ export default function Result() {
                 sortedPosts?.map((post) => {
                   return (
                     <li
-                      className="brutalism-border  primary-hover dark:primary-hover-dark peer flex h-fit w-full max-w-7xl rounded-small border-primary80 dark:border-primary1"
+                      className="brutalism-border  primary-hover dark:primary-hover-dark peer flex h-fit w-full  rounded-small border-primary80 dark:border-primary1"
                       key={uuidv4()}
                     >
                       <Link
                         href={`/community/${post.community.name}/${post.title}`}
-                        className="flex w-fit flex-col-reverse tablet:flex-row"
+                        className="flex w-full flex-col-reverse tablet:flex-row"
                       >
-                        <div className="flex items-center justify-center gap-extra-small rounded-l-small rounded-br-small rounded-tl-none bg-primary10 p-small dark:bg-primary90   tablet:flex-col tablet:justify-start tablet:rounded-br-none tablet:rounded-tl-small tablet:rounded-tr-none">
+                        <div className="flex items-center   justify-center gap-extra-small rounded-l-small rounded-br-small rounded-tl-none bg-primary10 p-small dark:bg-primary90 tablet:w-[8%]   tablet:flex-col tablet:justify-start tablet:rounded-br-none tablet:rounded-tl-small tablet:rounded-tr-none">
                           <VoteButton
                             userId={null}
                             id={post.post_id}
@@ -220,44 +219,40 @@ export default function Result() {
                             )}
                           ></VoteButton>
                         </div>
-                        <div className="flex-col gap-small rounded-r-small p-small  dark:bg-primary80">
-                          <div className="flex flex-col gap-small">
-                            <div className="caption flex items-center gap-extra-small dark:text-primary1">
-                              <Avatar
-                                src={post.author.image}
-                                alt={`${post.author.name} profil picture`}
-                                size={2}
-                                className="h-[20px] rounded-full"
-                              ></Avatar>
-                              <P type="caption">r/{post.community?.name}</P>
-                              <P type="caption">{`Posted by u/${
-                                post.author.name ? post.author.name : "deleted"
-                              }`}</P>
-                              <P type="caption">
-                                {getDateDifference(post.createdAt)}
+
+                        <div className="flex flex-col gap-small rounded-r-small p-small dark:bg-primary80 tablet:w-[92%]">
+                          <div className="caption flex items-center gap-extra-small dark:text-primary1">
+                            <Avatar
+                              src={post.author.image}
+                              alt={`${post.author.name} profil picture`}
+                              size={2}
+                              className="h-[20px] rounded-full"
+                            ></Avatar>
+                            <P type="caption">r/{post.community?.name}</P>
+                            <P type="caption">{`Posted by u/${
+                              post.author.name ? post.author.name : "deleted"
+                            }`}</P>
+                            <P type="caption">
+                              {getDateDifference(post.createdAt)}
+                            </P>
+                          </div>
+                          <div className=" flex max-h-[196px] flex-col gap-extra-small overflow-clip tablet:h-fit tablet:max-h-none">
+                            <H2 type="sub-heading break-words">
+                              {post.title.charAt(0).toUpperCase() +
+                                post.title.slice(1).toLowerCase()}
+                            </H2>
+                            <P className="h-fit   break-words">
+                              {post.content}
+                            </P>
+                          </div>
+                          <div className="flex gap-small dark:text-primary1">
+                            <div className="flex gap-extra-small">
+                              <Icon path={mdiCommentOutline} size={1.4}></Icon>
+                              <P>
+                                {post.comments?.length > 1
+                                  ? `${post.comments?.length} comments`
+                                  : `${post.comments?.length} comment`}
                               </P>
-                            </div>
-                            <div className=" flex h-fit flex-col gap-extra-small">
-                              <H2 type="sub-heading break-words">
-                                {post.title.charAt(0).toUpperCase() +
-                                  post.title.slice(1).toLowerCase()}
-                              </H2>
-                              <P className="h-fit   break-words">
-                                {post.content}
-                              </P>
-                            </div>
-                            <div className="flex gap-small dark:text-primary1">
-                              <div className="flex gap-extra-small">
-                                <Icon
-                                  path={mdiCommentOutline}
-                                  size={1.4}
-                                ></Icon>
-                                <P>
-                                  {post.comments?.length > 1
-                                    ? `${post.comments?.length} comments`
-                                    : `${post.comments?.length} comment`}
-                                </P>
-                              </div>
                             </div>
                           </div>
                         </div>
