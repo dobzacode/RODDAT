@@ -40,7 +40,7 @@ export default function CommentSection({
   }, []);
 
   return (
-    <section className="flex w-full flex-col gap-sub-large  laptop:w-[700px]">
+    <section className="-mt-extra-small flex w-full flex-col gap-small tablet:-mt-0 tablet:gap-sub-large laptop:-mt-medium laptop:w-1/2">
       <PostBar
         isPagePost={true}
         positivity={postDetails?.positivity}

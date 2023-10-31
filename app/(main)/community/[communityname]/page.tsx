@@ -52,7 +52,7 @@ export default async function CommunityPage({
   } = await resComDetails.json();
 
   return (
-    <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
+    <main className="mx-small flex flex-wrap-reverse justify-center gap-medium laptop-large:mx-extra-large ">
       <section className="flex flex-col gap-sub-large laptop:w-[600px] ">
         <NewPostBar
           communityId={community_id}
@@ -65,7 +65,7 @@ export default async function CommunityPage({
           <PostSection posts={posts}></PostSection>
         </div>
       </section>
-      <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1 laptop:flex">
+      <aside className="brutalism-border items  flex h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1">
         <CommunityInfo
           postAmount={postAmount}
           userAmount={userAmount}

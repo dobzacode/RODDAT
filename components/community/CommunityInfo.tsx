@@ -17,7 +17,7 @@ export default async function CommunityInfo({
   return (
     <>
       {community?.picture && (
-        <div className="relative h-[300px] w-full rounded-small">
+        <div className="relative h-[300px] w-[250px] rounded-small mobile-large:w-[300px] laptop:h-[300px] laptop:w-full">
           <Image
             quality={100}
             fill
@@ -31,39 +31,41 @@ export default async function CommunityInfo({
           ></Image>
         </div>
       )}
-      <div className="flex items-end gap-small">
-        <Link
-          href={`/community/${community?.name}`}
-          className="body w-full whitespace-nowrap font-medium laptop:block"
-        >
-          r/{community?.name}
-        </Link>
-      </div>
-      <hr className=" border border-primary80 opacity-20"></hr>
+      <div className="flex flex-col gap-small">
+        <div className="flex gap-small laptop:items-end">
+          <Link
+            href={`/community/${community?.name}`}
+            className="body w-full whitespace-nowrap font-medium laptop:block"
+          >
+            r/{community?.name}
+          </Link>
+        </div>
 
-      <div className="flex justify-between">
-        <div className="flex flex-col gap-extra-small">
-          <P className="font-medium">Cake day</P>
-          <P>
-            {community?.createdAt
-              ? formatDateConverter(community?.createdAt)
-              : null}
-          </P>
+        <div className="flex">
+          <div className="flex flex-col gap-extra-small">
+            <P className="flex gap-extra-small">
+              <span className="font-medium">{postAmount}</span> Post
+            </P>
+          </div>
+          <div className="flex flex-col gap-extra-small">
+            <P className="flex gap-extra-small">
+              <span className="font-medium">{userAmount}</span> User
+            </P>
+          </div>
         </div>
-        <JoinCommunityButton
-          communityId={community.community_id}
-        ></JoinCommunityButton>
-      </div>
-      <div className="flex justify-between">
-        <div className="flex flex-col gap-extra-small">
-          <P className="flex gap-extra-small">
-            <span className="font-medium">{postAmount}</span> Post
-          </P>
-        </div>
-        <div className="flex flex-col gap-extra-small">
-          <P className="flex gap-extra-small">
-            <span className="font-medium">{userAmount}</span> User
-          </P>
+        <hr className=" border border-primary80 opacity-20 laptop:block"></hr>
+        <div className="flex flex-col justify-between gap-small laptop:flex-row laptop:gap-0">
+          <div className="flex flex-col gap-extra-small">
+            <P className="font-medium">Cake day</P>
+            <P>
+              {community?.createdAt
+                ? formatDateConverter(community?.createdAt)
+                : null}
+            </P>
+          </div>
+          <JoinCommunityButton
+            communityId={community.community_id}
+          ></JoinCommunityButton>
         </div>
       </div>
     </>

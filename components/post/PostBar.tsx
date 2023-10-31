@@ -114,14 +114,14 @@ export default function PostBar({
     <div
       id={post_id}
       className={cn(
-        "relative flex h-full w-full flex-col gap-sub-large",
+        "relative flex h-full w-full flex-col  gap-small tablet:gap-sub-large",
         isPagePost
           ? "ml-small mt-medium pr-small tablet:ml-large tablet:mr-0 tablet:pr-large"
           : "",
       )}
     >
       {isPagePost && (
-        <div className="absolute -left-[4rem] -top-sub-large flex h-full flex-col items-center tablet:-left-large tablet:top-auto">
+        <div className="absolute -left-[4rem] -top-sub-medium flex h-full flex-col items-center tablet:-left-large tablet:top-auto">
           <Avatar
             src={author.image}
             size={5}

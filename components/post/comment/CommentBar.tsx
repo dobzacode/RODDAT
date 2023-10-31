@@ -128,7 +128,7 @@ export default function CommentBar({
       {status === "existing" && (
         <section
           className={cn(
-            `relative z-50 ml-small flex h-full flex-col gap-sub-large tablet:ml-large `,
+            `relative z-50 ml-small flex h-full flex-col gap-small tablet:ml-large tablet:gap-sub-large `,
             className,
           )}
           id={comment_id}
@@ -137,7 +137,7 @@ export default function CommentBar({
             <>
               <div
                 className={cn(
-                  "absolute -left-[4rem] -top-medium  flex h-full flex-col  items-center dark:text-primary1 tablet:-left-large tablet:top-auto tablet:z-0",
+                  "absolute -left-[4rem] -top-small  flex h-full flex-col  items-center dark:text-primary1 tablet:-left-large tablet:top-auto tablet:z-0",
                   className,
                 )}
               >

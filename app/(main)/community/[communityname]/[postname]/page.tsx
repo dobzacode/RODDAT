@@ -49,14 +49,14 @@ export default async function PostPage({
   } = await resComDetails.json();
 
   return (
-    <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
+    <main className="mx-small flex flex-wrap-reverse justify-center gap-0 tablet:gap-extra-small laptop:flex-wrap laptop:gap-medium laptop-large:mx-extra-large">
       <CommentSection
         communityVisibility={community.visibility}
         postDetails={postDetails}
         communityUsers={community.communityUsers}
       ></CommentSection>
 
-      <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1 laptop:flex">
+      <aside className="brutalism-border items flex h-fit w-fit flex-col flex-wrap gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1 laptop:w-[350px] ">
         <CommunityInfo
           community={community}
           postAmount={postAmount}
