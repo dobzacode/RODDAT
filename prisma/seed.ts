@@ -8,11 +8,6 @@ import { Comment, Community, Post, Vote } from "@prisma/client";
 
 const load = async () => {
   try {
-    await prisma.user.deleteMany();
-    await prisma.community.deleteMany();
-    await prisma.post.deleteMany();
-    await prisma.comment.deleteMany();
-    await prisma.vote.deleteMany()
     await prisma.user.createMany({ data: USER_MOCK });
     await prisma.community.createMany({
       data: COMMUNITY_MOCK as Community[],
@@ -31,7 +26,40 @@ const load = async () => {
       };
     });
     await prisma.post.createMany({ data: postMockWithId });
-    const postsId = await prisma.post.findMany({ select: { post_id: true } });
+    const posts = await prisma.post.findMany();
+
+    const postsId = await prisma.post.findMany({
+      select: { post_id: true, author_id: true, community_id: true },
+    });
+
+    const communityUsers = await prisma.communityUser.findMany({
+      where: {
+        user_id: { in: posts.map((p) => p.author_id) },
+        community_id: { in: posts.map((p) => p.community_id) },
+      },
+    });
+
+    const createCommunityUsersPromises = posts
+      .filter((post) => {
+        const existingCommunityUser = communityUsers.find(
+          (cu) =>
+            cu.user_id === post.author_id &&
+            cu.community_id === post.community_id,
+        );
+        return !existingCommunityUser;
+      })
+      .map((post) => {
+        return prisma.communityUser.create({
+          data: {
+            user_id: post.author_id,
+            community_id: post.community_id,
+            role: "GUEST",
+          },
+        });
+      });
+
+    await Promise.all(createCommunityUsersPromises);
+
     const commentMockWithId = COMMENT_MOCK.map((comment) => {
       return {
         ...comment,
@@ -40,6 +68,7 @@ const load = async () => {
         post_id: postsId[Math.floor(Math.random() * postsId.length)].post_id,
       };
     });
+
     await prisma.comment.createMany({ data: commentMockWithId });
     const commentsId = await prisma.comment.findMany({
       select: { comment_id: true, post_id: true },
