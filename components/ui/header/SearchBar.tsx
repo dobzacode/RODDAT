@@ -61,7 +61,7 @@ const SearchBar: FC = () => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && query.length > 0) {
       router.replace(`/search?term=${query}`);
     }
   };
@@ -94,9 +94,14 @@ const SearchBar: FC = () => {
   }, [pathName, searchParams]);
 
   return (
-    <div className="left-0 right-0 laptop:absolute laptop:m-auto laptop:w-fit">
+    <div className="left-0 right-0 z-40 laptop:absolute laptop:m-auto laptop:w-fit">
       <div className="heading brutalism-border relative   z-[70] flex  h-fit gap-extra-small rounded-large border-primary80 bg-neutral1  p-extra-small dark:border-primary1 dark:bg-primary80 ">
-        <Button className="dark:text-primary1">
+        <Button
+          onClick={() => {
+            query.length > 0 ? router.replace(`/search?term=${query}`) : "";
+          }}
+          className="dark:text-primary1"
+        >
           <Icon path={mdiMagnify} size={2}></Icon>
         </Button>
         <input

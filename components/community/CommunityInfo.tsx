@@ -3,6 +3,7 @@ import P from "../ui/text/P";
 import Link from "next/link";
 import Image from "next/image";
 import { Community } from "@prisma/client";
+import JoinCommunityButton from "./JoinCommunityButton";
 
 export default async function CommunityInfo({
   community,
@@ -13,7 +14,7 @@ export default async function CommunityInfo({
   postAmount: number;
   userAmount: number;
 }) {
-  console.log(community);
+  console.log(userAmount);
   return (
     <>
       {community?.picture && (
@@ -41,13 +42,18 @@ export default async function CommunityInfo({
       </div>
       <hr className=" border border-primary80 opacity-20"></hr>
 
-      <div className="flex flex-col gap-extra-small">
-        <P className="font-medium">Cake day</P>
-        <P>
-          {community?.createdAt
-            ? formatDateConverter(community?.createdAt)
-            : null}
-        </P>
+      <div className="flex justify-between">
+        <div className="flex flex-col gap-extra-small">
+          <P className="font-medium">Cake day</P>
+          <P>
+            {community?.createdAt
+              ? formatDateConverter(community?.createdAt)
+              : null}
+          </P>
+        </div>
+        <JoinCommunityButton
+          communityId={community.community_id}
+        ></JoinCommunityButton>
       </div>
       <div className="flex justify-between">
         <div className="flex flex-col gap-extra-small">

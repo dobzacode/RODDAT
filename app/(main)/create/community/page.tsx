@@ -9,7 +9,7 @@ export default function CreatePost({}) {
           title={
             <p>
               Create
-              <span className="hidden mobile-large:block">community</span>
+              <span className="hidden mobile-large:inline"> community</span>
             </p>
           }
         ></CommunityForm>
