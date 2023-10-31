@@ -20,7 +20,7 @@ export default async function Home() {
 
   return (
     <main className="mx-extra-small flex justify-center gap-medium mobile-large:mx-small laptop-large:mx-extra-large ">
-      <div className="flex flex-col gap-sub-large">
+      <div className="flex w-full flex-col gap-sub-large tablet:w-[600px]">
         <MobileSearchBar></MobileSearchBar>
         <section className="flex w-full flex-col gap-sub-large tablet:w-[600px]">
           <ul className="flex w-full flex-col items-center justify-center gap-sub-large">

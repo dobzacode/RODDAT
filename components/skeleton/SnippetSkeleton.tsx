@@ -13,7 +13,7 @@ export default function SnippetSkeleton({ isUser }: { isUser?: boolean }) {
           <div className="flex w-[47px] flex-col items-center  gap-extra-small rounded-l-small bg-primary10 p-small dark:bg-primary90"></div>
         )}
 
-        <div className=" my-small ml-small flex flex-col gap-extra-small dark:text-primary1"></div>
+        <div className="my-small ml-small flex w-full flex-col gap-extra-small dark:text-primary1"></div>
       </div>
     </li>
   );

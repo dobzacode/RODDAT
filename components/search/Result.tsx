@@ -97,7 +97,7 @@ export default function Result() {
         for (let i = 0; i < count; i++) {
           skeletons.push(
             <PostSkeleton
-              className="h-[195px] w-full min-[820px]:w-[800px]"
+              className="min-laptop:w-[800px] h-[195px] w-full"
               key={uuidv4()}
             />,
           );
@@ -115,7 +115,7 @@ export default function Result() {
   };
 
   return (
-    <section className="flex w-fit flex-col items-center gap-small">
+    <section className="flex w-full flex-col items-center gap-small laptop:w-fit">
       <div className="max-mobile-large: flex  w-full flex-col laptop:w-[800px]">
         <div className="brutalism-border relative z-[19] flex h-[60px] w-full justify-between overflow-hidden rounded-medium border-primary80    text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1">
           <Button
@@ -369,7 +369,7 @@ export default function Result() {
           ) : null}
         </ul>
       ) : null}
-      {!result && (
+      {result && (
         <>
           {
             <ul className="flex w-full flex-col items-center justify-center gap-small ">
