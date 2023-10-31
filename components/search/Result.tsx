@@ -141,7 +141,7 @@ export default function Result() {
                 pathName + "?" + createQueryString("type", "communities"),
               );
             }}
-            className="h-full w-1/2 duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30 max-[420px]:w-[100px]"
+            className="h-full w-1/2 duration-fast hover:bg-primary10 dark:border-primary1 dark:hover:bg-primary30 max-[420px]:w-[130px]"
           >
             Community
           </Button>

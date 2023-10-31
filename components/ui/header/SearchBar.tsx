@@ -94,7 +94,7 @@ const SearchBar: FC = () => {
   }, [pathName, searchParams]);
 
   return (
-    <div className="left-0 right-0 z-40 laptop:absolute laptop:m-auto laptop:w-fit">
+    <div className="relative left-0 right-0 z-40 w-fit max-[600px]:hidden laptop:absolute laptop:m-auto">
       <div className="heading brutalism-border relative   z-[70] flex  h-fit gap-extra-small rounded-large border-primary80 bg-neutral1  p-extra-small dark:border-primary1 dark:bg-primary80 ">
         <Button
           onClick={() => {
@@ -106,7 +106,7 @@ const SearchBar: FC = () => {
         </Button>
         <input
           id="searchbar"
-          className="body relative z-[70] w-full bg-neutral1 focus:outline-none dark:bg-primary80 dark:text-primary1 laptop:w-[600px] "
+          className="body relative z-[70] w-full bg-neutral1 focus:outline-none dark:bg-primary80 dark:text-primary1 laptop-large:w-[600px] "
           type="text"
           placeholder="Search in Roddat"
           value={query}
@@ -123,7 +123,7 @@ const SearchBar: FC = () => {
       >
         <div
           ref={ref}
-          className="brutalism-border absolute top-12 z-50 flex w-full cursor-pointer flex-col gap-small rounded-b-sub-large border-primary80 bg-white pb-small  pt-sub-large text-body font-medium text-primary90 dark:border-primary1 dark:bg-primary80  dark:text-primary1 "
+          className="brutalism-border absolute top-12 z-50 flex w-full cursor-pointer flex-col gap-small overflow-x-clip rounded-b-sub-large border-primary80 bg-white pb-small  pt-sub-large text-body font-medium text-primary90 dark:border-primary1 dark:bg-primary80  dark:text-primary1 "
         >
           {searchResult?.community && searchResult?.community.length > 0 ? (
             <>

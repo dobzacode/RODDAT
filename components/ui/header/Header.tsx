@@ -55,7 +55,9 @@ async function Header({
         navLinkStyle={`flex laptopL:gap-large laptop:gap-sub-large tablet:gap-small justify-center ${textType} ${textColor}`}
         logo={logo()}
       ></Nav>
+
       <SearchBar></SearchBar>
+
       {session ? <UserMenu session={session}></UserMenu> : <Login></Login>}
       <DarkModeButton className="absolute right-2 top-2 " />
     </header>

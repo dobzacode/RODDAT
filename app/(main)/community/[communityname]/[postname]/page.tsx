@@ -48,8 +48,6 @@ export default async function PostPage({
     userAmount: number;
   } = await resComDetails.json();
 
-  console.log(community);
-
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
       <CommentSection
