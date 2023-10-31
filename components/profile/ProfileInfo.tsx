@@ -5,6 +5,8 @@ import Link from "next/link";
 import { FC } from "react";
 import Avatar from "../ui/Avatar";
 import { buttonVariants } from "../ui/button/Button";
+import { Session, getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 interface ProfileInfoProps {
   email: string | null | undefined;
@@ -15,14 +17,15 @@ interface ProfileInfoProps {
   communityAmount: number | null | undefined;
 }
 
-const ProfileInfo: FC<ProfileInfoProps> = ({
+export default async function ProfileInfo({
   email,
   name,
   image,
   createdAt,
   postAmount,
   communityAmount,
-}) => {
+}: ProfileInfoProps) {
+  const session: Session | null = await getServerSession(authOptions);
   return (
     <>
       <div className="flex items-end gap-small">
@@ -49,36 +52,38 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
           </P>
         </div>
       </div>
-      <hr className=" border border-primary80 opacity-20 dark:border-primary10"></hr>
-      <Link
-        href="/create/post"
-        // className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"
-        className={buttonVariants({
-          intent: "pastelPrimary",
-          size: "small",
-          modifier: "brutalism",
-          rounded: "small",
-          hover: true,
-        })}
-      >
-        Create a post
-      </Link>
-      <Link
-        href="/create/community"
-        // className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"
-        className={buttonVariants({
-          size: "small",
-          intent: "primary",
-          modifier: "brutalism",
-          transparent: true,
-          hover: true,
-          rounded: "small",
-        })}
-      >
-        Create a community
-      </Link>
+      {session?.user?.email !== email || !session ? (
+        <div>
+          <hr className=" border border-primary80 opacity-20 dark:border-primary10"></hr>
+          <Link
+            href="/create/post"
+            // className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"
+            className={buttonVariants({
+              intent: "pastelPrimary",
+              size: "small",
+              modifier: "brutalism",
+              rounded: "small",
+              hover: true,
+            })}
+          >
+            Create a post
+          </Link>
+          <Link
+            href="/create/community"
+            // className="brutalism-border border-primary80 rounded-extra-small button--small text-center bg-primary10 text-primary80 primary-hover"
+            className={buttonVariants({
+              size: "small",
+              intent: "primary",
+              modifier: "brutalism",
+              transparent: true,
+              hover: true,
+              rounded: "small",
+            })}
+          >
+            Create a community
+          </Link>
+        </div>
+      ) : null}
     </>
   );
-};
-
-export default ProfileInfo;
+}

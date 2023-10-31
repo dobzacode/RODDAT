@@ -56,32 +56,51 @@ export default function PostBar({
               className="h-[20px] rounded-full"
             ></Avatar>
           )}
-          <P type="caption">r/{community?.name}</P>
-          <P type="caption">{`Posted by u/${
-            author.name ? author.name : "deleted"
-          }`}</P>
+          <Link href={`/community/${community?.name}`}>
+            <P type="caption">r/{community?.name}</P>
+          </Link>
+          <Link
+            href={`/user/${author?.name
+              ?.replace(/\s/g, "")
+              .toLowerCase()}/${author_id}`}
+          >
+            <P type="caption">{`Posted by u/${
+              author.name ? author.name : "deleted"
+            }`}</P>
+          </Link>
           <P type="caption">{getDateDifference(createdAt)}</P>
         </div>
         {!isPagePost ? (
           <>
-            <div className=" flex h-fit flex-col gap-extra-small">
-              <H2 type="sub-heading break-words ">
-                {title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
-              </H2>
-              <P className="max-h-[196px] overflow-clip break-words">
-                {content}
-              </P>
-            </div>
-            <div className="flex gap-small dark:text-primary1">
-              <div className="flex gap-extra-small">
-                <Icon path={mdiCommentOutline} size={1.4}></Icon>
-                <P>
-                  {comments?.length > 1
-                    ? `${comments?.length} comments`
-                    : `${comments?.length} comment`}
+            <Link
+              className="flex flex-col gap-small"
+              href={{
+                pathname: `/community/${community.name}/${title.replace(
+                  /\s/g,
+                  "_",
+                )}`,
+              }}
+            >
+              <div className=" flex h-fit flex-col gap-extra-small">
+                <H2 type="sub-heading break-words ">
+                  {title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
+                </H2>
+                <P className="max-h-[196px] overflow-clip break-words">
+                  {content}
                 </P>
               </div>
-            </div>
+
+              <div className="flex gap-small dark:text-primary1">
+                <div className="flex gap-extra-small">
+                  <Icon path={mdiCommentOutline} size={1.4}></Icon>
+                  <P>
+                    {comments?.length > 1
+                      ? `${comments?.length} comments`
+                      : `${comments?.length} comment`}
+                  </P>
+                </div>
+              </div>
+            </Link>
           </>
         ) : (
           <DynamicPostPart
@@ -133,28 +152,10 @@ export default function PostBar({
               downvotes={downvotes}
             ></VoteButton>
           </div>
-          {!isPagePost ? (
-            <Link
-              href={{
-                pathname: `/community/${community.name}/${title.replace(
-                  /\s/g,
-                  "_",
-                )}`,
-              }}
-              className={cn(
-                " flex flex-col gap-small   p-small dark:bg-primary80",
-                isPagePost
-                  ? "w-[92%] rounded-r-small"
-                  : "rounded-t-small tablet:rounded-r-small",
-              )}
-            >
-              {postContent()}
-            </Link>
-          ) : (
-            <div className="flex w-[92%] flex-col gap-small rounded-r-small p-small  dark:bg-primary80">
-              {postContent()}
-            </div>
-          )}
+
+          <div className="flex w-[92%] flex-col gap-small rounded-r-small p-small  dark:bg-primary80">
+            {postContent()}
+          </div>
         </div>
         {author_id === userId && (
           <DeleteButton

@@ -50,7 +50,7 @@ export default function CommunitySnippet({
 
         <Link
           href={`/community/${name}`}
-          className=" my-small ml-small flex flex-col gap-extra-small  dark:text-primary1"
+          className=" my-small ml-small flex w-[90%] flex-col  gap-extra-small dark:text-primary1"
         >
           <P type="caption">Created {getDateDifference(createdAt)}</P>
           <H2 type="sub-heading">r/{name}</H2>

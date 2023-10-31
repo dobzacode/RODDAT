@@ -6,9 +6,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const email = req.nextUrl.searchParams.get("email");
+    const id = req.nextUrl.searchParams.get("id");
 
-    if (!email) {
-      const message = "No user email was specified";
+    if (!email && !id) {
+      const message = "No user email or id was specified";
       return NextResponse.json(
         {
           message: message,
@@ -19,14 +20,20 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const userInfo = await prisma.user.findUnique({
-      where: {
-        email: email as string,
-      },
-    });
+    const userInfo = email
+      ? await prisma.user.findUnique({
+          where: {
+            email: email as string,
+          },
+        })
+      : await prisma.user.findUnique({
+          where: {
+            id: id as string,
+          },
+        });
 
     if (!userInfo) {
-      const message = `No user was found with ${email}`;
+      const message = `No user was found with ${email} or ${id}`;
       return NextResponse.json(
         {
           message: message,

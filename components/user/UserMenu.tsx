@@ -11,7 +11,7 @@ import NavLink from "../ui/header/NavLink";
 import Link from "next/link";
 import P from "../ui/text/P";
 import { useMediaQuery } from "usehooks-ts";
-import { cn } from "@/utils/utils";
+import { cn, getUserInformation } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 import useBetterMediaQuery from "../hooks/useBetterMediaQuery";
 
@@ -21,6 +21,7 @@ interface UserMenuProps {
 
 const UserMenu: FC<UserMenuProps> = ({ session }) => {
   const [isShown, setIsShown] = useState<Boolean>(false);
+  const [userInfo, setUserInfo] = useState<User | null>(null);
 
   const router = useRouter();
 
@@ -57,6 +58,14 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
     };
   }, [isShown]);
 
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const user = await getUserInformation();
+      setUserInfo(user);
+    };
+    session ? fetchUserInfo() : "";
+  }, []);
+
   const navLink = (isMobile: boolean) => {
     const MOBILELINK_STYLING =
       "block opacity-90 group-hover:scale-[103%] group-hover:opacity-100";
@@ -67,23 +76,19 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
         <li className="group w-full ">
           <Link
             onClick={() => setIsShown(false)}
-            href="/profile"
+            href={
+              userInfo
+                ? `/user/${userInfo?.name
+                    ?.replace(/\s/g, "")
+                    .toLowerCase()}/${userInfo?.id}`
+                : "/"
+            }
             className={`${
-              !isMobile && LAPTOPLINK_CENTER
+              !isMobile && `${LAPTOPLINK_CENTER}`
             } ${MOBILELINK_STYLING}`}
           >
             Profile
           </Link>
-        </li>
-        <hr className="w-full border border-primary80 opacity-20 dark:border-primary10"></hr>
-        <li onClick={() => signOut()} className="group w-full ">
-          <button
-            className={`${
-              !isMobile && LAPTOPLINK_CENTER
-            } ${MOBILELINK_STYLING}`}
-          >
-            Sign-out
-          </button>
         </li>
 
         <hr className="w-full border border-primary80 opacity-20 dark:border-primary10"></hr>
@@ -122,6 +127,16 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
             Search
           </Link>
         </li>
+        <hr className="w-full border border-primary80 opacity-20 dark:border-primary10"></hr>
+        <li onClick={() => signOut()} className="group w-full ">
+          <button
+            className={`${
+              !isMobile && LAPTOPLINK_CENTER
+            } ${MOBILELINK_STYLING}`}
+          >
+            Sign-out
+          </button>
+        </li>
       </>
     );
   };
@@ -130,7 +145,15 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
     <div className="laptop:small z-20 flex items-center justify-between gap-small laptop:relative laptop:justify-start">
       <button
         onClick={(e) => {
-          isLaptopScreen ? laptopShowMenu(e) : router.push("/profile");
+          isLaptopScreen
+            ? laptopShowMenu(e)
+            : router.push(
+                userInfo
+                  ? `/user/${userInfo?.name
+                      ?.replace(/\s/g, "")
+                      .toLowerCase()}/${userInfo?.id}`
+                  : "/",
+              );
         }}
         className="brutalism-border relative z-20 flex h-[50px] w-[50px] items-center justify-center rounded-full border-primary80 bg-white px-extra-small text-body font-medium dark:border-primary1 dark:bg-primary80 dark:text-primary1 laptop:h-auto laptop:w-auto laptop:gap-small laptop:px-sub-medium laptop:py-1"
       >
@@ -180,7 +203,7 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
       ) : (
         <div
           className={cn(
-            "brutalism-border absolute top-[100px]  z-10  h-fit w-fit rounded-bl-large border-primary80 bg-white pb-medium pl-medium pr-extra-small pt-extra-small duration-700 dark:border-primary1 dark:bg-primary80",
+            "brutalism-border absolute top-[100px]  z-10  h-fit w-fit rounded-bl-medium border-t-0 border-primary80 bg-white pb-medium pl-medium pr-extra-small pt-extra-small duration-700 dark:border-primary1 dark:bg-primary80",
             isShown ? "-right-2" : "-right-[200px] ",
           )}
         >
