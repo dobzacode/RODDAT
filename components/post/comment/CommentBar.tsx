@@ -30,12 +30,14 @@ export default function CommentBar({
   content,
   className,
   userId,
+  isAuthorized,
 }: {
   comment_id: string;
   content: string;
   className?: string;
   children?: ReactNode;
   userId: string | null;
+  isAuthorized: boolean;
 }) {
   const [comment, setComment] = useState<CommentDetail | null>(null);
   const [isReplying, setIsReplying] = useState<boolean>(false);
@@ -210,7 +212,7 @@ export default function CommentBar({
                   )}
                   <div className="flex flex-wrap justify-between">
                     <div className="flex  flex-wrap  gap-sub-medium">
-                      {!isEditing && (
+                      {!isEditing && isAuthorized ? (
                         <Button
                           onClick={() =>
                             userId
@@ -222,7 +224,7 @@ export default function CommentBar({
                           <Icon path={mdiCommentOutline} size={1.4}></Icon>
                           <P>Reply</P>
                         </Button>
-                      )}
+                      ) : null}
                       {!isEditing && userId === comment.author_id ? (
                         <Button
                           className="flex w-fit items-start gap-extra-small"
@@ -270,7 +272,7 @@ export default function CommentBar({
                 )}
               </div>
 
-              {isReplying && userId ? (
+              {isReplying && userId && isAuthorized ? (
                 <CommentForm
                   className="ml-large"
                   parent_comment_id={comment.comment_id}
@@ -285,6 +287,7 @@ export default function CommentBar({
                 comment.child_comments.map((comment) => {
                   return (
                     <CommentBar
+                      isAuthorized={isAuthorized}
                       userId={userId}
                       className="tablet:z-0"
                       comment_id={comment.comment_id}

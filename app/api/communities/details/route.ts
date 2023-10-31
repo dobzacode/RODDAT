@@ -85,6 +85,9 @@ export async function GET(request: NextRequest) {
       where: {
         community_id: id,
       },
+      include: {
+        communityUsers: true,
+      },
     });
 
     if (!community) {

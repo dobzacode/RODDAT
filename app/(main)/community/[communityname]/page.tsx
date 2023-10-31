@@ -31,7 +31,14 @@ export default async function CommunityPage({
   const {
     posts,
     community,
-  }: { posts: PostDetailProps[]; community: Community } = await res.json();
+    userAmount,
+    postAmount,
+  }: {
+    posts: PostDetailProps[];
+    community: Community;
+    userAmount: number;
+    postAmount: number;
+  } = await res.json();
 
   return (
     <main className="mx-small flex justify-center gap-medium laptop-large:mx-extra-large ">
@@ -43,7 +50,11 @@ export default async function CommunityPage({
         </div>
       </section>
       <aside className="brutalism-border items  hidden h-fit w-[350px] flex-col gap-small rounded-medium border-primary80 p-medium text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1 laptop:flex">
-        <CommunityInfo id={community.community_id}></CommunityInfo>
+        <CommunityInfo
+          postAmount={postAmount}
+          userAmount={userAmount}
+          community={community}
+        ></CommunityInfo>
       </aside>
       <PopUp></PopUp>
     </main>

@@ -4,21 +4,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { Community } from "@prisma/client";
 
-export default async function CommunityInfo({ id }: { id?: string | null }) {
-  const res = await fetch(`${BASE_URL}/api/communities/details?id=${id}`);
-
-  const {
-    community,
-    postAmount,
-    userAmount,
-  }: { community: Community; postAmount: number; userAmount: number } =
-    await res.json();
-
-  console.log(community.picture);
-
+export default async function CommunityInfo({
+  community,
+  postAmount,
+  userAmount,
+}: {
+  community: Community;
+  postAmount: number;
+  userAmount: number;
+}) {
+  console.log(community);
   return (
     <>
-      {community.picture && (
+      {community?.picture && (
         <div className="relative h-[300px] w-full rounded-small">
           <Image
             quality={100}
@@ -28,17 +26,17 @@ export default async function CommunityInfo({ id }: { id?: string | null }) {
             style={{
               objectFit: "cover",
             }}
-            alt={`${community.name} image`}
-            src={community.picture}
+            alt={`${community?.name} image`}
+            src={community?.picture}
           ></Image>
         </div>
       )}
       <div className="flex items-end gap-small">
         <Link
-          href={`/community/${community.name}`}
+          href={`/community/${community?.name}`}
           className="body w-full whitespace-nowrap font-medium laptop:block"
         >
-          r/{community.name}
+          r/{community?.name}
         </Link>
       </div>
       <hr className=" border border-primary80 opacity-20"></hr>
@@ -46,8 +44,8 @@ export default async function CommunityInfo({ id }: { id?: string | null }) {
       <div className="flex flex-col gap-extra-small">
         <P className="font-medium">Cake day</P>
         <P>
-          {community.createdAt
-            ? formatDateConverter(community.createdAt)
+          {community?.createdAt
+            ? formatDateConverter(community?.createdAt)
             : null}
         </P>
       </div>

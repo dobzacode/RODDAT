@@ -9,10 +9,12 @@ export default function Comments({
   comments,
   setIsLoading,
   userId,
+  isAuthorized,
 }: {
   comments: Comment[];
   setIsLoading: Function;
   userId: string | null;
+  isAuthorized: boolean;
 }) {
   useEffect(() => {
     setIsLoading();
@@ -25,6 +27,7 @@ export default function Comments({
 
         return (
           <CommentBar
+            isAuthorized={isAuthorized}
             userId={userId ? userId : ""}
             key={comment.comment_id}
             content={comment.content}
