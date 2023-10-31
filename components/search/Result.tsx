@@ -61,6 +61,7 @@ export default function Result() {
   );
 
   useEffect(() => {
+    setResult(null);
     console.log("render");
     const contentType = searchParams.get("type")
       ? searchParams.get("type")
@@ -68,7 +69,10 @@ export default function Result() {
     const term = searchParams.get("term");
     const fetchResult = async () => {
       try {
-        const res = await fetch(`/api/search?term=${term}&type=${contentType}`);
+        console.log(`/api/search?type=${contentType}`);
+        const res = term
+          ? await fetch(`/api/search?term=${term}&type=${contentType}`)
+          : await fetch(`/api/search?type=${contentType}`);
         const { content }: { content: Result } = await res.json();
         console.log(content);
         setResult(content);
@@ -98,14 +102,18 @@ export default function Result() {
         for (let i = 0; i < count; i++) {
           skeletons.push(
             <PostSkeleton
-              className="h-[195px] w-full max-[820px]:w-[800px]"
+              className="h-[195px] w-full min-[820px]:w-[800px]"
               key={uuidv4()}
             />,
           );
         }
-      case "community" || "user":
+      case "community":
         for (let i = 0; i < count; i++) {
           skeletons.push(<SnippetSkeleton key={uuidv4()} />);
+        }
+      case "user":
+        for (let i = 0; i < count; i++) {
+          skeletons.push(<SnippetSkeleton isUser={true} key={uuidv4()} />);
         }
     }
     return skeletons;
@@ -370,11 +378,14 @@ export default function Result() {
         <>
           {
             <ul className="flex w-full flex-col items-center justify-center gap-small ">
-              {searchParams.get("type") === "post" || !searchParams.get("type")
+              {searchParams.get("type") === "posts" || !searchParams.get("type")
                 ? generateSkeleton(10, "post")
                 : null}
-              {searchParams.get("type") === "community"
+              {searchParams.get("type") === "communities"
                 ? generateSkeleton(10, "community")
+                : null}
+              {searchParams.get("type") === "users"
+                ? generateSkeleton(10, "user")
                 : null}
             </ul>
           }

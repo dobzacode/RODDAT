@@ -22,7 +22,7 @@ export default function MobileSearchBar() {
   };
 
   return (
-    <div className="heading brutalism-border relative z-[70]   h-fit w-full  gap-extra-small rounded-large border-primary80 bg-neutral1 p-extra-small  dark:border-primary1 dark:bg-primary80 max-[600px]:flex min-[600px]:hidden">
+    <div className="heading brutalism-border relative   h-fit w-full  gap-extra-small rounded-large border-primary80 bg-neutral1 p-extra-small  dark:border-primary1 dark:bg-primary80 max-[600px]:flex min-[600px]:hidden">
       <Button
         onClick={() => {
           query.length > 0 ? router.replace(`/search?term=${query}`) : "";
@@ -33,7 +33,7 @@ export default function MobileSearchBar() {
       </Button>
       <input
         id="searchbar"
-        className="body relative z-[70] w-full bg-neutral1 focus:outline-none dark:bg-primary80 dark:text-primary1 laptop-large:w-[600px] "
+        className="body relative  w-full bg-neutral1 focus:outline-none dark:bg-primary80 dark:text-primary1 laptop-large:w-[600px] "
         type="text"
         placeholder="Search in Roddat"
         value={query}

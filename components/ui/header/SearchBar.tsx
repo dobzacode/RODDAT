@@ -3,16 +3,15 @@
 
 import { mdiMagnify } from "@mdi/js";
 import Icon from "@mdi/react";
-import { FC, useEffect, useRef, useState } from "react";
-import Button from "../button/Button";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { CSSTransition } from "react-transition-group";
-import H3 from "../text/H3";
-import { BASE_URL } from "@/utils/utils";
 import { Community, User } from "@prisma/client";
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FC, useEffect, useRef, useState } from "react";
+import { CSSTransition } from "react-transition-group";
 import { v4 as uuidv4 } from "uuid";
 import Avatar from "../Avatar";
-import Link from "next/link";
+import Button from "../button/Button";
+import H3 from "../text/H3";
 import P from "../text/P";
 
 interface SearchResult {
@@ -51,7 +50,7 @@ const SearchBar: FC = () => {
 
   const handleSearch = async (term: string) => {
     try {
-      const res = await fetch(`/api/search?term=${term}`);
+      const res = await fetch(`/api/search?term=${term}&snippet=true`);
       const data = await res.json();
       setSearchResult({ community: data.community, user: data.user });
       console.log(data);

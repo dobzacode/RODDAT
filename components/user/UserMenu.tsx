@@ -110,6 +110,18 @@ const UserMenu: FC<UserMenuProps> = ({ session }) => {
             New Community
           </Link>
         </li>
+        <hr className="w-full border border-primary80 opacity-20 dark:border-primary10"></hr>
+        <li className="group w-full ">
+          <Link
+            onClick={() => setIsShown(false)}
+            href="/search"
+            className={`${
+              !isMobile && LAPTOPLINK_CENTER
+            } ${MOBILELINK_STYLING}`}
+          >
+            Search
+          </Link>
+        </li>
       </>
     );
   };
