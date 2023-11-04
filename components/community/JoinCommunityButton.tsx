@@ -5,13 +5,16 @@ import Button from "../ui/button/Button";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Community, CommunityUser, User } from "@prisma/client";
+import { cn } from "@/utils/utils";
 
 export default function JoinCommunityButton({
   communityId,
   additionnalCb,
+  className,
 }: {
   communityId: string;
   additionnalCb?: Function;
+  className: string;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isAlreadyMember, setIsAlreadyMember] = useState<boolean>(false);
@@ -20,6 +23,7 @@ export default function JoinCommunityButton({
 
   useEffect(() => {
     const fetchInfo = async () => {
+      if (!session) return;
       const resUser = await fetch(`/api/user?email=${session?.user?.email}`, {
         cache: "no-store",
       });
@@ -39,22 +43,20 @@ export default function JoinCommunityButton({
         community: Community & { communityUsers: CommunityUser[] };
       } = await resComDetails.json();
 
-      console.log(community.communityUsers);
-      console.log(userInfo.id);
-
       const isMember = community.communityUsers.some((community) => {
         return community.user_id !== userInfo.id;
       });
       setIsAlreadyMember(isMember);
+      setIsLoading(false);
     };
     fetchInfo();
   });
 
-  if (isLoading || isAlreadyMember) return;
+  if (isLoading) return;
 
   return (
     <Button
-      disabled={isLoading}
+      disabled={isLoading || isAlreadyMember}
       onClick={async () => {
         const res = await fetch(
           `/api/communities/subscribe?id=${communityId}`,
@@ -71,11 +73,13 @@ export default function JoinCommunityButton({
       }}
       intent="pastelPrimary"
       size="small"
-      rounded="small"
-      hover={true}
-      modifier={"brutalism"}
+      className={cn(
+        "rounded-br-small tablet:rounded-r-small laptop:rounded-extra-small laptop:border-b-4 laptop:border-l laptop:border-r-4 laptop:border-t",
+        className,
+      )}
+      hover={isLoading || isAlreadyMember ? false : true}
     >
-      Join
+      {isAlreadyMember ? "Member" : "Join"}
     </Button>
   );
 }
