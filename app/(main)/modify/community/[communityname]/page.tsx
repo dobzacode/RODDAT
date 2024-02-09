@@ -76,7 +76,7 @@ export default async function ModifyCommunity({
           theme="primary"
           title={
             <p>
-              Create
+              Modify
               <span className="hidden mobile-large:block">community</span>
             </p>
           }
