@@ -8,12 +8,10 @@ import H2 from "../ui/text/H2";
 import CommunitySnippet from "./CommunitySnippet";
 
 export default function CommunitiesSection({
-  communities: propsCommunities,
+  communities,
 }: {
   communities: CommunityDetailsProps[];
 }) {
-  const [communities, setCommunities] =
-    useState<CommunityDetailsProps[]>(propsCommunities);
   const [filteredCommunities, setFilteredCommunities] = useState<
     CommunityDetailsProps[] | null
   >(null);
@@ -24,11 +22,11 @@ export default function CommunitiesSection({
     if (name) {
       setFilteredCommunities(
         communities?.filter((community) => {
-          return community.name.startsWith(name);
+          return community.name?.startsWith(name);
         }),
       );
     }
-  }, [searchParams]);
+  }, [searchParams, communities, name]);
 
   return (
     <>

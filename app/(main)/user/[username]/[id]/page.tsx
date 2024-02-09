@@ -2,16 +2,26 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { Session, getServerSession } from "next-auth";
 
-import { Suspense } from "react";
-
-import PostSkeleton from "@/components/skeleton/PostSkeleton";
 import ProfileInfo from "@/components/profile/ProfileInfo";
-import { BASE_URL } from "@/utils/utils";
-import { User } from "@prisma/client";
 import UserPostAndCommunities from "@/components/profile/UserPostsAndCommunities";
 import { CommunityDetailsProps, PostDetailProps } from "@/interface/interface";
-import { redirect } from "next/navigation";
 import prisma from "@/prisma/client";
+import { BASE_URL } from "@/utils/utils";
+import { User } from "@prisma/client";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { username: string; id: string };
+}) {
+  const resUser = await fetch(`${BASE_URL}/api/user?id=${params.id}`, {
+    cache: "no-store",
+  });
+
+  return {
+    title: `${params.username} profile`,
+  };
+}
 
 const fetchUserInfo = async (id?: string) => {
   const resUser = await fetch(`${BASE_URL}/api/user?id=${id}`, {

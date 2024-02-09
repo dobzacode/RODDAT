@@ -31,6 +31,8 @@ export default function CommunitySnippet({
   userId,
   admin,
 }: CommunitySnippetProps) {
+  if (!name) return;
+
   return (
     <li className="relative w-full">
       <div className="brutalism-border primary-hover dark:primary-hover-dark peer relative flex h-fit w-full rounded-small  border-primary80 dark:border-primary1 dark:bg-primary80">
@@ -76,7 +78,7 @@ export default function CommunitySnippet({
         </P>
       ) : null}
       <P className="absolute  bottom-6 right-6 z-10 font-medium duration-fast  peer-hover:translate-x-2 peer-hover:scale-[110%]">
-        {visibility.charAt(0) + visibility.slice(1).toLowerCase()}
+        {visibility?.charAt(0) + visibility?.slice(1).toLowerCase()}
       </P>
     </li>
   );

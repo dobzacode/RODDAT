@@ -1,6 +1,11 @@
 import CommunityForm from "@/components/community/CommunityForm";
+import { Metadata } from "next";
 
-export default function CreatePost({}) {
+export const metadata: Metadata = {
+  title: "Create Community",
+};
+
+export default function CreateCommunity({}) {
   return (
     <>
       <section className="flex w-full justify-center p-extra-small">

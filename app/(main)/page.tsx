@@ -1,19 +1,20 @@
-import NewPostBar from "@/components/home/NewPostBar";
-
 import UserInfo from "@/components/home/UserInfoHome";
 
-import { Suspense } from "react";
-import PostSkeleton from "@/components/skeleton/PostSkeleton";
-import Posts from "@/components/post/Posts";
-import { Session, getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
-import LogInModal from "@/components/user/LogInModal";
-import PopUp from "@/components/ui/div/PopUp";
 import GoUpButton from "@/components/home/GoUpButton";
-import SearchBar from "@/components/ui/header/SearchBar";
 import MobileSearchBar from "@/components/home/MobileSearchBar";
+import Posts from "@/components/post/Posts";
+import PostSkeleton from "@/components/skeleton/PostSkeleton";
+import PopUp from "@/components/ui/div/PopUp";
+import { Metadata } from "next";
+import { Session, getServerSession } from "next-auth";
+import { Suspense } from "react";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export const revalidate = 20;
+
+export const metadata: Metadata = {
+  title: "RODDAT",
+};
 
 export default async function Home() {
   const session: Session | null = await getServerSession(authOptions);
