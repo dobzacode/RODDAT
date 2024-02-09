@@ -2,7 +2,7 @@
 
 import { mdiClose } from "@mdi/js";
 import Icon from "@mdi/react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Button from "../ui/button/Button";
 import Modal from "../ui/div/Modal";
@@ -35,7 +35,7 @@ export default function DeleteButton({
         method: "DELETE",
       });
       to === "comment" && setStatus ? setStatus("deleted") : "";
-      router.forward();
+      router.refresh();
     } catch (e) {}
   };
 
