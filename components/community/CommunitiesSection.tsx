@@ -1,12 +1,11 @@
 "use client";
 
-import { Community } from "@prisma/client";
+import { CommunityDetailsProps } from "@/interface/interface";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import CommunitySnippet from "./CommunitySnippet";
 import { v4 as uuidv4 } from "uuid";
-import { CommunityDetailsProps } from "@/interface/interface";
 import H2 from "../ui/text/H2";
+import CommunitySnippet from "./CommunitySnippet";
 
 export default function CommunitiesSection({
   communities: propsCommunities,
@@ -20,7 +19,6 @@ export default function CommunitiesSection({
   >(null);
   const searchParams = useSearchParams();
   const name = searchParams.get("name");
-  const [isFetching, setIsFetching] = useState<boolean>(true);
 
   useEffect(() => {
     if (name) {
