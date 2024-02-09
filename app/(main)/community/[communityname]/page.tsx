@@ -1,9 +1,7 @@
 import CommunityInfo from "@/components/community/CommunityInfo";
 import PostSection from "@/components/community/PostSection";
 import NewPostBar from "@/components/home/NewPostBar";
-import Modal from "@/components/ui/div/Modal";
 import PopUp from "@/components/ui/div/PopUp";
-import H2 from "@/components/ui/text/H2";
 import { PostDetailProps } from "@/interface/interface";
 import prisma from "@/prisma/client";
 import { BASE_URL } from "@/utils/utils";
@@ -26,7 +24,7 @@ export default async function CommunityPage({
   const res = await fetch(
     `${BASE_URL}/api/posts/details?community=${params.communityname}`,
     {
-      cache: "no-store",
+      cache: "no-cache",
     },
   );
   const {
@@ -40,6 +38,8 @@ export default async function CommunityPage({
   const resComDetails = await fetch(
     `${BASE_URL}/api/communities/details?id=${community_id}`,
   );
+
+  console.log(posts, "posts");
 
   const {
     community,
