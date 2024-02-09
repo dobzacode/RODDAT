@@ -1,8 +1,13 @@
 import CommunitiesSection from "@/components/community/CommunitiesSection";
 import { CommunityDetailsProps } from "@/interface/interface";
 import { BASE_URL } from "@/utils/utils";
+import { Metadata } from "next";
 
 export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: "Communities",
+};
 
 const fetchCommunities = async () => {
   const resCom = await fetch(`${BASE_URL}/api/communities/details`, {
@@ -12,6 +17,8 @@ const fetchCommunities = async () => {
   const {
     communitiesDetails,
   }: { communitiesDetails: CommunityDetailsProps[] } = await resCom.json();
+
+  console.log(communitiesDetails);
 
   return { communitiesDetails };
 };

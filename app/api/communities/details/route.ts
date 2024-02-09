@@ -1,5 +1,4 @@
 import prisma from "@/prisma/client";
-import { Community, Post, User, Vote } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -67,7 +66,7 @@ export async function GET(request: NextRequest) {
           });
 
           return {
-            community,
+            ...community,
             userAmount,
             postAmount,
           };

@@ -17,6 +17,16 @@ export async function generateStaticParams() {
   }));
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { communityname: string };
+}) {
+  return {
+    title: `Modify ${params.communityname}`,
+  };
+}
+
 export const revalidate = 0;
 
 export default async function ModifyCommunity({
