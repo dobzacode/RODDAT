@@ -35,7 +35,11 @@ async function Header({
   const logo = () => {
     return (
       <Link href="/">
-        <H2 type={logoType} textColor={logoColor}>
+        <H2
+          className="heading--sub-large font-['Sharpin']"
+          type={logoType}
+          textColor={logoColor}
+        >
           RODDAT
         </H2>
       </Link>
