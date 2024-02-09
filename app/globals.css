@@ -57,6 +57,19 @@
   }
 }
 
+@font-face {
+  font-family: "SHARPIN";
+  src: url("/public/SHARPINRegular.eot");
+  src:
+    url("/public/SHARPINRegular.eot?#iefix") format("embedded-opentype"),
+    url("/public/SHARPINRegular.woff2") format("woff2"),
+    url("/public/SHARPINRegular.woff") format("woff"),
+    url("/public/SHARPINRegular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind utilities;
 
 :root {
