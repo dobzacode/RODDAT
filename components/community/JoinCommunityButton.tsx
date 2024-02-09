@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import Button from "../ui/button/Button";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { Community, CommunityUser, User } from "@prisma/client";
 import { cn } from "@/utils/utils";
+import { Community, CommunityUser, User } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Button from "../ui/button/Button";
 
 export default function JoinCommunityButton({
   communityId,
@@ -14,7 +14,7 @@ export default function JoinCommunityButton({
 }: {
   communityId: string;
   additionnalCb?: Function;
-  className: string;
+  className?: string;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isAlreadyMember, setIsAlreadyMember] = useState<boolean>(false);
@@ -44,8 +44,9 @@ export default function JoinCommunityButton({
       } = await resComDetails.json();
 
       const isMember = community.communityUsers.some((community) => {
-        return community.user_id !== userInfo.id;
+        return community.user_id === userInfo.id;
       });
+      console.log(isMember, "isMember");
       setIsAlreadyMember(isMember);
       setIsLoading(false);
     };

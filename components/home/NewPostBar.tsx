@@ -4,15 +4,13 @@ import { getUserInformation } from "@/utils/utils";
 import { CommunityUser } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import JoinCommunityButton from "../community/JoinCommunityButton";
 import Avatar from "../ui/Avatar";
 import Button from "../ui/button/Button";
-import LogInModal from "../user/LogInModal";
 import Modal from "../ui/div/Modal";
-import H2 from "../ui/text/H2";
 import P from "../ui/text/P";
-import JoinCommunityButton from "../community/JoinCommunityButton";
+import LogInModal from "../user/LogInModal";
 
 export default function NewPostBar({
   communityname,
@@ -39,14 +37,17 @@ export default function NewPostBar({
     const getId = async () => {
       const user = await getUserInformation();
       if (!user) return;
-
+      console.log(communityUsers[0].user_id, user.id);
       const isUserInCommunity = communityUsers.some((comUser) => {
         return comUser.user_id === user.id;
       });
       setIsInCommunity(isUserInCommunity);
+      console.log(isUserInCommunity, "isUserInCommunity");
     };
     !isInCommunity ? getId() : "";
-  }, []);
+  });
+
+  console.log(isInCommunity);
 
   return (
     <>
