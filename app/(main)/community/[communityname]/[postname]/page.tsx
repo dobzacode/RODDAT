@@ -16,6 +16,16 @@ export async function generateStaticParams() {
   }));
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { postname: string; communityname: string };
+}) {
+  return {
+    title: `${params.postname}`,
+  };
+}
+
 export default async function PostPage({
   params,
 }: {
