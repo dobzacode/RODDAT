@@ -1,34 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">Welcome to RODDAT 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
+</p>
 
-## Getting Started
+> This project is a Reddit clone crafted with Next.js as the frontend framework, Prisma as the ORM tool, and PostgreSQL as the database. Tailwind CSS has been employed to streamline the styling process, ensuring a responsive and visually appealing user interface. The backend hosts a RESTful API implemented with Next.js, facilitating seamless interactions within the application.
 
-First, run the development server:
+### ✨ [Demo](roddat.vercel.app)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js Frontend**: Utilizing the power of Next.js for building a modern, responsive, and performant user interface.
+- **Prisma ORM**: Managing the database interactions efficiently through Prisma, providing a smooth integration between the application and the PostgreSQL database.
+- **PostgreSQL Database**: Storing data reliably and securely with PostgreSQL, a powerful open-source relational database management system.
+- **Tailwind CSS**: Simplifying the styling process with Tailwind CSS, a utility-first CSS framework that enables rapid development and customization.
+- **RESTful API**: Implementing a RESTful API using Next.js to handle various operations and interactions within the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Author
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+👤 **Corentin Kittel**
 
-## Learn More
+- Website: corentinkittel.fr
+- Github: [@dobzacode](https://github.com/dobzacode)
 
-To learn more about Next.js, take a look at the following resources:
+## Show your support
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Give a ⭐️ if this project helped you!
