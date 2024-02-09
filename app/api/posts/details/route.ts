@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import { Community, Post, User, Vote } from "@prisma/client";
+import { Community, Post } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -117,6 +117,7 @@ export async function GET(request: NextRequest) {
             },
             community: {
               select: {
+                visibility: true,
                 name: true,
               },
             },
