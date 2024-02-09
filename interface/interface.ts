@@ -23,7 +23,11 @@ export interface PostDetailProps extends Omit<Post, "post_id" | "picture"> {
   comments: Comment[];
   picture?: string;
   author: { name: string; image: string | null };
-  community: { name: string; community_id?: string };
+  community: {
+    name: string;
+    community_id?: string;
+    visibility?: "PUBLIC" | "PRIVATE" | "RESTRICTED";
+  };
   post_id: string;
 }
 

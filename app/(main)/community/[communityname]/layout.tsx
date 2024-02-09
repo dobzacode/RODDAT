@@ -1,5 +1,4 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { CommunityDetailsProps } from "@/interface/interface";
 import { BASE_URL } from "@/utils/utils";
 import { Community, CommunityUser, User } from "@prisma/client";
 import { getServerSession } from "next-auth";
@@ -35,7 +34,7 @@ export default async function RootLayout({
 
   if (
     community.visibility === "PRIVATE" &&
-    community.communityUsers.some((comUser) => comUser.user_id !== user.id)
+    community.communityUsers.some((comUser) => comUser.user_id !== user?.id)
   ) {
     redirect("/api/auth/signin");
   }

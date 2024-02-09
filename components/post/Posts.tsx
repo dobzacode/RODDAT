@@ -2,8 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 import PostBar from "./PostBar";
 
 import { PostDetailProps } from "@/interface/interface";
-import { Session, User } from "next-auth";
 import { BASE_URL } from "@/utils/utils";
+import { Session, User } from "next-auth";
 
 export const revalidate = 0;
 
@@ -28,7 +28,7 @@ export default async function Posts({ session }: { session?: Session | null }) {
   return (
     <>
       {posts.map((post) => {
-        return (
+        return post.community.visibility !== "PRIVATE" ? (
           <PostBar
             picture={post.picture}
             userId={userInfo?.id}
@@ -44,7 +44,7 @@ export default async function Posts({ session }: { session?: Session | null }) {
             comments={post.comments}
             key={uuidv4()}
           ></PostBar>
-        );
+        ) : null;
       })}
     </>
   );
