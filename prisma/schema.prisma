@@ -68,7 +68,7 @@ model Community {
   community_id   String       @id @default(uuid())
   name            String @unique
   description    String? 
-  picture String?
+  picture String? @default("http://dummyimage.com/242x100.png/5fa2dd/ffffff")
   isNsfw Boolean @default(true)
   visibility Visiblity @default(PUBLIC)
   createdAt DateTime  @default(now())
