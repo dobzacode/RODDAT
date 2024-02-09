@@ -1,8 +1,8 @@
-import { BASE_URL, formatDateConverter } from "@/utils/utils";
-import P from "../ui/text/P";
-import Link from "next/link";
-import Image from "next/image";
+import { formatDateConverter } from "@/utils/utils";
 import { Community } from "@prisma/client";
+import Image from "next/image";
+import Link from "next/link";
+import P from "../ui/text/P";
 import JoinCommunityButton from "./JoinCommunityButton";
 
 export default async function CommunityInfo({
@@ -14,6 +14,8 @@ export default async function CommunityInfo({
   postAmount: number;
   userAmount: number;
 }) {
+  console.log(community.visibility);
+
   return (
     <div className="brutalism-border items flex h-fit w-full flex-wrap justify-between overflow-hidden rounded-medium border-primary80 text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1 max-mobile-medium:gap-small tablet:flex-nowrap tablet:gap-small laptop:ml-0 laptop:w-fit laptop:flex-col laptop:justify-start laptop:gap-small  laptop:p-medium">
       {community?.picture && (
