@@ -1,5 +1,6 @@
 import { formatDateConverter } from "@/utils/utils";
-import { Community } from "@prisma/client";
+import { Community, CommunityUser } from "@prisma/client";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import P from "../ui/text/P";
@@ -10,16 +11,18 @@ export default async function CommunityInfo({
   postAmount,
   userAmount,
 }: {
-  community: Community;
+  community: Community & {
+    communityUsers: CommunityUser[];
+  };
   postAmount: number;
   userAmount: number;
 }) {
-  console.log(community.visibility);
+  const session = await getServerSession();
 
   return (
     <div className="brutalism-border items flex h-fit w-full flex-wrap justify-between overflow-hidden rounded-medium border-primary80 text-primary80 dark:border-primary1 dark:bg-primary80 dark:text-primary1 max-mobile-medium:gap-small tablet:flex-nowrap tablet:gap-small laptop:ml-0 laptop:w-fit laptop:flex-col laptop:justify-start laptop:gap-small  laptop:p-medium">
       {community?.picture && (
-        <div className="relative h-[60px] w-full rounded-t-small tablet:h-[80px] tablet:w-1/3 tablet:rounded-l-small tablet:rounded-tr-none laptop:h-[300px] laptop:w-[300px] laptop:rounded-small">
+        <div className="relative h-[60px] w-full rounded-t-small bg-primary10 dark:bg-primary90 tablet:h-[80px] tablet:w-1/3 tablet:rounded-l-small tablet:rounded-tr-none laptop:h-[300px] laptop:w-[300px] laptop:rounded-small">
           <Image
             quality={100}
             fill

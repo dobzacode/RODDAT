@@ -125,7 +125,7 @@ export default function PostBar({
           <Avatar
             src={author.image}
             size={5}
-            className="z-[80] h-[50px] rounded-small"
+            className="z-[40] h-[50px] rounded-small"
           ></Avatar>
           <ThreadLine
             id={post_id}
@@ -136,7 +136,7 @@ export default function PostBar({
       )}
       <section className="relative flex h-fit w-full dark:text-primary1">
         <div className="brutalism-border primary-hover dark:primary-hover-dark peer flex h-fit w-full flex-col-reverse  rounded-small border-primary80 dark:border-primary1 tablet:flex-row">
-          <div className="flex items-center justify-center gap-extra-small rounded-b-small bg-primary10 p-small  dark:bg-primary90 tablet:flex-col tablet:justify-normal tablet:rounded-b-none tablet:rounded-l-small">
+          <div className="flex items-center justify-center gap-extra-small rounded-b-small bg-primary10 p-small dark:bg-primary90   tablet:flex-col tablet:justify-normal tablet:rounded-b-none tablet:rounded-l-small">
             <VoteButton
               userId={userId}
               id={post_id}
@@ -147,7 +147,7 @@ export default function PostBar({
             ></VoteButton>
           </div>
 
-          <div className="flex w-[92%] flex-col gap-small rounded-r-small p-small  dark:bg-primary80">
+          <div className="flex w-full flex-col gap-small rounded-r-small p-small  dark:bg-primary80">
             {postContent()}
           </div>
         </div>

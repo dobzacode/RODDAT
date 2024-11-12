@@ -1,7 +1,6 @@
-import Image from "next/image";
-import { useState } from "react";
-import Icon from "@mdi/react";
 import { mdiImagePlusOutline } from "@mdi/js";
+import Icon from "@mdi/react";
+import Image from "next/image";
 
 const Uploader = ({
   selectedFile,
@@ -20,7 +19,10 @@ const Uploader = ({
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      style={{ position: "relative" }}
+      className="rounded-small bg-primary10 dark:bg-primary90"
+    >
       {!selectedFile && !communityPicture ? (
         <>
           <div className="h-[200px] w-[200px] rounded-small border border-primary90/[.2] bg-primary5 dark:border-primary10/[.2] dark:bg-primary90"></div>
