@@ -46,7 +46,7 @@ export default function JoinCommunityButton({
       const isMember = community.communityUsers.some((community) => {
         return community.user_id === userInfo.id;
       });
-      console.log(isMember, "isMember");
+
       setIsAlreadyMember(isMember);
       setIsLoading(false);
     };

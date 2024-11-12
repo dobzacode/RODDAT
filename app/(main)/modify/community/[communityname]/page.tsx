@@ -4,6 +4,7 @@ import prisma from "@/prisma/client";
 import { BASE_URL } from "@/utils/utils";
 import { Community, CommunityUser, User } from "@prisma/client";
 import { Session, getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 interface ModifyCommunityRes extends Community {
@@ -29,6 +30,8 @@ export async function generateMetadata({
 
 export const revalidate = 0;
 
+export const dynamic = "force-dynamic";
+
 export default async function ModifyCommunity({
   params,
 }: {
@@ -37,9 +40,12 @@ export default async function ModifyCommunity({
   const communityRes = await fetch(
     `${BASE_URL}/api/communities?community=${params.communityname}`,
     {
-      cache: "no-store",
+      next: {
+        revalidate: 0,
+      },
     },
   );
+
   const { community }: { community: ModifyCommunityRes } =
     await communityRes.json();
 
@@ -47,12 +53,17 @@ export default async function ModifyCommunity({
     return redirect("/");
   }
 
+  revalidatePath(`/community/${community.name}`);
+  revalidatePath(`/modify/${community.name}`);
+
   const session: Session | null = await getServerSession(authOptions);
 
   const userRes = await fetch(
     `${BASE_URL}/api/user/getuserinformation?email=${session?.user?.email}`,
     {
-      cache: "no-store",
+      next: {
+        revalidate: 0,
+      },
     },
   );
 
@@ -75,7 +86,7 @@ export default async function ModifyCommunity({
           community={community}
           theme="primary"
           title={
-            <p>
+            <p className="flex gap-2">
               Modify
               <span className="hidden mobile-large:block">community</span>
             </p>

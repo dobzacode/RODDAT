@@ -102,6 +102,8 @@ export async function uploadMedia(file: File, to: string, id: string) {
 
     const { putUrl, getUrl } = await res.json();
 
+    console.log(putUrl);
+
     const uploadResponse = await fetch(putUrl, {
       body: file,
       method: "PUT",
@@ -110,6 +112,7 @@ export async function uploadMedia(file: File, to: string, id: string) {
 
     return { status: uploadResponse.ok, uploadedUrl: getUrl };
   } catch (error) {
+    console.log(error);
     throw error;
   }
 }

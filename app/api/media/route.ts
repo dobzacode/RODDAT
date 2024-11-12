@@ -1,17 +1,15 @@
 // Relevant imports
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import {
-  S3Client,
-  PutObjectCommand,
-  GetObjectCommand,
-} from "@aws-sdk/client-s3";
-import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
+import {
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
-import { v4 as uuidv4 } from "uuid";
 
-// Initialize S3Client instance
 const client = new S3Client({
   region: process.env.AWS_REGION as string,
   credentials: {
@@ -43,22 +41,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(message, { status: 400 });
     }
 
-    // PutObjectCommand: used to generate a pre-signed URL for uploading
     const putCommand = new PutObjectCommand({
       Key: id,
       ContentType: fileType,
       Bucket: process.env.BUCKET_NAME,
     });
 
-    // Generate pre-signed URL for PUT request
     const putUrl = await getSignedUrl(client, putCommand, { expiresIn: 600 });
 
-    // GetObjectCommand: used to generate a pre-signed URL for viewing.
     const getCommand = new GetObjectCommand({
       Key: id,
       Bucket: process.env.BUCKET_NAME,
     });
-    // Generate pre-signed URL for GET request
+
     const getUrl = await getSignedUrl(client, getCommand, { expiresIn: 600 });
 
     const to = req.nextUrl.searchParams.get("to");
@@ -72,7 +67,7 @@ export async function POST(req: NextRequest) {
       const community = await prisma.community.update({
         where: { community_id: id },
         data: {
-          picture: "http://d8129lgm8xiaf.cloudfront.net/" + id,
+          picture: "http://d1qxcfelrfueco.cloudfront.net/" + id,
         },
       });
       if (!community) {
@@ -87,7 +82,7 @@ export async function POST(req: NextRequest) {
       const post = await prisma.post.update({
         where: { post_id: id },
         data: {
-          picture: "http://d8129lgm8xiaf.cloudfront.net/" + id,
+          picture: "http://d1qxcfelrfueco.cloudfront.net/" + id,
         },
       });
       if (!post) {
@@ -98,6 +93,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ putUrl, getUrl, message }, { status: 200 });
     }
   } catch (error) {
-    throw error;
+    return NextResponse.json(error, { status: 500 });
   }
 }

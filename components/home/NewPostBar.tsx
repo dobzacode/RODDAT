@@ -37,17 +37,14 @@ export default function NewPostBar({
     const getId = async () => {
       const user = await getUserInformation();
       if (!user) return;
-      console.log(communityUsers[0].user_id, user.id);
+
       const isUserInCommunity = communityUsers.some((comUser) => {
         return comUser.user_id === user.id;
       });
       setIsInCommunity(isUserInCommunity);
-      console.log(isUserInCommunity, "isUserInCommunity");
     };
     !isInCommunity ? getId() : "";
   });
-
-  console.log(isInCommunity);
 
   return (
     <>

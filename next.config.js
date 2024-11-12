@@ -6,7 +6,7 @@ const nextConfig = {
       "flowbite.s3.amazonaws.com",
       "lh3.googleusercontent.com",
       "www.tlbx.app",
-      "d8129lgm8xiaf.cloudfront.net",
+      "d1qxcfelrfueco.cloudfront.net",
       "dummyimage.com",
     ],
     loader: "default",
@@ -14,6 +14,8 @@ const nextConfig = {
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.externals.push({
+      "@aws-sdk/signature-v4-multi-region":
+        "commonjs @aws-sdk/signature-v4-multi-region",
       "utf-8-validate": "commonjs utf-8-validate",
       bufferutil: "commonjs bufferutil",
       "supports-color": "commonjs supports-color",

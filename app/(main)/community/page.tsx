@@ -5,13 +5,17 @@ import { Metadata } from "next";
 
 export const revalidate = 0;
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Communities",
 };
 
 const fetchCommunities = async () => {
   const resCom = await fetch(`${BASE_URL}/api/communities/details`, {
-    cache: "no-store",
+    next: {
+      revalidate: 0,
+    },
   });
 
   const {

@@ -26,6 +26,8 @@ export async function generateMetadata({
 
 export const revalidate = 0;
 
+export const dynamic = "force-dynamic";
+
 export default async function CommunityPage({
   params,
 }: {
@@ -47,6 +49,9 @@ export default async function CommunityPage({
 
   const resComDetails = await fetch(
     `${BASE_URL}/api/communities/details?id=${community_id}`,
+    {
+      cache: "no-cache",
+    },
   );
 
   console.log(posts, "posts");
