@@ -12,10 +12,10 @@ import { v4 } from "uuid";
 import { authOptions } from "../auth/[...nextauth]/route";
 
 const client = new S3Client({
-  region: process.env.AWS_REGION as string,
+  region: process.env.PERSONNAL_REGION as string,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY as string,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+    accessKeyId: process.env.PERSONNAL_ACCESS_KEY as string,
+    secretAccessKey: process.env.PERSONNAL_SECRET_ACCESS_KEY as string,
   },
 });
 
