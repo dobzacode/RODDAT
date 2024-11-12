@@ -23,7 +23,7 @@ export default async function CommunityInfo({
           <Image
             quality={100}
             fill
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, 25vw"
             className="rounded-t-small tablet:rounded-l-small tablet:rounded-tr-none laptop:rounded-small"
             style={{
               objectFit: "cover",

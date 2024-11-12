@@ -1,16 +1,31 @@
-import prisma from "./client";
-import USER_MOCK from "../mocks/USER_MOCK.json";
+import { Comment, Community } from "@prisma/client";
+import COMMENT_MOCK from "../mocks/COMMENT_MOCK.json";
 import COMMUNITY_MOCK from "../mocks/COMMUNITY_MOCK.json";
 import POST_MOCK from "../mocks/POST_MOCK.json";
-import COMMENT_MOCK from "../mocks/COMMENT_MOCK.json";
+import USER_MOCK from "../mocks/USER_MOCK.json";
 import VOTE_MOCK from "../mocks/VOTE_MOCK.json";
-import { Comment, Community, Post, Vote } from "@prisma/client";
+import prisma from "./client";
 
 const load = async () => {
   try {
-    await prisma.user.createMany({ data: USER_MOCK });
+    const userData = USER_MOCK.map((user) => {
+      return {
+        ...user,
+        image:
+          "http://d1qxcfelrfueco.cloudfront.net/static/Profile_avatar_placeholder_large.png",
+      };
+    });
+    const communityData = COMMUNITY_MOCK.map((community) => {
+      return {
+        ...community,
+        picture: `http://d1qxcfelrfueco.cloudfront.net/static/placeholder-${
+          Math.floor(Math.random() * 6) + 1
+        }.jpg`,
+      };
+    });
+    await prisma.user.createMany({ data: userData });
     await prisma.community.createMany({
-      data: COMMUNITY_MOCK as Community[],
+      data: communityData as Community[],
     });
     const usersId = await prisma.user.findMany({ select: { id: true } });
     const communitiesId = await prisma.community.findMany({
@@ -19,6 +34,9 @@ const load = async () => {
     const postMockWithId = POST_MOCK.map((post) => {
       return {
         ...post,
+        picture: `http://d1qxcfelrfueco.cloudfront.net/static/placeholder-${
+          Math.floor(Math.random() * 6) + 1
+        }.jpg`,
         author_id: usersId[Math.floor(Math.random() * usersId.length)].id,
         community_id:
           communitiesId[Math.floor(Math.random() * communitiesId.length)]

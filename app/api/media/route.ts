@@ -8,6 +8,7 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { v4 } from "uuid";
 import { authOptions } from "../auth/[...nextauth]/route";
 
 const client = new S3Client({
@@ -36,13 +37,15 @@ export async function POST(req: NextRequest) {
 
     const id = req.nextUrl.searchParams.get("id");
 
+    const key = v4();
+
     if (!id) {
       const message = "No id was provided";
       return NextResponse.json(message, { status: 400 });
     }
 
     const putCommand = new PutObjectCommand({
-      Key: id,
+      Key: key,
       ContentType: fileType,
       Bucket: process.env.BUCKET_NAME,
     });
@@ -50,7 +53,7 @@ export async function POST(req: NextRequest) {
     const putUrl = await getSignedUrl(client, putCommand, { expiresIn: 600 });
 
     const getCommand = new GetObjectCommand({
-      Key: id,
+      Key: key,
       Bucket: process.env.BUCKET_NAME,
     });
 
@@ -67,7 +70,7 @@ export async function POST(req: NextRequest) {
       const community = await prisma.community.update({
         where: { community_id: id },
         data: {
-          picture: "http://d1qxcfelrfueco.cloudfront.net/" + id,
+          picture: "http://d1qxcfelrfueco.cloudfront.net/" + key,
         },
       });
       if (!community) {
@@ -82,7 +85,7 @@ export async function POST(req: NextRequest) {
       const post = await prisma.post.update({
         where: { post_id: id },
         data: {
-          picture: "http://d1qxcfelrfueco.cloudfront.net/" + id,
+          picture: "http://d1qxcfelrfueco.cloudfront.net/" + key,
         },
       });
       if (!post) {

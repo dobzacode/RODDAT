@@ -121,10 +121,10 @@ const CommunityForm: FC<CommunityFormProps> = ({
       }
 
       if (selectedFile) {
-        const uploadRes = await uploadMedia(
+        await uploadMedia(
           selectedFile,
           "community",
-          data.community.community_id,
+        `${data.community.community_id}`,
         );
       }
 
