@@ -36,7 +36,9 @@ export default async function CommunityPage({
   const res = await fetch(
     `${BASE_URL}/api/posts/details?community=${params.communityname}`,
     {
-      cache: "no-cache",
+      next: {
+        revalidate: 0,
+      },
     },
   );
   const {
@@ -50,7 +52,10 @@ export default async function CommunityPage({
   const resComDetails = await fetch(
     `${BASE_URL}/api/communities/details?id=${community_id}`,
     {
-      cache: "no-cache",
+      next: {
+        revalidate: 0,
+        tags: [`details-${community_id}`],
+      },
     },
   );
 

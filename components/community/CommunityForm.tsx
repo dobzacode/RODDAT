@@ -3,6 +3,7 @@
 import { ChangeEvent, FC, ReactNode, useEffect, useState } from "react";
 import Input from "../ui/form/Input";
 
+import revalidate from "@/utils/actions";
 import { handleInputChange } from "@/utils/formUtils/handleInputChange";
 import { uploadMedia } from "@/utils/utils";
 import { Community } from "@prisma/client";
@@ -124,9 +125,10 @@ const CommunityForm: FC<CommunityFormProps> = ({
         await uploadMedia(
           selectedFile,
           "community",
-        `${data.community.community_id}`,
+          `${data.community.community_id}`,
         );
       }
+      await revalidate(`details-${community?.community_id}`);
 
       setIsAlreadyTaken(null);
       return router.push(

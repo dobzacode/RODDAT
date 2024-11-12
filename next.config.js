@@ -12,6 +12,9 @@ const nextConfig = {
     loader: "default",
     dangerouslyAllowSVG: true,
   },
+  experimental: {
+    serverActions: true,
+  },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.externals.push({
       "@aws-sdk/signature-v4-multi-region":
