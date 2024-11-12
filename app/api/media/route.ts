@@ -11,16 +11,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { v4 } from "uuid";
 import { authOptions } from "../auth/[...nextauth]/route";
 
-const client = new S3Client({
-  region: process.env.PERSONNAL_REGION as string,
-  credentials: {
-    accessKeyId: process.env.PERSONNAL_ACCESS_KEY as string,
-    secretAccessKey: process.env.PERSONNAL_SECRET_ACCESS_KEY as string,
-  },
-});
-
 export async function POST(req: NextRequest) {
   try {
+    const client = new S3Client({
+      region: process.env.PERSONNAL_REGION as string,
+      credentials: {
+        accessKeyId: process.env.PERSONNAL_ACCESS_KEY as string,
+        secretAccessKey: process.env.PERSONNAL_SECRET_ACCESS_KEY as string,
+      },
+    });
     const session = await getServerSession(authOptions);
     const user = session?.user?.email
       ? await prisma.user.findUnique({ where: { email: session?.user?.email } })
