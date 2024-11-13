@@ -1,5 +1,5 @@
 import "@/app/globals.css";
-import GoUpButton from "@/components/home/GoUpButton";
+import Scroll from "@/components/Scroll";
 import Header from "@/components/ui/header/Header";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -29,6 +29,7 @@ export default async function RootLayout({
         mobileTextType="sub-heading"
         bgColor="bg-primary10 border-b-4 border-neutral80 dark:border-primary1 dark:bg-primary90"
       ></Header>
+      <Scroll />
       {children}
     </>
   );
